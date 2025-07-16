@@ -18,9 +18,7 @@ class _PlayScreenState extends State<PlayScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(onPressed: () {}, child: Text('Start')),
-          ],
+          children: <Widget>[TextButton(onPressed: () {}, child: Text('Play'))],
         ),
       ),
     );
