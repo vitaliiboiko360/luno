@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:luno/style/color_palette.dart';
+import 'package:provider/provider.dart';
 
 class PlayScreen extends StatefulWidget {
   const PlayScreen({super.key});
@@ -10,11 +12,10 @@ class PlayScreen extends StatefulWidget {
 class _PlayScreenState extends State<PlayScreen> {
   @override
   Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      backgroundColor: palette.backgroundPlaySession,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
