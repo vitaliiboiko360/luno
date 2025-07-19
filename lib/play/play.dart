@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luno/js/pixi.dart';
 import 'package:luno/style/color_palette.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +15,27 @@ class _PlayScreenState extends State<PlayScreen> {
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
 
-    return Scaffold(
-      backgroundColor: palette.backgroundPlaySession,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[TextButton(onPressed: () {}, child: Text('Play'))],
+    return MediaQuery.withNoTextScaling(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                onPressed: () {
+                  pixiInit();
+                },
+                child: Text('Init'),
+              ),
+              TextButton(
+                onPressed: () {
+                  startStopMoving();
+                },
+                child: Text('Play'),
+              ),
+            ],
+          ),
         ),
       ),
     );
