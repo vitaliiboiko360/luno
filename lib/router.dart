@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:luno/src/home.dart';
-import 'package:luno/src/play.dart';
+import 'package:luno/play/play.dart';
 
 final router = GoRouter(
   routes: [
