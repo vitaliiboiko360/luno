@@ -12,6 +12,9 @@ class App extends StatelessWidget {
     return AppLifecycleObserver(
       child: MultiProvider(
         providers: [Provider(create: (context) => Palette())],
+        builder: (context, child) {
+          return MediaQuery.withNoTextScaling(child: child!);
+        },
         child: Builder(
           builder: (context) {
             final palette = context.watch<Palette>();
