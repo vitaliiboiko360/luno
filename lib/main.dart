@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
 import 'dart:developer' as dev;
@@ -14,6 +15,6 @@ void main() {
       name: record.loggerName,
     );
   });
-
+  debugPaintSizeEnabled = true;
   runApp(const App());
 }
