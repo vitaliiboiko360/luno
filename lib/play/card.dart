@@ -18,6 +18,7 @@ class UnoCard extends SvgComponent with TapCallbacks {
   var endAnimation = true;
   Vector2 previousPosition = Vector2(0, 0);
   final ec = LinearEffectController(1);
+  final ec2 = LinearEffectController(1);
 
   @override
   Future<void> onLoad() async {
@@ -35,7 +36,7 @@ class UnoCard extends SvgComponent with TapCallbacks {
   void update(double dt) {
     if (startAnimation) {
       startAnimation = false;
-      add(
+      addAll([
         MoveByEffect(
           Vector2(-40, -40),
           ec,
@@ -43,7 +44,14 @@ class UnoCard extends SvgComponent with TapCallbacks {
             ec.setToStart();
           },
         ),
-      );
+        RotateEffect.by(
+          tau,
+          ec2,
+          onComplete: () {
+            ec2.setToStart();
+          },
+        ),
+      ]);
     }
     super.update(dt);
   }
