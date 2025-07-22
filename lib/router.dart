@@ -8,7 +8,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomeScreen(key: Key('main menu')),
+      builder: (context, state) => const Game(key: Key('main menu')),
       routes: [
         GoRoute(
           path: 'play',
