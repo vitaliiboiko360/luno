@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luno/js/pixi.dart';
 import 'package:luno/style/color_palette.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class PlayScreen extends StatefulWidget {
   const PlayScreen({super.key});
@@ -35,7 +36,7 @@ class _PlayScreenState extends State<PlayScreen> {
                 top: midHeight,
                 child: TextButton(
                   onPressed: () {
-                    pixiInit();
+                    // pixiInit();
                   },
                   child: Text('Init'),
                 ),
@@ -45,9 +46,27 @@ class _PlayScreenState extends State<PlayScreen> {
                 top: midHeight + 40,
                 child: TextButton(
                   onPressed: () {
-                    startStopMoving();
+                    // startStopMoving();
                   },
                   child: Text('Play'),
+                ),
+              ),
+              Positioned(
+                left: midWidth - 200,
+                top: midHeight - 80,
+                child: GestureDetector(
+                  onTap: () {
+                    print('pressed');
+                  },
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      backgroundBlendMode: BlendMode.clear,
+                      border: Border.all(width: 8),
+                    ),
+                  ),
                 ),
               ),
             ],
