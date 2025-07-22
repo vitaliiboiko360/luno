@@ -1,15 +1,23 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame/sprite.dart';
 import 'package:flame_svg/flame_svg.dart';
 
 class UnoCard extends SvgComponent with TapCallbacks {
   UnoCard({super.position})
-    : super(size: Vector2.all(150), anchor: Anchor.center);
+    : super(
+        size: Vector2(242, 362),
+        anchor: Anchor.center,
+        scale: Vector2(0.5, 0.5),
+      );
 
   var startAnimation = false;
+  var endAnimation = true;
   Vector2 previousPosition = Vector2(0, 0);
+  final ec = LinearEffectController(1);
 
   @override
   Future<void> onLoad() async {
@@ -26,8 +34,16 @@ class UnoCard extends SvgComponent with TapCallbacks {
   @override
   void update(double dt) {
     if (startAnimation) {
-      position = position - Vector2(-10, 10);
       startAnimation = false;
+      add(
+        MoveByEffect(
+          Vector2(-40, -40),
+          ec,
+          onComplete: () {
+            ec.setToStart();
+          },
+        ),
+      );
     }
     super.update(dt);
   }
