@@ -6,6 +6,14 @@ class Game extends StatelessWidget {
   const Game({super.key});
   @override
   Widget build(BuildContext context) {
-    return GameWidget(game: FlameGame(world: UnoWorld()));
+    return GameWidget(
+      game: FlameGame(world: UnoWorld()),
+      backgroundBuilder: (context) {
+        return Container(
+          child: SizedBox.expand(),
+          decoration: BoxDecoration(color: Colors.green),
+        );
+      },
+    );
   }
 }
