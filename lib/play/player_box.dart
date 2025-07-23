@@ -9,13 +9,13 @@ import 'package:flame/sprite.dart';
 enum PlayerSeat { mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
-  if (PlayerSeat == PlayerSeat.left) {
+  if (playerSeat == PlayerSeat.left) {
     return Vector2(-200, -50);
   }
-  if (PlayerSeat == PlayerSeat.top) {
+  if (playerSeat == PlayerSeat.top) {
     return Vector2(-50, -200);
   }
-  if (PlayerSeat == PlayerSeat.right) {
+  if (playerSeat == PlayerSeat.right) {
     return Vector2(200, -50);
   }
   return Vector2(0, 200);
@@ -46,7 +46,7 @@ class PlayerPicture extends PositionComponent {
 
   @override
   Future<void> onLoad() async {
-    image = await Flame.images.load('players/${avatars[Random().nextInt(10)]}');
+    image = await Flame.images.load('players/${avatars[Random().nextInt(9)]}');
   }
 
   @override
