@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flame/extensions.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flame/sprite.dart';
+import 'dart:ui';
 
 enum PlayerSeat { mainSeat, left, top, right }
 
@@ -60,20 +63,23 @@ class PlayerPicture extends PositionComponent {
 
 class PlayerCustomPainter extends CustomPainter {
   late final border = Paint()
-    ..color = Colors.black
+    ..color = Colors.blueGrey
     ..strokeWidth = 2
-    ..blendMode = BlendMode.clear
+    //..blendMode = BlendMode.
     ..style = PaintingStyle.stroke;
+
+  late final backGround = Paint()
+    ..color = Colors.lightGreen
+    ..style = PaintingStyle.fill;
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTRB(0, 0, 100, 100),
-        Radius.circular(18),
-      ),
-      border,
+    var rrect = RRect.fromRectAndRadius(
+      Rect.fromLTRB(0, 0, 100, 100),
+      Radius.circular(18),
     );
+    canvas.drawRRect(rrect, backGround);
+    canvas.drawRRect(rrect, border);
   }
 
   @override
@@ -84,11 +90,26 @@ class PlayerCustomPainter extends CustomPainter {
 
 class PlayerBox extends CustomPainterComponent {
   PlayerBox(PlayerSeat playerSeat)
-    : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
+    : super(position: getPlayerPosition(playerSeat));
 
+  var image;
+  var tmp;
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
     painter = PlayerCustomPainter();
     size = Vector2(100, 100);
+    tmp = await Flame.images.load('players/${avatars[Random().nextInt(9)]}');
+    image = Sprite(
+      tmp,
+      srcPosition: Vector2(0, 0),
+      srcSize: Vector2(1024, 1024),
+    ); //
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    (image as Sprite).render(canvas, size: Vector2(100, 100));
+    // canvas.drawImage(tmp, Offset(0, 0), Paint());
   }
 }
