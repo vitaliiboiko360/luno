@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -10,15 +11,15 @@ enum PlayerSeat { mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {
-    return Vector2(-200, -50);
+    return Vector2(-300, 75);
   }
   if (playerSeat == PlayerSeat.top) {
-    return Vector2(-50, -200);
+    return Vector2(50, -350);
   }
   if (playerSeat == PlayerSeat.right) {
-    return Vector2(200, -50);
+    return Vector2(300, -50);
   }
-  return Vector2(0, 200);
+  return Vector2(75, 350);
 }
 
 const avatars = [
@@ -37,9 +38,9 @@ class PlayerPicture extends PositionComponent {
   PlayerPicture(PlayerSeat playerSeat)
     : super(
         position: getPlayerPosition(playerSeat),
-        size: Vector2(242, 362),
+        size: Vector2(150, 150),
         anchor: Anchor.center,
-        scale: Vector2(0.5, 0.5),
+        // scale: Vector2(0.5, 0.5),
       );
 
   var image;
@@ -58,33 +59,36 @@ class PlayerPicture extends PositionComponent {
 }
 
 class PlayerCustomPainter extends CustomPainter {
-  late final facePaint = Paint()..color = Colors.yellow;
-
-  late final eyesPaint = Paint()..color = Colors.black;
+  late final border = Paint()
+    ..color = Colors.black
+    ..strokeWidth = 2
+    ..blendMode = BlendMode.clear
+    ..style = PaintingStyle.stroke;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final faceRadius = size.height / 2;
-
-    canvas.drawCircle(Offset(faceRadius, faceRadius), faceRadius, facePaint);
-
-    final eyeSize = faceRadius * 0.15;
-
-    canvas.drawCircle(
-      Offset(faceRadius - (eyeSize * 2), faceRadius - eyeSize),
-      eyeSize,
-      eyesPaint,
-    );
-
-    canvas.drawCircle(
-      Offset(faceRadius + (eyeSize * 2), faceRadius - eyeSize),
-      eyeSize,
-      eyesPaint,
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTRB(0, 0, 100, 100),
+        Radius.circular(18),
+      ),
+      border,
     );
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class PlayerBox extends CustomPainterComponent {
+  PlayerBox(PlayerSeat playerSeat)
+    : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
+
+  @override
+  FutureOr<void> onLoad() {
+    painter = PlayerCustomPainter();
+    size = Vector2(100, 100);
   }
 }
