@@ -13,9 +13,9 @@ class UnoWorld extends World {
   @override
   FutureOr<void> onLoad() async {
     add(UnoCard(position: Vector2(0, 0)));
-    add(SvgPicture(PlayerSeat.left));
-    add(SvgPicture(PlayerSeat.top));
-    add(SvgPicture(PlayerSeat.right));
-    add(SvgPicture(PlayerSeat.mainSeat));
+    add(PlayerPicture(PlayerSeat.left));
+    add(PlayerPicture(PlayerSeat.top));
+    add(PlayerPicture(PlayerSeat.right));
+    add(PlayerPicture(PlayerSeat.mainSeat));
   }
 }
