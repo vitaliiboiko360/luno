@@ -4,6 +4,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame/rendering.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -66,17 +67,19 @@ class PlayerCustomPainter extends CustomPainter {
     ..color = Colors.blueGrey
     ..strokeWidth = 2
     //..blendMode = BlendMode.
+    ..filterQuality = FilterQuality.high
     ..style = PaintingStyle.stroke;
 
   late final backGround = Paint()
     ..color = Colors.lightGreen
+    ..filterQuality = FilterQuality.high
     ..style = PaintingStyle.fill;
 
   @override
   void paint(Canvas canvas, Size size) {
     var rrect = RRect.fromRectAndRadius(
-      Rect.fromLTRB(0, 0, 100, 100),
-      Radius.circular(18),
+      Rect.fromLTRB(0, 0, 102, 102),
+      Radius.circular(10),
     );
     canvas.drawRRect(rrect, backGround);
     canvas.drawRRect(rrect, border);
@@ -97,7 +100,7 @@ class PlayerBox extends CustomPainterComponent {
   @override
   FutureOr<void> onLoad() async {
     painter = PlayerCustomPainter();
-    size = Vector2(100, 100);
+    size = Vector2(102, 102);
     tmp = await Flame.images.load('players/${avatars[Random().nextInt(9)]}');
     image = Sprite(
       tmp,
@@ -109,7 +112,13 @@ class PlayerBox extends CustomPainterComponent {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    (image as Sprite).render(canvas, size: Vector2(100, 100));
+    (image as Sprite).render(
+      canvas,
+      size: Vector2(100, 101),
+      overridePaint: Paint()
+        ..isAntiAlias = true
+        ..filterQuality = FilterQuality.high,
+    );
     // canvas.drawImage(tmp, Offset(0, 0), Paint());
   }
 }
