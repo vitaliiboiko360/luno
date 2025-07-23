@@ -27,7 +27,6 @@ class UnoCard extends SvgComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent info) {
-    print('on tap');
     startAnimation = true;
     previousPosition = super.position;
   }
