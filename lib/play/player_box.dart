@@ -38,6 +38,24 @@ const avatars = [
   'avatar9.png',
 ];
 
+const colors = [
+  Colors.lightGreen,
+  Colors.amber,
+  Colors.deepPurple,
+  Colors.blue,
+  Colors.teal,
+  Colors.lime,
+  Color(0xFFADD8E6),
+  Color(0xFF90EE90),
+  Color(0xFFE6E6FA),
+  Color(0xFFF5F5DC),
+  Color(0xFFD3D3D3),
+  Color(0xFFFEAF4C),
+  Color(0xFF321857),
+  Color(0xFF09685F),
+  Color(0xFF5A876B),
+];
+
 class PlayerPicture extends PositionComponent {
   PlayerPicture(PlayerSeat playerSeat)
     : super(
@@ -71,7 +89,7 @@ class PlayerCustomPainter extends CustomPainter {
     ..style = PaintingStyle.stroke;
 
   late final backGround = Paint()
-    ..color = Colors.lightGreen
+    ..color = colors[Random().nextInt(colors.length)]
     ..filterQuality = FilterQuality.high
     ..style = PaintingStyle.fill;
 
