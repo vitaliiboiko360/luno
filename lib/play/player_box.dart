@@ -1,9 +1,10 @@
 import 'dart:math';
-
+import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/sprite.dart';
 
 enum PlayerSeat { mainSeat, left, top, right }
 
@@ -21,19 +22,19 @@ Vector2 getPlayerPosition(PlayerSeat playerSeat) {
 }
 
 const avatars = [
-  'avatar1.svg',
-  'avatar10.svg',
-  'avatar15.svg',
-  'avatar2.svg',
-  'avatar3.svg',
-  'avatar4.svg',
-  'avatar5.svg',
-  'avatar6.svg',
-  'avatar9.svg',
+  'avatar1.png',
+  'avatar10.png',
+  'avatar15.png',
+  'avatar2.png',
+  'avatar3.png',
+  'avatar4.png',
+  'avatar5.png',
+  'avatar6.png',
+  'avatar9.png',
 ];
 
-class SvgPicture extends SvgComponent {
-  SvgPicture(PlayerSeat playerSeat)
+class PlayerPicture extends PositionComponent {
+  PlayerPicture(PlayerSeat playerSeat)
     : super(
         position: getPlayerPosition(playerSeat),
         size: Vector2(242, 362),
@@ -41,14 +42,17 @@ class SvgPicture extends SvgComponent {
         scale: Vector2(0.5, 0.5),
       );
 
+  var image;
+
   @override
   Future<void> onLoad() async {
-    svg = await Svg.load('players/${avatars[Random().nextInt(10)]}');
+    image = await Flame.images.load('players/${avatars[Random().nextInt(10)]}');
   }
 
   @override
   void render(Canvas canvas) {
     canvas.drawCircle(Offset(0, 0), 30, Paint()..color = Colors.black);
+    canvas.drawImage(image, Offset(0, 0), Paint());
     super.render(canvas);
   }
 }
