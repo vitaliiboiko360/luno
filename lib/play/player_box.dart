@@ -11,6 +11,8 @@ import 'package:flutter/painting.dart';
 import 'package:flame/sprite.dart';
 import 'dart:ui';
 
+import 'package:luno/play/player_hand.dart';
+
 enum PlayerSeat { mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
@@ -110,8 +112,10 @@ class PlayerCustomPainter extends CustomPainter {
 }
 
 class PlayerBox extends CustomPainterComponent {
-  PlayerBox(PlayerSeat playerSeat)
+  PlayerBox(this.playerSeat)
     : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
+
+  PlayerSeat playerSeat;
 
   var image;
   var tmp;
@@ -124,7 +128,13 @@ class PlayerBox extends CustomPainterComponent {
       tmp,
       srcPosition: Vector2(0, 0),
       srcSize: Vector2(1024, 1024),
-    ); //
+    );
+    if (playerSeat == PlayerSeat.left) {
+      add(PlayerHand());
+    }
+    if (playerSeat == PlayerSeat.top || playerSeat == PlayerSeat.right) {
+      add(PlayerHandRight());
+    }
   }
 
   @override
