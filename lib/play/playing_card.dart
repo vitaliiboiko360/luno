@@ -58,8 +58,8 @@ class PlayingCard extends PositionComponent with TapCallbacks {
     if (startAnimation) {
       startAnimation = false;
       addAll([
-        MoveByEffect(
-          Vector2(-40, -40),
+        MoveToEffect(
+          Vector2(0, 0),
           ec,
           onComplete: () {
             ec.setToStart();
