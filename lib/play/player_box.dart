@@ -137,7 +137,7 @@ class PlayerBox extends CustomPainterComponent {
       add(PlayerHandRight());
     }
     if (playerSeat == PlayerSeat.mainSeat) {
-      add(ActiveHand(Vector2(0, 0)));
+      add(ActiveHand());
     }
   }
 
