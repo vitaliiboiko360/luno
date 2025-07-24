@@ -15,7 +15,7 @@ enum PlayerSeat { mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {
-    return Vector2(-300, 25);
+    return Vector2(-250, -25);
   }
   if (playerSeat == PlayerSeat.top) {
     return Vector2(50, -350);
