@@ -9,6 +9,7 @@ import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flame/sprite.dart';
+import 'package:luno/play/active_hand.dart';
 import 'dart:ui';
 
 import 'package:luno/play/player_hand.dart';
@@ -134,6 +135,9 @@ class PlayerBox extends CustomPainterComponent {
     }
     if (playerSeat == PlayerSeat.top || playerSeat == PlayerSeat.right) {
       add(PlayerHandRight());
+    }
+    if (playerSeat == PlayerSeat.mainSeat) {
+      add(ActiveHand(Vector2(0, 0)));
     }
   }
 
