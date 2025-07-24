@@ -30,12 +30,7 @@ class OpenCard extends SvgComponent {
 
 class PlayingCard extends PositionComponent with TapCallbacks {
   PlayingCard(Vector2 position)
-    : super(
-        size: Vector2(242, 362),
-        anchor: Anchor.center,
-        scale: Vector2(0.42, 0.42),
-        position: position,
-      );
+    : super(anchor: Anchor.center, position: position);
 
   var startAnimation = false;
   var endAnimation = true;
