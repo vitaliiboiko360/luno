@@ -4,8 +4,7 @@ import 'package:flame/components.dart';
 import 'package:luno/play/playing_card.dart';
 
 class ActiveHand extends PositionComponent {
-  ActiveHand(Vector2 position)
-    : super(anchor: Anchor.center, position: position);
+  ActiveHand() : super(anchor: Anchor.center, position: Vector2(0, 0));
 
   @override
   FutureOr<void> onLoad() {
