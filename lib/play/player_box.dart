@@ -15,15 +15,15 @@ enum PlayerSeat { mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {
-    return Vector2(-300, 75);
+    return Vector2(-300, 25);
   }
   if (playerSeat == PlayerSeat.top) {
     return Vector2(50, -350);
   }
   if (playerSeat == PlayerSeat.right) {
-    return Vector2(300, -50);
+    return Vector2(250, -100);
   }
-  return Vector2(75, 350);
+  return Vector2(75, 300);
 }
 
 const avatars = [
@@ -111,7 +111,7 @@ class PlayerCustomPainter extends CustomPainter {
 
 class PlayerBox extends CustomPainterComponent {
   PlayerBox(PlayerSeat playerSeat)
-    : super(position: getPlayerPosition(playerSeat));
+    : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
 
   var image;
   var tmp;
