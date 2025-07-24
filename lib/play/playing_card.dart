@@ -14,11 +14,12 @@ const double height = 362;
 const scale = 0.42;
 
 class OpenCard extends SvgComponent {
-  OpenCard({super.position})
+  OpenCard(position)
     : super(
         size: Vector2(width, height),
         anchor: Anchor.center,
         scale: Vector2(scale, scale),
+        position: position,
       );
 
   @override
@@ -28,11 +29,12 @@ class OpenCard extends SvgComponent {
 }
 
 class PlayingCard extends PositionComponent with TapCallbacks {
-  PlayingCard({super.position})
+  PlayingCard(Vector2 position)
     : super(
         size: Vector2(242, 362),
         anchor: Anchor.center,
         scale: Vector2(0.42, 0.42),
+        position: position,
       );
 
   var startAnimation = false;
@@ -43,7 +45,7 @@ class PlayingCard extends PositionComponent with TapCallbacks {
 
   @override
   FutureOr<void> onLoad() {
-    add(OpenCard());
+    add(OpenCard(Vector2(0, 0)));
     return super.onLoad();
   }
 
