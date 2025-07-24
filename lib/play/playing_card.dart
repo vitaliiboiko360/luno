@@ -30,7 +30,11 @@ class OpenCard extends SvgComponent {
 
 class PlayingCard extends PositionComponent with TapCallbacks {
   PlayingCard(Vector2 position)
-    : super(anchor: Anchor.center, position: position);
+    : super(
+        size: Vector2(width / scale, height / scale),
+        anchor: Anchor.center,
+        position: position,
+      );
 
   var startAnimation = false;
   var endAnimation = true;
@@ -38,9 +42,12 @@ class PlayingCard extends PositionComponent with TapCallbacks {
   final ec = LinearEffectController(1);
   final ec2 = LinearEffectController(1);
 
+  OpenCard oc = OpenCard(Vector2(0, 0));
+
   @override
   FutureOr<void> onLoad() {
-    add(OpenCard(Vector2(0, 0)));
+    oc = OpenCard(super.position);
+    add(oc);
     return super.onLoad();
   }
 
@@ -48,13 +55,14 @@ class PlayingCard extends PositionComponent with TapCallbacks {
   void onTapUp(TapUpEvent info) {
     startAnimation = true;
     previousPosition = super.position;
+    print('clicked card');
   }
 
   @override
   void update(double dt) {
     if (startAnimation) {
       startAnimation = false;
-      addAll([
+      oc.addAll([
         MoveToEffect(
           Vector2(0, 0),
           ec,
