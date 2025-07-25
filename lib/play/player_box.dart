@@ -139,12 +139,60 @@ class PlayerBox extends CustomPainterComponent with TapCallbacks {
     }
     if (playerSeat == PlayerSeat.mainSeat) {
       add(ActiveHand());
+      priority = -1;
     }
   }
 
   @override
   void onTapUp(TapUpEvent info) {
+    if (playerSeat == PlayerSeat.mainSeat) {
+      priority = priority++;
+    }
     print('player boundaries ${playerSeat}');
+    print('player priority ${priority}');
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    (image as Sprite).render(
+      canvas,
+      size: Vector2(100, 101),
+      overridePaint: Paint()
+        ..isAntiAlias = true
+        ..filterQuality = FilterQuality.high,
+    );
+    // canvas.drawImage(tmp, Offset(0, 0), Paint());
+  }
+}
+
+class MainPlayerBox extends CustomPainterComponent with TapCallbacks {
+  MainPlayerBox()
+    : super(
+        position: getPlayerPosition(PlayerSeat.mainSeat),
+        anchor: Anchor.center,
+        priority: -1,
+        children: [ActiveHand()],
+      );
+
+  var image;
+  var tmp;
+  @override
+  FutureOr<void> onLoad() async {
+    painter = PlayerCustomPainter();
+    size = Vector2(102, 102);
+    tmp = await Flame.images.load('players/${avatars[Random().nextInt(9)]}');
+    image = Sprite(
+      tmp,
+      srcPosition: Vector2(0, 0),
+      srcSize: Vector2(1024, 1024),
+    );
+    // add(ActiveHand());
+  }
+
+  @override
+  void onTapUp(TapUpEvent info) {
+    print('player priority ${priority}');
   }
 
   @override
