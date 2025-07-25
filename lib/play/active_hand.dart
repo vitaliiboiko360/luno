@@ -1,25 +1,26 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame_svg/flame_svg.dart';
 import 'package:luno/play/playing_card.dart';
 
 class ActiveHand extends Component {
-  ActiveHand() : super();
+  ActiveHand() : super(priority: -2);
 
   int numberOfCards = 0;
 
   @override
   FutureOr<void> onLoad() {
-    add(PlayingCard(Vector2(-150, 0)));
-    add(PlayingCard(Vector2(-100, 0)));
-    add(PlayingCard(Vector2(-50, 0)));
+    add(PlayingCard(getCardPosition(0)));
+    add(PlayingCard(getCardPosition(1)));
+    add(PlayingCard(getCardPosition(2)));
     numberOfCards = 3;
     return super.onLoad();
   }
 
   addCard() {
     print('children.length before ${children.length}');
-    add(PlayingCard(getCardPosition(numberOfCards)));
+    add(PlayingCard(getCardPosition(children.length), isVisible: false));
     print('children.length after ${children.length}');
   }
 
@@ -28,14 +29,27 @@ class ActiveHand extends Component {
   }
 
   rearangeCards() {
-    int index = 0;
-    children.forEach(
-      (card) => (card as PositionComponent).position = getCardPosition(index++),
-    );
+    int index = children.length;
+    propagateToChildren((card) {
+      (card as PositionComponent).position = getCardPosition(--index);
+      (card as Component).priority = -(index + 10);
+      (card as PlayingCard).setVisible();
+      print('set card priority set ${card.priority}');
+      return true;
+    });
+  }
+
+  @override
+  void onChildrenChanged(Component child, ChildrenChangeType type) {
+    rearangeCards();
+    super.onChildrenChanged(child, type);
   }
 }
 
 getCardPosition(int cardPosition) {
+  double x = (cardPosition - 3) * (30);
+  return Vector2(x, 0);
+
   if (cardPosition == 0) {
     return Vector2(-150, 0);
   }
