@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -112,7 +113,7 @@ class PlayerCustomPainter extends CustomPainter {
   }
 }
 
-class PlayerBox extends CustomPainterComponent {
+class PlayerBox extends CustomPainterComponent with TapCallbacks {
   PlayerBox(this.playerSeat)
     : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
 
@@ -139,6 +140,11 @@ class PlayerBox extends CustomPainterComponent {
     if (playerSeat == PlayerSeat.mainSeat) {
       add(ActiveHand());
     }
+  }
+
+  @override
+  void onTapUp(TapUpEvent info) {
+    print('player boundaries ${playerSeat}');
   }
 
   @override
