@@ -17,7 +17,7 @@ class UnoWorld extends World {
     add(PlayerBox(PlayerSeat.left));
     add(PlayerBox(PlayerSeat.top));
     add(PlayerBox(PlayerSeat.right));
-    add(PlayerBox(PlayerSeat.mainSeat));
+    add(MainPlayerBox());
     add(DeckCardsPositioned());
   }
 }
