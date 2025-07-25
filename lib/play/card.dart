@@ -12,6 +12,7 @@ class UnoCard extends SvgComponent with TapCallbacks {
         size: Vector2(242, 362),
         anchor: Anchor.center,
         scale: Vector2(0.42, 0.42),
+        priority: -2,
       );
 
   var startAnimation = false;
