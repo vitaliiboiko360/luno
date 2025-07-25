@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
@@ -37,14 +36,17 @@ class OpenCard extends SvgComponent {
   //with TapCallbacks
 }
 
-class PlayingCard extends SvgComponent with TapCallbacks {
-  PlayingCard(position)
+class PlayingCard extends SvgComponent with TapCallbacks, HasVisibility {
+  PlayingCard(position, {isVisible = true})
     : super(
         size: Vector2(width, height),
         anchor: Anchor.center,
         scale: Vector2(scale, scale),
         position: position,
-      );
+        // priority: -2,
+      ) {
+    isVisible = isVisible;
+  }
 
   var startAnimation = false;
   var endAnimation = false;
@@ -57,12 +59,16 @@ class PlayingCard extends SvgComponent with TapCallbacks {
     svg = await Svg.load('cards/${getRandomCardPath()}');
   }
 
+  setVisible() {
+    isVisible = true;
+  }
+
   @override
   void onTapUp(TapUpEvent info) {
     startAnimation = true;
     // previousPosition = super.position;
     (parent as ActiveHand).playCard();
-
+    print('card priority ${priority}');
     print('clicked card');
   }
 
@@ -70,7 +76,6 @@ class PlayingCard extends SvgComponent with TapCallbacks {
   void update(double dt) {
     if (startAnimation) {
       startAnimation = false;
-      priority = 1;
       addAll([
         MoveToEffect(
           absolutePosition.inverted() + position,
@@ -92,7 +97,7 @@ class PlayingCard extends SvgComponent with TapCallbacks {
                 size: super.size,
                 scale: super.scale,
                 position: Vector2.zero(),
-                priority: -1,
+                priority: -2,
               ),
             );
             removeFromParent();
@@ -113,8 +118,8 @@ class PlayingCard extends SvgComponent with TapCallbacks {
   @override
   void onRemove() {
     print('on remove');
-    (parent as ActiveHand).rearangeCards();
     (parent as ActiveHand).addCard();
+    // (parent as ActiveHand).rearangeCards();
     // position = Vector2.zero();
     // priority = 0;
     endAnimation = true;
