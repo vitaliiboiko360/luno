@@ -7,6 +7,7 @@ import 'package:flame/geometry.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_svg/flame_svg.dart';
+import 'package:luno/play/active_hand.dart';
 import 'package:luno/play/cards.dart';
 
 const double width = 246;
@@ -46,10 +47,10 @@ class PlayingCard extends SvgComponent with TapCallbacks {
       );
 
   var startAnimation = false;
-  var endAnimation = true;
+  var endAnimation = false;
   Vector2 previousPosition = Vector2(0, 0);
-  final ec = LinearEffectController(1);
-  final ec2 = LinearEffectController(1);
+  final moveCtrl = LinearEffectController(0.8);
+  final rotateCtrl = LinearEffectController(1);
 
   @override
   FutureOr<void> onLoad() async {
@@ -60,6 +61,8 @@ class PlayingCard extends SvgComponent with TapCallbacks {
   void onTapUp(TapUpEvent info) {
     startAnimation = true;
     // previousPosition = super.position;
+    (parent as ActiveHand).playCard();
+
     print('clicked card');
   }
 
@@ -67,24 +70,55 @@ class PlayingCard extends SvgComponent with TapCallbacks {
   void update(double dt) {
     if (startAnimation) {
       startAnimation = false;
+      priority = 1;
       addAll([
         MoveToEffect(
           absolutePosition.inverted() + position,
-          ec,
+          moveCtrl,
           onComplete: () {
-            ec.setToStart();
+            moveCtrl.setToStart();
           },
         ),
         RotateEffect.by(
           tau,
-          ec2,
+          rotateCtrl,
           onComplete: () {
-            ec2.setToStart();
+            rotateCtrl.setToStart();
+            // opacity = 0;
+            findGame()!.world.add(
+              SvgComponent(
+                anchor: anchor,
+                svg: svg,
+                size: super.size,
+                scale: super.scale,
+                position: Vector2.zero(),
+                priority: -1,
+              ),
+            );
+            removeFromParent();
+
+            // opacity = 1;
           },
         ),
       ]);
     }
+
+    if (endAnimation) {
+      print('end of animation effect');
+      endAnimation = false;
+    }
     super.update(dt);
+  }
+
+  @override
+  void onRemove() {
+    print('on remove');
+    (parent as ActiveHand).rearangeCards();
+    (parent as ActiveHand).addCard();
+    // position = Vector2.zero();
+    // priority = 0;
+    endAnimation = true;
+    super.onRemove();
   }
 
   // @override
