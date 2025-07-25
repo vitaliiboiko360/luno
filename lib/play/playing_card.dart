@@ -26,13 +26,22 @@ class OpenCard extends SvgComponent {
   Future<void> onLoad() async {
     svg = await Svg.load('cards/${getRandomCardPath()}');
   }
+
+  // @override
+  // void onTapUp(TapUpEvent info) {
+  //   // startAnimation = true;
+  //   // previousPosition = super.position;
+  //   print('clicked svg card');
+  // }
+  //with TapCallbacks
 }
 
-class PlayingCard extends PositionComponent with TapCallbacks {
-  PlayingCard(Vector2 position)
+class PlayingCard extends SvgComponent with TapCallbacks {
+  PlayingCard(position)
     : super(
-        size: Vector2(width / scale, height / scale),
+        size: Vector2(width, height),
         anchor: Anchor.center,
+        scale: Vector2(scale, scale),
         position: position,
       );
 
@@ -42,19 +51,15 @@ class PlayingCard extends PositionComponent with TapCallbacks {
   final ec = LinearEffectController(1);
   final ec2 = LinearEffectController(1);
 
-  OpenCard oc = OpenCard(Vector2(0, 0));
-
   @override
-  FutureOr<void> onLoad() {
-    oc = OpenCard(super.position);
-    add(oc);
-    return super.onLoad();
+  FutureOr<void> onLoad() async {
+    svg = await Svg.load('cards/${getRandomCardPath()}');
   }
 
   @override
   void onTapUp(TapUpEvent info) {
     startAnimation = true;
-    previousPosition = super.position;
+    // previousPosition = super.position;
     print('clicked card');
   }
 
@@ -62,9 +67,9 @@ class PlayingCard extends PositionComponent with TapCallbacks {
   void update(double dt) {
     if (startAnimation) {
       startAnimation = false;
-      oc.addAll([
+      addAll([
         MoveToEffect(
-          Vector2(0, 0),
+          absolutePosition.inverted() + position,
           ec,
           onComplete: () {
             ec.setToStart();
