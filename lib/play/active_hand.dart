@@ -14,6 +14,10 @@ class ActiveHand extends Component {
     add(PlayingCard(getCardPosition(0)));
     add(PlayingCard(getCardPosition(1)));
     add(PlayingCard(getCardPosition(2)));
+    add(PlayingCard(getCardPosition(3)));
+    add(PlayingCard(getCardPosition(4)));
+    add(PlayingCard(getCardPosition(5)));
+    add(PlayingCard(getCardPosition(6)));
     numberOfCards = 3;
     return super.onLoad();
   }
@@ -47,7 +51,7 @@ class ActiveHand extends Component {
 }
 
 getCardPosition(int cardPosition) {
-  double x = (cardPosition - 3) * (30);
+  double x = -(cardPosition - 1) * (30);
   return Vector2(x, 0);
 
   if (cardPosition == 0) {
