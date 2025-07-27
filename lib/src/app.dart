@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:luno/app_lifecycle/app_lifecycle.dart';
 import 'package:luno/style/color_palette.dart';
+import 'package:luno/ws/ws.dart';
 import 'package:provider/provider.dart';
 import 'package:luno/router.dart';
 
@@ -11,7 +12,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppLifecycleObserver(
       child: MultiProvider(
-        providers: [Provider(create: (context) => Palette())],
+        providers: [
+          Provider(create: (context) => Palette()),
+          ChangeNotifierProvider(create: (context) => Ws()..connect()),
+        ],
         builder: (context, child) {
           return MediaQuery.withNoTextScaling(child: child!);
         },
