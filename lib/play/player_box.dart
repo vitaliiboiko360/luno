@@ -138,7 +138,6 @@ class PlayerBox extends CustomPainterComponent with TapCallbacks {
       add(PlayerHandRight());
     }
     if (playerSeat == PlayerSeat.mainSeat) {
-      add(ActiveHand());
       priority = -1;
     }
   }
@@ -172,7 +171,7 @@ class MainPlayerBox extends CustomPainterComponent with TapCallbacks {
         position: getPlayerPosition(PlayerSeat.mainSeat),
         anchor: Anchor.center,
         priority: -1,
-        children: [ActiveHand()],
+        children: [],
       );
 
   var image;
