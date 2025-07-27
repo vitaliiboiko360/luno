@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       child: MultiProvider(
         providers: [
           Provider(create: (context) => Palette()),
-          ChangeNotifierProvider(create: (context) => Ws()..connect()),
+          // ChangeNotifierProvider(create: (context) => Ws()..connect()),
         ],
         builder: (context, child) {
           return MediaQuery.withNoTextScaling(child: child!);
