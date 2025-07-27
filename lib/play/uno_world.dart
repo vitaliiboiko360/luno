@@ -4,6 +4,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:luno/play/active_hand.dart';
 import 'package:luno/play/card.dart';
 import 'package:luno/play/deck_cards.dart';
 import 'package:luno/play/player_box.dart';
@@ -17,6 +18,7 @@ class UnoWorld extends World {
     add(PlayerBox(PlayerSeat.left));
     add(PlayerBox(PlayerSeat.top));
     add(PlayerBox(PlayerSeat.right));
+    add(ActiveHand());
     add(MainPlayerBox());
     add(DeckCardsPositioned());
   }
