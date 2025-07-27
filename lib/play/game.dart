@@ -10,8 +10,8 @@ class Game extends StatelessWidget {
       game: FlameGame(world: UnoWorld()),
       backgroundBuilder: (context) {
         return Container(
-          child: SizedBox.expand(),
           decoration: BoxDecoration(color: Colors.green),
+          child: SizedBox.expand(),
         );
       },
     );
