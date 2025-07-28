@@ -32,24 +32,6 @@ class BackCard extends SvgComponent with HasVisibility {
   var scaleCtrl = EffectController(duration: 1);
   var turnCtrl = EffectController(duration: 1);
 
-  // void animate(onComplete) {
-  //   add(
-  //     SequenceEffect(
-  //       [
-  //         ScaleEffect.to(Vector2.all(fullScale), scaleCtrl),
-  //         FunctionEffect((target, progress) {
-  //           (decorator as Rotate3DDecorator).angleY = (tau / 4) * progress;
-  //         }, turnCtrl),
-  //       ],
-  //       onComplete: () {
-  //         isVisible = false;
-  //         removeFromParent();
-  //         onComplete();
-  //       },
-  //     ),
-  //   );
-  // }
-
   setAngle(angle) {
     (decorator as Rotate3DDecorator).angleY = angle;
   }
@@ -63,39 +45,23 @@ class BackCard extends SvgComponent with HasVisibility {
   }
 }
 
-class PlayCard extends SvgComponent with HasVisibility {
-  PlayCard({isVisible = false})
-    : super(
-        size: Vector2(width, height),
-        anchor: Anchor.center,
-        // scale: Vector2.all(fullScale),
-      );
+class PlayCard extends SvgComponent {
+  PlayCard() : super(size: Vector2(width, height), anchor: Anchor.center);
+
+  @override
+  final decorator = Rotate3DDecorator(
+    angleY: tau / 4.05,
+    center: Vector2(width / 2, height / 2),
+  );
 
   @override
   FutureOr<void> onLoad() async {
     svg = await Svg.load('cards/${getRandomCardPath()}');
-    decorator = Rotate3DDecorator(
-      angleY: -tau / 4,
-      center: Vector2(width / 2, height / 2),
-    );
     return super.onLoad();
   }
 
   setAngle(angle) {
     (decorator as Rotate3DDecorator).angleY = angle;
-  }
-
-  setVisible() {
-    isVisible = true;
-  }
-
-  @override
-  void render(Canvas canvas) {
-    try {
-      super.render(canvas);
-    } catch (error) {
-      print('bad set angle: ${(decorator as Rotate3DDecorator).angleY}');
-    }
   }
 }
 
@@ -108,36 +74,27 @@ class LeftMove extends PositionComponent with HasVisibility {
         position: getPlayerPosition(PlayerSeat.left),
       );
 
-  var cardToDisplay;
-  var backCard;
+  var cardToDisplay = PlayCard();
+  var backCard = BackCard();
 
   @override
   FutureOr<void> onLoad() async {
-    cardToDisplay = PlayCard();
-    backCard = BackCard();
-    print('before add');
-    addAll([backCard, cardToDisplay]);
-    print('after add');
+    add(backCard);
     super.onLoad();
   }
 
   double deltaTime = 0;
 
   var scaleCtrl = EffectController(duration: 1);
-  var turnCtrl0 = EffectController(duration: 0.3);
-  var turnCtrl = EffectController(duration: 0.3);
-  var moveCtrl = EffectController(duration: 0.6);
-  var rotateCtrl = EffectController(duration: 0.8);
+  var turnCtrl0 = EffectController(duration: .3);
+  var turnCtrl = EffectController(duration: .3);
+  var moveCtrl = EffectController(startDelay: 0.2, duration: 0.6);
+  var rotateCtrl = EffectController(startDelay: 0.2, duration: 0.8);
 
   void animate() {
-    // backCard.animate(() {
-    // });
     add(
       SequenceEffect(
         [
-          // FunctionEffect((target, progress) {
-          //   backCard.setScale(scale + ((fullScale - scale) * progress));
-          // }, scaleCtrl),
           FunctionEffect(
             (target, progress) {
               backCard.setAngle(-(tau / 4) * progress);
@@ -145,11 +102,11 @@ class LeftMove extends PositionComponent with HasVisibility {
             turnCtrl0,
             onComplete: () {
               backCard.setInvisible();
-              cardToDisplay.setVisible();
+              add(cardToDisplay);
             },
           ),
           FunctionEffect((target, progress) {
-            cardToDisplay.setAngle((tau / 4) * (1 - progress));
+            cardToDisplay.setAngle(((tau / 4.03) * (1 - progress)));
           }, turnCtrl),
         ],
         onComplete: () {
@@ -186,9 +143,7 @@ class LeftMove extends PositionComponent with HasVisibility {
     if (!animationStarted && deltaTime > 1) {
       animationStarted = true;
       deltaTime = 0;
-      print('before animate');
       animate();
-      print('after animate');
     }
     super.update(dt);
   }
