@@ -19,7 +19,7 @@ class BackCard extends SvgComponent with HasVisibility {
     : super(
         size: Vector2(width, height),
         anchor: Anchor.center,
-        // scale: Vector2.all(scale),
+        scale: Vector2.all(scale),
       );
 
   @override
@@ -70,8 +70,8 @@ class LeftMove extends PositionComponent with HasVisibility {
     : super(
         size: Vector2(width, height),
         anchor: Anchor.center,
-        scale: Vector2.all(fullScale),
-        position: getPlayerPosition(PlayerSeat.left),
+        scale: Vector2.all(scale),
+        position: getPlayerPosition(PlayerSeat.left) + Vector2(0, 70),
       );
 
   var cardToDisplay = PlayCard();
@@ -85,7 +85,7 @@ class LeftMove extends PositionComponent with HasVisibility {
 
   double deltaTime = 0;
 
-  var scaleCtrl = EffectController(duration: 1);
+  var scaleCtrl = EffectController(duration: .1);
   var turnCtrl0 = EffectController(duration: .3);
   var turnCtrl = EffectController(duration: .3);
   var moveCtrl = EffectController(startDelay: 0.2, duration: 0.6);
@@ -95,6 +95,9 @@ class LeftMove extends PositionComponent with HasVisibility {
     add(
       SequenceEffect(
         [
+          FunctionEffect((target, progress) {
+            super.scale = Vector2.all(scale + (fullScale - scale) * progress);
+          }, scaleCtrl),
           FunctionEffect(
             (target, progress) {
               backCard.setAngle(-(tau / 4) * progress);
@@ -140,7 +143,7 @@ class LeftMove extends PositionComponent with HasVisibility {
   @override
   void update(double dt) {
     deltaTime += dt;
-    if (!animationStarted && deltaTime > 1) {
+    if (!animationStarted) {
       animationStarted = true;
       deltaTime = 0;
       animate();
