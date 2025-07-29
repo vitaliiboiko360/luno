@@ -65,13 +65,13 @@ class PlayCard extends SvgComponent {
   }
 }
 
-class LeftMove extends PositionComponent with HasVisibility {
-  LeftMove()
+class MakeMove extends PositionComponent with HasVisibility {
+  MakeMove(Vector2 playerPosition)
     : super(
         size: Vector2(width, height),
         anchor: Anchor.center,
         scale: Vector2.all(scale),
-        position: getPlayerPosition(PlayerSeat.left) + Vector2(0, 70),
+        position: playerPosition + Vector2(0, 70),
       );
 
   var cardToDisplay = PlayCard();
@@ -85,7 +85,7 @@ class LeftMove extends PositionComponent with HasVisibility {
 
   double deltaTime = 0;
 
-  var scaleCtrl = EffectController(duration: .1);
+  var scaleCtrl = EffectController(duration: .2);
   var turnCtrl0 = EffectController(duration: .3);
   var turnCtrl = EffectController(duration: .3);
   var moveCtrl = EffectController(startDelay: 0.2, duration: 0.6);
