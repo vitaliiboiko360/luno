@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
@@ -27,14 +28,26 @@ class UnoWorld extends World {
   double deltaTime = 0;
   bool added = false;
 
+  static const playerPositions = [
+    PlayerSeat.left,
+    PlayerSeat.top,
+    PlayerSeat.right,
+  ];
+
   @override
   void update(double dt) {
     if (added == false) {
       deltaTime += dt;
-      if (deltaTime > 3) {
-        added = true;
+      if (deltaTime > 4) {
+        added = false;
         deltaTime = 0;
-        add(LeftMove());
+        add(
+          MakeMove(
+            getPlayerPosition(
+              playerPositions[Random().nextInt(playerPositions.length)],
+            ),
+          ),
+        );
       }
     }
     super.update(dt);
