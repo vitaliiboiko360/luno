@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_svg/flame_svg.dart';
 
 const width = 246;
@@ -27,6 +28,9 @@ class UnoCardHand extends SvgComponent {
       );
 
   CardPlace cardPlace;
+
+  CardPlace get place => cardPlace;
+  set place(CardPlace p) => cardPlace = p;
 
   setCardAngle() {
     if (cardPlace == CardPlace.left) {
@@ -130,5 +134,26 @@ class PlayerHandRight extends PositionComponent {
     add(UnoCardHand(Vector2(50, 3), CardPlace.beforeLeft));
     add(UnoCardHand(Vector2(60, 5), CardPlace.left));
     return super.onLoad();
+  }
+
+  removeCardFromHand() {
+    children.forEach((card) {
+      if ((card as UnoCardHand).place == CardPlace.beforeRight) {
+        var ec = EffectController(duration: 0.2);
+        card.add(MoveToEffect(Vector2(0, 5), ec));
+        card.place = CardPlace.right;
+      }
+    });
+  }
+
+  double timePassed = 0;
+
+  @override
+  void update(double dt) {
+    timePassed += dt;
+    if (timePassed > 6) {
+      timePassed = 0;
+      removeCardFromHand();
+    }
   }
 }
