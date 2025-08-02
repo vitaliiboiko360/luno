@@ -18,7 +18,7 @@ enum CardPlace {
   right,
 }
 
-class UnoCardHand extends SvgComponent {
+class UnoCardHand extends SvgComponent with HasVisibility {
   UnoCardHand(Vector2 position, this.cardPlace)
     : super(
         scale: Vector2.all(1),
@@ -32,28 +32,32 @@ class UnoCardHand extends SvgComponent {
   CardPlace get place => cardPlace;
   set place(CardPlace p) => cardPlace = p;
 
-  setCardAngle() {
+  getAngle(cardPlace) {
     if (cardPlace == CardPlace.left) {
-      angle = 0.3;
+      return 0.3;
     }
     if (cardPlace == CardPlace.beforeLeft) {
-      angle = 0.2;
+      return 0.2;
     }
     if (cardPlace == CardPlace.centerLeft) {
-      angle = 0.1;
+      return 0.1;
     }
     if (cardPlace == CardPlace.center) {
-      angle = 0;
+      return 0;
     }
     if (cardPlace == CardPlace.centerRight) {
-      angle = -0.1;
+      return -0.1;
     }
     if (cardPlace == CardPlace.beforeRight) {
-      angle = -0.2;
+      return -0.2;
     }
     if (cardPlace == CardPlace.right) {
-      angle = -0.3;
+      return -0.3;
     }
+  }
+
+  setCardAngle() {
+    angle = getAngle(cardPlace);
   }
 
   @override
@@ -119,6 +123,106 @@ class PlayerHand extends PositionComponent {
     add(UnoCardHand(Vector2(0, 7), CardPlace.right));
     return super.onLoad();
   }
+
+  removeCardFromHand() {
+    children.forEach((card) {
+      if ((card as UnoCardHand).place == CardPlace.left) {
+        card.isVisible = false;
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.right);
+        card.addAll([
+          MoveToEffect(Vector2(0, 7), ec1),
+          RotateEffect.to(
+            newAngle,
+            ec2,
+            onComplete: () {
+              card.isVisible = true;
+            },
+          ),
+        ]);
+        card.place = CardPlace.right;
+        card.priority = -8;
+      }
+      if ((card as UnoCardHand).place == CardPlace.beforeLeft) {
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.left);
+        card.addAll([
+          MoveToEffect(Vector2(60, 3), ec1),
+          RotateEffect.to(newAngle, ec2),
+        ]);
+        card.place = CardPlace.left;
+        card.priority = -1;
+      }
+      if ((card as UnoCardHand).place == CardPlace.centerLeft) {
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.beforeLeft);
+        card.addAll([
+          MoveToEffect(Vector2(50, 1), ec1),
+          RotateEffect.to(newAngle, ec2),
+        ]);
+        card.place = CardPlace.beforeLeft;
+        card.priority = -2;
+      }
+      if ((card as UnoCardHand).place == CardPlace.center) {
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.centerLeft);
+        card.addAll([
+          MoveToEffect(Vector2(40, 0), ec1),
+          RotateEffect.to(newAngle, ec2),
+        ]);
+        card.place = CardPlace.centerLeft;
+        card.priority = -3;
+      }
+      if ((card as UnoCardHand).place == CardPlace.centerRight) {
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.center);
+        card.addAll([
+          MoveToEffect(Vector2(30, 1), ec1),
+          RotateEffect.to(newAngle, ec2),
+        ]);
+        card.place = CardPlace.center;
+        card.priority = -4;
+      }
+      if ((card as UnoCardHand).place == CardPlace.beforeRight) {
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.centerRight);
+        card.addAll([
+          MoveToEffect(Vector2(20, 3), ec1),
+          RotateEffect.to(newAngle, ec2),
+        ]);
+        card.place = CardPlace.centerRight;
+        card.priority = -5;
+      }
+      if ((card as UnoCardHand).place == CardPlace.right) {
+        var ec1 = EffectController(duration: 0.2);
+        var ec2 = EffectController(duration: 0.2);
+        var newAngle = card.getAngle(CardPlace.beforeRight);
+        card.addAll([
+          MoveToEffect(Vector2(10, 5), ec1),
+          RotateEffect.to(newAngle, ec2),
+        ]);
+        card.place = CardPlace.beforeRight;
+        card.priority = -6;
+      }
+    });
+  }
+
+  double timePassed = 0;
+
+  @override
+  void update(double dt) {
+    timePassed += dt;
+    if (timePassed > 6) {
+      timePassed = 0;
+      removeCardFromHand();
+    }
+  }
 }
 
 class PlayerHandRight extends PositionComponent {
@@ -134,26 +238,5 @@ class PlayerHandRight extends PositionComponent {
     add(UnoCardHand(Vector2(50, 3), CardPlace.beforeLeft));
     add(UnoCardHand(Vector2(60, 5), CardPlace.left));
     return super.onLoad();
-  }
-
-  removeCardFromHand() {
-    children.forEach((card) {
-      if ((card as UnoCardHand).place == CardPlace.beforeRight) {
-        var ec = EffectController(duration: 0.2);
-        card.add(MoveToEffect(Vector2(0, 5), ec));
-        card.place = CardPlace.right;
-      }
-    });
-  }
-
-  double timePassed = 0;
-
-  @override
-  void update(double dt) {
-    timePassed += dt;
-    if (timePassed > 6) {
-      timePassed = 0;
-      removeCardFromHand();
-    }
   }
 }
