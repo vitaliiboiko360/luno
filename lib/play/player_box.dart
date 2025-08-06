@@ -92,7 +92,7 @@ class PlayerCustomPainter extends CustomPainter {
     ..filterQuality = FilterQuality.high
     ..style = PaintingStyle.stroke;
 
-  late final backGround = Paint()
+  late var backGround = Paint()
     ..color = colors[Random().nextInt(colors.length)]
     ..filterQuality = FilterQuality.high
     ..style = PaintingStyle.fill;
@@ -105,6 +105,13 @@ class PlayerCustomPainter extends CustomPainter {
     );
     canvas.drawRRect(rrect, backGround);
     canvas.drawRRect(rrect, border);
+  }
+
+  void changeColor(int colorIndex) {
+    backGround = Paint()
+      ..color = colors[colorIndex]
+      ..filterQuality = FilterQuality.high
+      ..style = PaintingStyle.fill;
   }
 
   @override
@@ -149,6 +156,9 @@ class PlayerBox extends CustomPainterComponent with TapCallbacks {
     }
     print('player boundaries ${playerSeat}');
     print('player priority ${priority}');
+    (painter as PlayerCustomPainter).changeColor(
+      Random().nextInt(colors.length),
+    );
   }
 
   @override
