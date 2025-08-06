@@ -142,7 +142,7 @@ class PlayerHand extends PositionComponent {
           ),
         ]);
         card.place = CardPlace.right;
-        card.priority = -8;
+        card.priority = -1;
       }
       if ((card as UnoCardHand).place == CardPlace.beforeLeft) {
         var ec1 = EffectController(duration: 0.2);
@@ -153,7 +153,7 @@ class PlayerHand extends PositionComponent {
           RotateEffect.to(newAngle, ec2),
         ]);
         card.place = CardPlace.left;
-        card.priority = -1;
+        card.priority = -8;
       }
       if ((card as UnoCardHand).place == CardPlace.centerLeft) {
         var ec1 = EffectController(duration: 0.2);
@@ -164,7 +164,7 @@ class PlayerHand extends PositionComponent {
           RotateEffect.to(newAngle, ec2),
         ]);
         card.place = CardPlace.beforeLeft;
-        card.priority = -2;
+        card.priority = -6;
       }
       if ((card as UnoCardHand).place == CardPlace.center) {
         var ec1 = EffectController(duration: 0.2);
@@ -175,7 +175,7 @@ class PlayerHand extends PositionComponent {
           RotateEffect.to(newAngle, ec2),
         ]);
         card.place = CardPlace.centerLeft;
-        card.priority = -3;
+        card.priority = -5;
       }
       if ((card as UnoCardHand).place == CardPlace.centerRight) {
         var ec1 = EffectController(duration: 0.2);
@@ -197,32 +197,32 @@ class PlayerHand extends PositionComponent {
           RotateEffect.to(newAngle, ec2),
         ]);
         card.place = CardPlace.centerRight;
-        card.priority = -5;
+        card.priority = -3;
       }
       if ((card as UnoCardHand).place == CardPlace.right) {
         var ec1 = EffectController(duration: 0.2);
         var ec2 = EffectController(duration: 0.2);
-        var newAngle = card.getAngle(CardPlace.beforeRight);
+        var newAngle = card.getAngle(CardPlace.left);
         card.addAll([
-          MoveToEffect(Vector2(10, 5), ec1),
+          MoveToEffect(Vector2(60, 3), ec1),
           RotateEffect.to(newAngle, ec2),
         ]);
-        card.place = CardPlace.beforeRight;
-        card.priority = -6;
+        card.place = CardPlace.left;
+        card.priority = -2;
       }
     });
   }
 
   double timePassed = 0;
 
-  @override
-  void update(double dt) {
-    timePassed += dt;
-    if (timePassed > 6) {
-      timePassed = 0;
-      removeCardFromHand();
-    }
-  }
+  // @override
+  // void update(double dt) {
+  //   timePassed += dt;
+  //   if (timePassed > 6) {
+  //     timePassed = 0;
+  //     removeCardFromHand();
+  //   }
+  // }
 }
 
 class PlayerHandRight extends PositionComponent {
