@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
-class Ws with ChangeNotifier {
+class Ws {
   final wsUrl = Uri.parse('ws://192.168.0.101:5290/ws');
 
   late var channel;
@@ -17,7 +17,7 @@ class Ws with ChangeNotifier {
       isValid = true;
       channel.stream.listen(onMessage, onError: onError, onDone: onDone);
     } catch (e) {
-      print('channel failed to be ready');
+      print('\n\nchannel failed to be ready ${e.toString()}\n');
     }
   }
 
@@ -33,24 +33,24 @@ class Ws with ChangeNotifier {
   void onMessage(message) {
     print(message);
     _message = message;
-    notifyListeners();
+    // notifyListeners();
   }
 
   dynamic getMessage() {
     return _message;
   }
 
-  void onError() {
-    print('websocket error');
+  void onError(error) {
+    print('websocket error: $error');
   }
 
   void onDone() {
     print('websocket is closing');
   }
 
-  @override
-  void dispose() {
-    channel.sink.close(status.goingAway);
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   channel.sink.close(status.goingAway);
+  //   super.dispose();
+  // }
 }
