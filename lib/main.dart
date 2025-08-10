@@ -5,6 +5,8 @@ import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
 import 'dart:developer' as dev;
 
+import 'package:luno/ws/ws.dart';
+
 void main() {
   Logger.root.level = kDebugMode ? Level.FINE : Level.INFO;
   Logger.root.onRecord.listen((record) {
@@ -16,5 +18,9 @@ void main() {
     );
   });
   debugPaintSizeEnabled = true;
+
+  var ws = Ws();
+  ws.connect();
+
   runApp(const App());
 }
