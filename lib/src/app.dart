@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luno/app_lifecycle/app_lifecycle.dart';
+import 'package:luno/play/game.dart';
 import 'package:luno/style/color_palette.dart';
 import 'package:luno/ws/ws.dart';
 import 'package:provider/provider.dart';
@@ -14,41 +15,43 @@ class App extends StatelessWidget {
       child: MultiProvider(
         providers: [
           Provider(create: (context) => Palette()),
-          // ChangeNotifierProvider(create: (context) => Ws()..connect()),
+          ChangeNotifierProvider(create: (context) => Ws()..connect()),
         ],
         builder: (context, child) {
           return MediaQuery.withNoTextScaling(child: child!);
         },
-        child: Builder(
-          builder: (context) {
-            final palette = context.watch<Palette>();
-            return MaterialApp.router(
-              title: 'Uno Game',
-              theme:
-                  ThemeData.from(
-                    colorScheme: ColorScheme.fromSeed(
-                      seedColor: palette.darkPen,
-                      surface: palette.backgroundMain,
-                    ),
-                    textTheme: TextTheme(
-                      bodyMedium: TextStyle(color: palette.ink),
-                    ),
-                    useMaterial3: true,
-                  ).copyWith(
-                    filledButtonTheme: FilledButtonThemeData(
-                      style: FilledButton.styleFrom(
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-              routerConfig: router,
-            );
-          },
-        ),
+        child: Game(),
       ),
     );
   }
 }
+
+        // child: Builder(
+        //   builder: (context) {
+        //     final palette = context.watch<Palette>();
+        //     return MaterialApp.router(
+        //       title: 'Uno Game',
+        //       theme:
+        //           ThemeData.from(
+        //             colorScheme: ColorScheme.fromSeed(
+        //               seedColor: palette.darkPen,
+        //               surface: palette.backgroundMain,
+        //             ),
+        //             textTheme: TextTheme(
+        //               bodyMedium: TextStyle(color: palette.ink),
+        //             ),
+        //             useMaterial3: true,
+        //           ).copyWith(
+        //             filledButtonTheme: FilledButtonThemeData(
+        //               style: FilledButton.styleFrom(
+        //                 textStyle: const TextStyle(
+        //                   fontWeight: FontWeight.bold,
+        //                   fontSize: 20,
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //       routerConfig: router,
+        //     );
+        //   },
+        // ),
