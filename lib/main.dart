@@ -19,8 +19,5 @@ void main() {
   });
   debugPaintSizeEnabled = true;
 
-  var ws = Ws();
-  ws.connect();
-
   runApp(const App());
 }
