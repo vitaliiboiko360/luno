@@ -19,4 +19,6 @@
   window.ws.setOnMessage((message) => {
     console.log(message.data);
   });
+
+  console.log(`ws binaryType ${WebSocket.binaryType}`);
 })();
