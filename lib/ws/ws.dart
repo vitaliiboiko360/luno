@@ -16,7 +16,7 @@ void processWsMessage(JSArrayBuffer arrayBuffer) {
       str,
       number,
     ) {
-      return '$str $number.toString()';
+      return '$str $number';
     }),
   );
 }
