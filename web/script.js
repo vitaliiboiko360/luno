@@ -4,6 +4,7 @@
     ws;
     constructor() {
       this.ws = new WebSocket('wss://uno-game.ddns.com:7192/ws');
+      this.ws.binaryType = 'arraybuffer';
     }
 
     send(arrayBuffer) {
@@ -17,7 +18,8 @@
 
   window.ws = new WsService();
   window.ws.setOnMessage((message) => {
-    console.log(message.data);
+    // console.log(message.data);
+    globalThis.wsOnMessage(message.data);
   });
 
   console.log(`ws binaryType ${WebSocket.binaryType}`);
