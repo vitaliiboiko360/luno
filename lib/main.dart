@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
 import 'dart:developer' as dev;
-
+import 'dart:js_interop';
 import 'package:luno/ws/ws.dart';
 
 void main() {
@@ -18,6 +18,8 @@ void main() {
     );
   });
   debugPaintSizeEnabled = true;
+
+  wsOnMessage = processWsMessage.toJS;
 
   runApp(const App());
 }
