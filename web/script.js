@@ -3,13 +3,20 @@
     static wsUrl = 'wss://uno-game.ddns.com:7192/ws';
     ws;
     constructor() {
-      ws = new WebSocket(wsUrl);
+      this.ws = new WebSocket('wss://uno-game.ddns.com:7192/ws');
     }
 
     send(arrayBuffer) {
       this.ws.send(arrayBuffer);
     }
+
+    setOnMessage(callback) {
+      this.ws.onmessage = callback;
+    }
   }
 
   window.ws = new WsService();
+  window.ws.setOnMessage((message) => {
+    console.log(message.data);
+  });
 })();
