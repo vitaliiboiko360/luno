@@ -13,10 +13,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppLifecycleObserver(
       child: MultiProvider(
-        providers: [
-          Provider(create: (context) => Palette()),
-          ChangeNotifierProvider(create: (context) => Ws()..connect()),
-        ],
+        providers: [Provider(create: (context) => Palette())],
         builder: (context, child) {
           return MediaQuery.withNoTextScaling(child: child!);
         },
