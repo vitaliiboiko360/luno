@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:js_interop';
 import 'dart:math';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
@@ -18,6 +19,7 @@ import 'dart:ui';
 
 import 'package:luno/play/player_hand.dart';
 import 'package:luno/ws/ws.dart';
+import 'package:luno/ws/ws_send.dart';
 import 'package:provider/provider.dart';
 
 enum PlayerSeat { mainSeat, left, top, right }
@@ -164,6 +166,7 @@ class PlayerBox extends CustomPainterComponent with TapCallbacks {
     (painter as PlayerCustomPainter).changeColor(
       Random().nextInt(colors.length),
     );
+    wsSendMessage();
   }
 
   @override
