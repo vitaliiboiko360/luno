@@ -30,7 +30,7 @@ class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
   }
 
   @override
-  void onTapUp(TapUpEvent info) {
+  void onTapUp(TapUpEvent info) async {
     // if (playerSeat == PlayerSeat.mainSeat) {
     //   priority = priority++;
     // }
@@ -42,7 +42,10 @@ class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
     children.forEach((c) {
       remove(c);
     });
-    add(PlayerImage('players/${avatars[Random().nextInt(9)]}'));
+    var image = await Flame.images.load(
+      'players/${avatars[Random().nextInt(9)]}',
+    );
+    add(PlayerImage(image));
     wsSendMessage();
   }
 }
@@ -51,9 +54,12 @@ class PlayerImage extends SpriteComponent {
   PlayerImage(image)
     : super.fromImage(
         image,
+        size: Vector2(102, 102),
         srcPosition: Vector2(0, 0),
         srcSize: Vector2(1024, 1024),
-      );
+      ) {
+    print(image);
+  }
 }
 
 class PlayerCustomPainter extends CustomPainter {
