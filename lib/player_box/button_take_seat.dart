@@ -5,9 +5,10 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
+import 'package:luno/state/table_game_manager.dart';
 
 class TakeSeatButton extends AdvancedButtonComponent {
-  TakeSeatButton({Anchor? anchor, Vector2? position})
+  TakeSeatButton(this.tgm, {Anchor? anchor, Vector2? position})
     : super(
         defaultSkin: TakeSeatButtonUp(),
         downSkin: TakeSeatButtonDown(),
@@ -19,6 +20,8 @@ class TakeSeatButton extends AdvancedButtonComponent {
         anchor: anchor ?? Anchor.topLeft,
         position: position ?? Vector2.zero(),
       );
+
+  TableGameManager tgm;
 
   @override
   Future<void> onLoad() async {
@@ -35,8 +38,23 @@ class TakeSeatButton extends AdvancedButtonComponent {
 
   void onTapDown(TapDownEvent event) {
     print('button pressed onTapDown');
-    (defaultSkin as TakeSeatButtonUp).updateColors();
+    (defaultSkin as TakeSeatButtonUp).updateColorRand();
     super.onTapDown(event);
+  }
+
+  double dtAccumulated = 0;
+
+  @override
+  void update(double dt) {
+    dtAccumulated += dt;
+    if (dtAccumulated > 1) {
+      (defaultSkin as TakeSeatButtonUp).updateColors(tgm.color);
+      dtAccumulated = 0;
+    }
+    // if (!tgm.isColorProccessed) {
+    //   tgm.setProcessed();
+    // }
+    super.update(dt);
   }
 }
 
@@ -84,8 +102,12 @@ class TakeSeatButtonUp extends CustomPainterComponent {
     return super.onLoad();
   }
 
-  void updateColors() {
-    (painter as ButtonPainter).updateColors();
+  void updateColors(Color color) {
+    (painter as ButtonPainter).updateColors(color);
+  }
+
+  void updateColorRand() {
+    (painter as ButtonPainter).updateColorRand();
   }
 }
 
@@ -93,7 +115,11 @@ class ButtonPainter extends CustomPainter {
   Color strokeColor = Colors.lime;
   Color fillColor = Colors.green;
 
-  void updateColors() {
+  void updateColors(Color color) {
+    fillColor = color;
+  }
+
+  void updateColorRand() {
     fillColor = Color.fromARGB(
       71,
       Random().nextInt(255),

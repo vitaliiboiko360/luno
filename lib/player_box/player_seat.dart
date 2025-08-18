@@ -7,13 +7,15 @@ import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/play/player_box.dart';
 import 'package:luno/player_box/button_take_seat.dart';
+import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/ws/ws_send.dart';
 
 class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
-  PlayerBoxNew(this.playerSeat)
+  PlayerBoxNew(this.tgm, this.playerSeat)
     : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
 
   PlayerSeat playerSeat;
+  TableGameManager tgm;
 
   var image;
   var tmp;
@@ -22,7 +24,7 @@ class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
     painter = PlayerCustomPainter();
     size = Vector2(102, 102);
     // priority = -1;
-    add(TakeSeatButton(anchor: Anchor.center, position: (size / 2)));
+    add(TakeSeatButton(tgm, anchor: Anchor.center, position: (size / 2)));
   }
 
   @override

@@ -1,6 +1,5 @@
 import 'package:flame/game.dart';
-
-enum PlayerSeat { mainSeat, left, top, right }
+import 'package:luno/player_box/seat.dart';
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {

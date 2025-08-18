@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
+import 'package:luno/state/table_game_manager.dart';
 import 'dart:developer' as dev;
 import 'dart:js_interop';
 import 'package:luno/ws/ws.dart';
@@ -19,7 +20,13 @@ void main() {
   });
   debugPaintSizeEnabled = true;
 
-  wsOnMessage = processWsMessage.toJS;
+  TableGameManager tgm = TableGameManager();
 
-  runApp(const App());
+  wsOnMessageHandler(JSArrayBuffer arrayBuffer) {
+    tgm.processMessage(Uint8List.view(arrayBuffer.toDart));
+  }
+
+  wsOnMessage = wsOnMessageHandler.toJS;
+
+  runApp(App(tgm));
 }

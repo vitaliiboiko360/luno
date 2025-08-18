@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:luno/app_lifecycle/app_lifecycle.dart';
 import 'package:luno/play/game.dart';
+import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/style/color_palette.dart';
 import 'package:luno/ws/ws.dart';
 import 'package:provider/provider.dart';
 import 'package:luno/router.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  App(this.tgm, {super.key});
+
+  TableGameManager tgm;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class App extends StatelessWidget {
         builder: (context, child) {
           return MediaQuery.withNoTextScaling(child: child!);
         },
-        child: Game(),
+        child: Game(tgm),
       ),
     );
   }
