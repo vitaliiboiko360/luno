@@ -36,7 +36,9 @@ class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
 
   void _changeImageRandom() async {
     children.forEach((c) {
-      remove(c);
+      if (c is PlayerImage) {
+        remove(c);
+      }
     });
     var imgUrl = 'players/${avatars[Random().nextInt(9)]}';
     var image = await Flame.images.load(imgUrl);
