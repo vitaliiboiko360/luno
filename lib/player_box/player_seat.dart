@@ -6,6 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/play/player_box.dart';
+import 'package:luno/player_box/button_take_seat.dart';
 import 'package:luno/ws/ws_send.dart';
 
 class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
@@ -17,36 +18,30 @@ class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
   var image;
   var tmp;
   @override
-  FutureOr<void> onLoad() async {
+  Future<void> onLoad() async {
     painter = PlayerCustomPainter();
     size = Vector2(102, 102);
-    // tmp = await Flame.images.load('players/${avatars[Random().nextInt(9)]}');
-    // image = Sprite(
-    //   tmp,
-    //   srcPosition: Vector2(0, 0),
-    //   srcSize: Vector2(1024, 1024),
-    // );
-    priority = -1;
+    // priority = -1;
+    add(TakeSeatButton(anchor: Anchor.center, position: (size / 2)));
   }
 
   @override
-  void onTapUp(TapUpEvent info) async {
-    // if (playerSeat == PlayerSeat.mainSeat) {
-    //   priority = priority++;
-    // }
-    // print('player boundaries ${playerSeat}');
-    // print('player priority ${priority}');
+  void onTapUp(TapUpEvent info) {
     (painter as PlayerCustomPainter).changeColor(
       Random().nextInt(colors.length),
     );
+    _changeImageRandom();
+    wsSendMessage();
+  }
+
+  void _changeImageRandom() async {
     children.forEach((c) {
       remove(c);
     });
-    var image = await Flame.images.load(
-      'players/${avatars[Random().nextInt(9)]}',
-    );
+    var imgUrl = 'players/${avatars[Random().nextInt(9)]}';
+    var image = await Flame.images.load(imgUrl);
+    print(imgUrl);
     add(PlayerImage(image));
-    wsSendMessage();
   }
 }
 
@@ -57,9 +52,7 @@ class PlayerImage extends SpriteComponent {
         size: Vector2(102, 102),
         srcPosition: Vector2(0, 0),
         srcSize: Vector2(1024, 1024),
-      ) {
-    print(image);
-  }
+      );
 }
 
 class PlayerCustomPainter extends CustomPainter {
