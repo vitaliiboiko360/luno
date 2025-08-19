@@ -70,7 +70,6 @@ class ButtonLabel extends CustomPainterComponent {
 class ButtonLabelPainter_Connecting extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    var p = TextPaint();
     var ts = TextSpan(
       text: "Connecting",
       style: TextStyle(
@@ -98,7 +97,6 @@ class ButtonLabelPainter_Connecting extends CustomPainter {
 class ButtonLabelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    var p = TextPaint();
     var ts = TextSpan(
       text: "Take Seat",
       style: TextStyle(
