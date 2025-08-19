@@ -67,6 +67,34 @@ class ButtonLabel extends CustomPainterComponent {
   }
 }
 
+class ButtonLabelPainter_Connecting extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var p = TextPaint();
+    var ts = TextSpan(
+      text: "Connecting",
+      style: TextStyle(
+        fontSize: 14,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0.8,
+      ),
+    );
+    var tp = TextPainter(
+      text: ts,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    );
+    tp.layout(minWidth: 0, maxWidth: 90);
+    tp.paint(canvas, Offset(0, 6));
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
 class ButtonLabelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
