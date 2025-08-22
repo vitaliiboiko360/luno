@@ -44,18 +44,18 @@ class TakeSeatButton extends AdvancedButtonComponent {
 
   double dtAccumulated = 0;
 
-  @override
-  void update(double dt) {
-    dtAccumulated += dt;
-    if (dtAccumulated > 1) {
-      (defaultSkin as TakeSeatButtonUp).updateColors(tgm.color);
-      dtAccumulated = 0;
-    }
-    // if (!tgm.isColorProccessed) {
-    //   tgm.setProcessed();
-    // }
-    super.update(dt);
-  }
+  // @override
+  // void update(double dt) {
+  //   dtAccumulated += dt;
+  //   if (dtAccumulated > 1) {
+  //     (defaultSkin as TakeSeatButtonUp).updateColors(tgm.color);
+  //     dtAccumulated = 0;
+  //   }
+  //   // if (!tgm.isColorProccessed) {
+  //   //   tgm.setProcessed();
+  //   // }
+  //   super.update(dt);
+  // }
 }
 
 class ButtonLabel extends CustomPainterComponent {

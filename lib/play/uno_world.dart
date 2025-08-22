@@ -22,7 +22,7 @@ class UnoWorld extends World {
   @override
   FutureOr<void> onLoad() async {
     // add(UnoCard(position: Vector2(0, 0)));
-    add(PlayerBoxNew(tgm, PlayerSeat.left));
+    add(PlayerBoxNew(PlayerSeat.left));
     add(PlayerBox(PlayerSeat.top));
     add(PlayerBox(PlayerSeat.right));
     // add(ActiveHand());

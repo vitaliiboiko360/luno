@@ -6,16 +6,16 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/play/player_box.dart';
+import 'package:luno/play/uno_world.dart';
 import 'package:luno/player_box/button_take_seat.dart';
-import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/ws/ws_send.dart';
 
-class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
-  PlayerBoxNew(this.tgm, this.playerSeat)
+class PlayerBoxNew extends CustomPainterComponent
+    with TapCallbacks, HasWorldReference<UnoWorld> {
+  PlayerBoxNew(this.playerSeat)
     : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
 
   PlayerSeat playerSeat;
-  TableGameManager tgm;
 
   var image;
   var tmp;
@@ -24,7 +24,8 @@ class PlayerBoxNew extends CustomPainterComponent with TapCallbacks {
     painter = PlayerCustomPainter();
     size = Vector2(102, 102);
     // priority = -1;
-    add(TakeSeatButton(tgm, anchor: Anchor.center, position: (size / 2)));
+    add(TakeSeatButton(world.tgm, anchor: Anchor.center, position: (size / 2)));
+    world;
   }
 
   @override
