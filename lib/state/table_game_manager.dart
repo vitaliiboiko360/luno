@@ -7,7 +7,7 @@ class TableGameManager {
   late Color color = Color.fromARGB(100, 100, 100, 100);
   late bool isColorProccessed = true;
 
-  final TableState tableState = TableState();
+  late TableState tableState = TableState(this);
 
   void processMessage(Uint8List messageByteArray) {
     if (messageByteArray.length > 3) {
@@ -23,5 +23,23 @@ class TableGameManager {
 
   void setProcessed() {
     isColorProccessed = true;
+  }
+
+  Map<String, List<Function>> callbacks = Map<String, List<Function>>();
+
+  void update(String eventName, dynamic data) {
+    var cbs = callbacks[eventName];
+    if (cbs == null) return;
+    for (var i = 0; i < cbs.length; i++) {
+      cbs[i](data);
+    }
+  }
+
+  void registerCallback(String eventName, Function callback) {
+    callbacks
+        .putIfAbsent(eventName, () {
+          return List<Function>.empty();
+        })
+        .add(callback);
   }
 }
