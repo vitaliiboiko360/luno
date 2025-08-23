@@ -29,6 +29,9 @@ class PlayerBoxNew extends CustomPainterComponent
       world.tgm,
       anchor: Anchor.center,
       position: (size / 2),
+      onPressed: () {
+        requestSeat(playerSeat.index);
+      },
     );
     add(button);
     world.tgm.registerCallback('seat', (dynamic data) {
