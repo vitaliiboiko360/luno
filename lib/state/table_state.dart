@@ -4,7 +4,7 @@ import 'package:luno/state/table_game_manager.dart';
 
 enum Seat { unassigned, top, right, bottom, left }
 
-const seatGrantedOffset = 4;
+const seatGrantedOffset = 2;
 
 class TableState {
   TableState(this.tgm);
@@ -13,7 +13,8 @@ class TableState {
   Seat _seat = Seat.unassigned;
 
   void processMessage(Uint8List messageByteArray) {
-    messageByteArray[seatGrantedOffset];
+    var seatNumber = messageByteArray[seatGrantedOffset];
+    tgm.update('seat', seatNumber);
   }
 
   void takeSeat(Seat seat) {
