@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
 import 'dart:typed_data';
 
 import 'package:flame/components.dart';
@@ -35,12 +36,12 @@ class PlayerBoxNew extends CustomPainterComponent
   }
 
   void processSeatMessage(Uint8List message) {
-    const offset = 3;
+    const offset = 2;
     var seatNumber = message[offset];
     remove(button);
-    seat = playerSeat;
-    if (PlayerSeat.mainSeat == playerSeat) {
+    if (seatNumber == playerSeat) {
       _changeImageRandom();
+      seat = playerSeat;
     }
   }
 
