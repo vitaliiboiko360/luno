@@ -25,10 +25,8 @@ class TableGameManager {
   }
 
   void registerCallback(String eventName, Function callback) {
-    callbacks
-        .putIfAbsent(eventName, () {
-          return List<Function>.empty();
-        })
-        .add(callback);
+    (callbacks.putIfAbsent(eventName, () {
+      return <Function>[];
+    })).add(callback);
   }
 }
