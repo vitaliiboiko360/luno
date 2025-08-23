@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -16,16 +17,31 @@ class PlayerBoxNew extends CustomPainterComponent
     : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
 
   PlayerSeat playerSeat;
-
+  var button;
   var image;
-  var tmp;
+  var seat;
   @override
   Future<void> onLoad() async {
     painter = PlayerCustomPainter();
     size = Vector2(102, 102);
     // priority = -1;
-    add(TakeSeatButton(world.tgm, anchor: Anchor.center, position: (size / 2)));
-    world;
+    button = TakeSeatButton(
+      world.tgm,
+      anchor: Anchor.center,
+      position: (size / 2),
+    );
+    add(button);
+    world.tgm.registerCallback('seat', processSeatMessage);
+  }
+
+  void processSeatMessage(Uint8List message) {
+    const offset = 3;
+    var seatNumber = message[offset];
+    remove(button);
+    seat = playerSeat;
+    if (PlayerSeat.mainSeat == playerSeat) {
+      _changeImageRandom();
+    }
   }
 
   @override
