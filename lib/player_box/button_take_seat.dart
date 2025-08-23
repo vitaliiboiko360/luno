@@ -8,26 +8,25 @@ import 'package:flutter/material.dart';
 import 'package:luno/state/table_game_manager.dart';
 
 class TakeSeatButton extends AdvancedButtonComponent {
-  TakeSeatButton(this.tgm, {Anchor? anchor, Vector2? position})
-    : super(
-        defaultSkin: TakeSeatButtonUp(),
-        downSkin: TakeSeatButtonDown(),
-        defaultLabel: ButtonLabel(),
-        onPressed: () {
-          print('button pressed ctor');
-        },
-        size: Vector2(90, 60),
-        anchor: anchor ?? Anchor.topLeft,
-        position: position ?? Vector2.zero(),
-      );
+  TakeSeatButton(
+    this.tgm, {
+    Anchor? anchor,
+    Vector2? position,
+    Function()? onPressed,
+  }) : super(
+         defaultSkin: TakeSeatButtonUp(),
+         downSkin: TakeSeatButtonDown(),
+         defaultLabel: ButtonLabel(),
+         onPressed: onPressed,
+         size: Vector2(90, 60),
+         anchor: anchor ?? Anchor.topLeft,
+         position: position ?? Vector2.zero(),
+       );
 
   TableGameManager tgm;
 
   @override
   Future<void> onLoad() async {
-    super.onPressed = () {
-      print('button pressed onLoad');
-    };
     return super.onLoad();
   }
 
