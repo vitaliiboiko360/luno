@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
 import 'dart:typed_data';
 
 import 'package:flame/components.dart';
@@ -32,7 +31,9 @@ class PlayerBoxNew extends CustomPainterComponent
       position: (size / 2),
     );
     add(button);
-    world.tgm.registerCallback('seat', processSeatMessage);
+    world.tgm.registerCallback('seat', (dynamic data) {
+      processSeatMessage(data);
+    });
   }
 
   void processSeatMessage(Uint8List message) {
