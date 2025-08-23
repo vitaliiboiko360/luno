@@ -17,3 +17,11 @@ void wsSendMessage() {
   jsArrayBuffer.add(65.toJS);
   wsSend(Uint8List.fromList(numbers).buffer.toJS);
 }
+
+void requestSeat(int seat) {
+  Uint8List arrayToSend = Uint8List(8);
+  arrayToSend[0] = 1;
+  arrayToSend[1] = 1;
+  arrayToSend[2] = seat;
+  wsSend(arrayToSend.buffer.toJS);
+}
