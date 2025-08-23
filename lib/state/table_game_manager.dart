@@ -1,31 +1,20 @@
 import 'dart:typed_data';
 
-import 'package:flutter/widgets.dart';
+import 'package:luno/state/event_names.dart';
 import 'package:luno/state/table_state.dart';
 
-class TableGameManager {
-  late Color color = Color.fromARGB(100, 100, 100, 100);
-  late bool isColorProccessed = true;
+const actionByteIndex = 1;
 
+class TableGameManager {
   late TableState tableState = TableState(this);
 
   void processMessage(Uint8List messageByteArray) {
-    if (messageByteArray.length > 3) {
-      color = Color.fromARGB(
-        100,
-        messageByteArray[0],
-        messageByteArray[1],
-        messageByteArray[2],
-      );
-      isColorProccessed = false;
+    if (actionByteIndex == SeatGranted) {
+      tableState.processMessage(messageByteArray);
     }
   }
 
-  void setProcessed() {
-    isColorProccessed = true;
-  }
-
-  Map<String, List<Function>> callbacks = Map<String, List<Function>>();
+  Map<String, List<Function>> callbacks = <String, List<Function>>{};
 
   void update(String eventName, dynamic data) {
     var cbs = callbacks[eventName];
