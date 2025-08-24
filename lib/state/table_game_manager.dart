@@ -9,9 +9,10 @@ class TableGameManager {
   late TableState tableState = TableState(this);
 
   void processMessage(Uint8List messageByteArray) {
-    if (actionByteIndex == SeatGranted) {
-      tableState.processMessage(messageByteArray);
-    }
+    print(
+      'recieve message::: ${messageByteArray.fold("", (c, i) => c + " " + i.toString())}',
+    );
+    tableState.processMessage(messageByteArray);
   }
 
   Map<String, List<Function>> callbacks = <String, List<Function>>{};
