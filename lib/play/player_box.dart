@@ -22,7 +22,7 @@ import 'package:luno/ws/ws.dart';
 import 'package:luno/ws/ws_send.dart';
 import 'package:provider/provider.dart';
 
-enum PlayerSeat { mainSeat, left, top, right }
+enum PlayerSeat { none, mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {
