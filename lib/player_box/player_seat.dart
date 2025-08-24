@@ -55,12 +55,11 @@ class PlayerBoxNew extends CustomPainterComponent
 
   void processAllSeatMessage(Uint8List message) {
     print('processAllSeatMessage');
-    int offsetIndex = 2;
-    for (int i = 2; i < 14; i += 3) {
-      Seat seat = Seat.fromInt(message[i]);
+    for (int i = 2; i < 14;) {
+      Seat seat = Seat.fromInt(message[i++]);
       if (seat == playerSeat) {
-        int colorIndex = message[i + 1];
-        int avatarIndex = message[i + 2];
+        int colorIndex = message[i++];
+        int avatarIndex = message[i++];
         if (colorIndex > 0 && avatarIndex > 0) {
           _changeImage(avatarIndex, colorIndex);
         }
