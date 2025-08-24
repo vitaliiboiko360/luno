@@ -21,6 +21,7 @@ class TableGameManager {
     var cbs = callbacks[eventName];
     if (cbs == null) return;
     for (var i = 0; i < cbs.length; i++) {
+      print('update $eventName $i');
       cbs[i](data);
     }
   }
