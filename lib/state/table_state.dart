@@ -9,7 +9,7 @@ class TableState {
   TableState(this.tgm);
   TableGameManager tgm;
 
-  Seat _seat = Seat.unassigned;
+  PlayerSeat _seat = PlayerSeat.unassigned;
 
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
@@ -20,7 +20,7 @@ class TableState {
     if (action == AllTableState) {
       for (int index = 2; index < 14;) {
         SeatInfo seatInfo = SeatInfo(
-          Seat.fromInt(messageByteArray[index]),
+          PlayerSeat.fromInt(messageByteArray[index++]),
           messageByteArray[index++],
           messageByteArray[index++],
         );
@@ -29,36 +29,36 @@ class TableState {
     }
   }
 
-  void takeSeat(Seat seat) {
+  void takeSeat(PlayerSeat seat) {
     _seat = seat;
   }
 }
 
 class SeatInfo {
-  Seat seat = Seat.unassigned;
+  PlayerSeat seat = PlayerSeat.unassigned;
   int colorIndex = 0;
   int avatarIndex = 0;
   SeatInfo(this.seat, this.colorIndex, this.avatarIndex);
 }
 
-enum Seat {
+enum PlayerSeat {
   unassigned(),
   bottom(),
   left(),
   top(),
   right();
 
-  static Seat fromInt(int value) {
-    if (value == bottom) {
+  static PlayerSeat fromInt(int value) {
+    if (value == bottom.index) {
       return bottom;
     }
-    if (value == left) {
+    if (value == left.index) {
       return left;
     }
-    if (value == top) {
+    if (value == top.index) {
       return top;
     }
-    if (value == right) {
+    if (value == right.index) {
       return right;
     }
     return unassigned;

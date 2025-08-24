@@ -18,11 +18,10 @@ import 'package:luno/play/active_hand.dart';
 import 'dart:ui';
 
 import 'package:luno/play/player_hand.dart';
+import 'package:luno/state/table_state.dart';
 import 'package:luno/ws/ws.dart';
 import 'package:luno/ws/ws_send.dart';
 import 'package:provider/provider.dart';
-
-enum PlayerSeat { none, mainSeat, left, top, right }
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {
@@ -151,14 +150,14 @@ class PlayerBox extends CustomPainterComponent with TapCallbacks {
     if (playerSeat == PlayerSeat.top || playerSeat == PlayerSeat.right) {
       add(PlayerHandRight());
     }
-    if (playerSeat == PlayerSeat.mainSeat) {
+    if (playerSeat == PlayerSeat.bottom) {
       priority = -1;
     }
   }
 
   @override
   void onTapUp(TapUpEvent info) {
-    if (playerSeat == PlayerSeat.mainSeat) {
+    if (playerSeat == PlayerSeat.bottom) {
       priority = priority++;
     }
     print('player boundaries ${playerSeat}');
@@ -186,7 +185,7 @@ class PlayerBox extends CustomPainterComponent with TapCallbacks {
 class MainPlayerBox extends CustomPainterComponent with TapCallbacks {
   MainPlayerBox()
     : super(
-        position: getPlayerPosition(PlayerSeat.mainSeat),
+        position: getPlayerPosition(PlayerSeat.bottom),
         anchor: Anchor.center,
         priority: -1,
         children: [],

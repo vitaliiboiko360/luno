@@ -13,6 +13,7 @@ import 'package:luno/play/player_box.dart';
 import 'package:luno/player_box/button_take_seat.dart';
 import 'package:luno/player_box/player_seat.dart';
 import 'package:luno/state/table_game_manager.dart';
+import 'package:luno/state/table_state.dart';
 
 class UnoWorld extends World {
   UnoWorld(this.tgm, {super.key});
