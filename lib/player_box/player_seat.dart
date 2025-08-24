@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:luno/play/player_box.dart';
 import 'package:luno/play/uno_world.dart';
 import 'package:luno/player_box/button_take_seat.dart';
+import 'package:luno/state/table_state.dart';
 import 'package:luno/ws/ws_send.dart';
 
 class PlayerBoxNew extends CustomPainterComponent
@@ -37,15 +38,33 @@ class PlayerBoxNew extends CustomPainterComponent
     world.tgm.registerCallback('seat', (dynamic data) {
       processSeatMessage(data);
     });
+    world.tgm.registerCallback('seatAll', (dynamic data) {
+      processAllSeatMessage(data);
+    });
   }
 
   void processSeatMessage(Uint8List message) {
+    print('processSeatMessage');
     const offset = 2;
     var seatNumber = message[offset];
     remove(button);
     if (seatNumber == playerSeat) {
       _changeImageRandom();
-      seat = playerSeat;
+    }
+  }
+
+  void processAllSeatMessage(Uint8List message) {
+    print('processAllSeatMessage');
+    int offsetIndex = 2;
+    for (int i = 2; i < 14; i += 3) {
+      Seat seat = Seat.fromInt(message[i]);
+      if (seat == playerSeat) {
+        int colorIndex = message[i + 1];
+        int avatarIndex = message[i + 2];
+        if (colorIndex > 0 && avatarIndex > 0) {
+          _changeImage(avatarIndex, colorIndex);
+        }
+      }
     }
   }
 
@@ -66,6 +85,19 @@ class PlayerBoxNew extends CustomPainterComponent
     });
     var imgUrl = 'players/${avatars[Random().nextInt(9)]}';
     var image = await Flame.images.load(imgUrl);
+    print(imgUrl);
+    add(PlayerImage(image));
+  }
+
+  void _changeImage(int avatarIndex, int colorIndex) async {
+    children.forEach((c) {
+      if (c is PlayerImage) {
+        remove(c);
+      }
+    });
+    var imgUrl = 'players/${avatars[avatarIndex % avatars.length]}';
+    var image = await Flame.images.load(imgUrl);
+    (painter as PlayerCustomPainter).changeColor(colorIndex);
     print(imgUrl);
     add(PlayerImage(image));
   }
