@@ -37,34 +37,42 @@ class PlayerBoxNew extends CustomPainterComponent
     add(button);
     world.tgm.registerCallback('seat', (dynamic data) {
       processSeatMessage(data);
+      print('seat   processSeatMessage');
     });
     world.tgm.registerCallback('seatAll', (dynamic data) {
       processAllSeatMessage(data);
+      print('seatAll   processAllSeatMessage');
     });
   }
 
-  void processSeatMessage(Uint8List message) {
+  void processSeatMessage(int message) {
     print('processSeatMessage');
-    const offset = 2;
-    var seatNumber = message[offset];
-    remove(button);
-    if (seatNumber == playerSeat) {
+    if (playerSeat == Seat.fromInt(message)) {
       _changeImageRandom();
     }
+    // const offset = 2;
+    // var seatNumber = message[offset];
+    // remove(button);
+    // if (seatNumber == playerSeat) {
+    //   _changeImageRandom();
+    // }
   }
 
-  void processAllSeatMessage(Uint8List message) {
+  void processAllSeatMessage(SeatInfo seatInfo) {
     print('processAllSeatMessage');
-    for (int i = 2; i < 14;) {
-      Seat seat = Seat.fromInt(message[i++]);
-      if (seat == playerSeat) {
-        int colorIndex = message[i++];
-        int avatarIndex = message[i++];
-        if (colorIndex > 0 && avatarIndex > 0) {
-          _changeImage(avatarIndex, colorIndex);
-        }
-      }
+    if (seatInfo.seat == playerSeat) {
+      _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     }
+    // for (int i = 2; i < 14;) {
+    //   Seat seat = Seat.fromInt(message[i++]);
+    //   if (seat == playerSeat) {
+    //     int colorIndex = message[i++];
+    //     int avatarIndex = message[i++];
+    //     if (colorIndex > 0 && avatarIndex > 0) {
+    //       _changeImage(avatarIndex, colorIndex);
+    //     }
+    //   }
+    // }
   }
 
   @override
