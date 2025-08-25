@@ -50,6 +50,7 @@ class PlayerBoxNew extends CustomPainterComponent
       print('processSeatMessage');
       _changeImageRandom();
     }
+    remove(button);
     // const offset = 2;
     // var seatNumber = message[offset];
     // remove(button);
@@ -63,6 +64,7 @@ class PlayerBoxNew extends CustomPainterComponent
     if (seatInfo.seat == playerSeat) {
       print('processAllSeatMessage');
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
+      remove(button);
     }
     // for (int i = 2; i < 14;) {
     //   PlayerSeat seat = PlayerSeat.fromInt(message[i++]);
