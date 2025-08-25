@@ -24,12 +24,12 @@ class UnoWorld extends World {
   FutureOr<void> onLoad() async {
     // add(UnoCard(position: Vector2(0, 0)));
     add(PlayerBoxNew(PlayerSeat.left));
-    add(PlayerBox(PlayerSeat.top));
-    add(PlayerBox(PlayerSeat.right));
+    add(PlayerBoxNew(PlayerSeat.top));
+    add(PlayerBoxNew(PlayerSeat.right));
+    add(PlayerBoxNew(PlayerSeat.bottom));
     // add(ActiveHand());
-    add(MainPlayerBox());
+    // add(MainPlayerBox());
     add(DeckCardsPositioned());
-    add(TakeSeatButton(tgm));
   }
 
   double deltaTime = 0;
