@@ -25,7 +25,6 @@ class PlayerBoxNew extends CustomPainterComponent
   Future<void> onLoad() async {
     painter = PlayerCustomPainter();
     size = Vector2(102, 102);
-    // priority = -1;
     button = TakeSeatButton(
       world.tgm,
       anchor: Anchor.center,
@@ -37,11 +36,9 @@ class PlayerBoxNew extends CustomPainterComponent
     add(button);
     world.tgm.registerCallback('seat', (dynamic data) {
       processSeatMessage(data);
-      // print('seat   processSeatMessage');
     });
     world.tgm.registerCallback('seatAll', (dynamic data) {
       processAllSeatMessage(data);
-      // print('seatAll   processAllSeatMessage');
     });
   }
 
@@ -50,41 +47,32 @@ class PlayerBoxNew extends CustomPainterComponent
       print('processSeatMessage');
       _changeImageRandom();
     }
-    remove(button);
-    // const offset = 2;
-    // var seatNumber = message[offset];
-    // remove(button);
-    // if (seatNumber == playerSeat) {
-    //   _changeImageRandom();
-    // }
+    if (contains(button)) {
+      remove(button);
+    }
   }
 
   void processAllSeatMessage(SeatInfo seatInfo) {
     print('seatInfo .seat == ${seatInfo.seat}');
     if (seatInfo.seat == playerSeat) {
+      if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
+        return;
+      }
       print('processAllSeatMessage');
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
-      remove(button);
+      if (contains(button)) {
+        remove(button);
+      }
     }
-    // for (int i = 2; i < 14;) {
-    //   PlayerSeat seat = PlayerSeat.fromInt(message[i++]);
-    //   if (seat == playerSeat) {
-    //     int colorIndex = message[i++];
-    //     int avatarIndex = message[i++];
-    //     if (colorIndex > 0 && avatarIndex > 0) {
-    //       _changeImage(avatarIndex, colorIndex);
-    //     }
-    //   }
-    // }
   }
 
   @override
   void onTapUp(TapUpEvent info) {
-    (painter as PlayerCustomPainter).changeColor(
-      Random().nextInt(colors.length),
-    );
-    _changeImageRandom();
-    wsSendMessage();
+    // (painter as PlayerCustomPainter).changeColor(
+    //   Random().nextInt(colors.length),
+    // );
+    // _changeImageRandom();
+    // wsSendMessage();
   }
 
   void _changeImageRandom() async {
