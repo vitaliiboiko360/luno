@@ -42,10 +42,10 @@ class PlayerBoxNew extends CustomPainterComponent
     });
   }
 
-  void processSeatMessage(int message) {
-    if (playerSeat == PlayerSeat.fromInt(message)) {
+  void processSeatMessage(SeatInfo seatInfo) {
+    if (playerSeat == seatInfo.seat) {
       print('processSeatMessage');
-      _changeImageRandom();
+      _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     }
     if (contains(button)) {
       remove(button);
