@@ -3,8 +3,6 @@ import 'package:luno/state/event_names.dart';
 import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
 
-const seatGrantedOffset = 2;
-
 class TableState {
   TableState(this.tgm);
   TableGameManager tgm;
@@ -14,8 +12,14 @@ class TableState {
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
     if (action == SeatGranted) {
-      var seatNumber = messageByteArray[seatGrantedOffset];
-      tgm.update('seat', seatNumber);
+      var seatGrantedOffset = 2;
+      var seatNumber = messageByteArray[seatGrantedOffset++];
+      SeatInfo seatInfo = SeatInfo(
+        PlayerSeat.fromInt(seatNumber),
+        messageByteArray[seatGrantedOffset++],
+        messageByteArray[seatGrantedOffset],
+      );
+      tgm.update('seat', seatInfo);
     }
     if (action == AllTableState) {
       for (int index = 2; index < 14;) {
