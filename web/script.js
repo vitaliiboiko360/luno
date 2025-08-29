@@ -3,7 +3,7 @@
     static wsUrl = 'wss://uno-game.ddns.com:7192/ws';
     ws;
     constructor() {
-      this.ws = new WebSocket('wss://uno-game.ddns.com:7192/ws');
+      this.ws = new WebSocket(WsService.wsUrl);
       this.ws.binaryType = 'arraybuffer';
     }
 
