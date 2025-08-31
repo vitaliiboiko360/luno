@@ -33,7 +33,6 @@ class PlayerBoxNew extends CustomPainterComponent
         requestSeat(playerSeat.index);
       },
     );
-    add(button);
     world.tgm.registerCallback('seat', (dynamic data) {
       processSeatMessage(data);
     });
@@ -44,7 +43,7 @@ class PlayerBoxNew extends CustomPainterComponent
 
   void processSeatMessage(SeatInfo seatInfo) {
     if (playerSeat == seatInfo.seat) {
-      print('processSeatMessage');
+      // print('processSeatMessage');
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     }
     if (contains(button)) {
@@ -53,12 +52,13 @@ class PlayerBoxNew extends CustomPainterComponent
   }
 
   void processAllSeatMessage(SeatInfo seatInfo) {
-    print('seatInfo .seat == ${seatInfo.seat}');
+    // print('seatInfo .seat == ${seatInfo.seat}');
     if (seatInfo.seat == playerSeat) {
       if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
+        add(button);
         return;
       }
-      print('processAllSeatMessage');
+      // print('processAllSeatMessage');
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
       if (contains(button)) {
         remove(button);
