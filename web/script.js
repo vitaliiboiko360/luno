@@ -64,8 +64,10 @@
     constructor() {
       let key = window.localStorage.getItem(ClientIDKeyName);
       if (key != null) {
-        console.log(`FOUND KEY ::: ${key}`);
-        this.clientId = key;
+        this.#getClientIdFromHexString(key);
+        this.#getClientIdToHexString();
+        console.log(`FOUND KEY ::: ${this.clientIdHexString}`);
+        this.#sendSetOldClientGuidCommand();
       } else {
         this.#sendGetNewClientGuidCommand();
       }
