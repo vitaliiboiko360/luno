@@ -82,6 +82,8 @@
       window.ws.send(arrayToSend);
     }
 
+    #sendSetOldClientGuidCommand() {}
+
     #removeListener() {
       window.ws.removeEventHandler(
         'message',
@@ -94,16 +96,19 @@
       if (message[0] == Commands.ClientId) {
         console.log(`RECIEVED CLIEND ID MESSAGE`);
         this.clientId = message.slice(1);
-        this.#getClientIdHexToString();
+        this.#getClientIdToHexString();
         console.log(`CLIEND ID ::: ${this.clientIdHexString}`);
         this.#removeListener();
       }
     }
 
-    #getClientIdHexToString() {
+    #getClientIdToHexString() {
       this.clientIdHexString = '';
       for (let i = 0; i < 16; i++) {
         this.clientIdHexString += clientId[i].toString(16);
+        if (i == 4 || i == 6 || i == 8 || i == 10) {
+          this.clientIdHexString.splice(-2, '-');
+        }
       }
     }
   }
