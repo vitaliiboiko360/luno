@@ -82,7 +82,9 @@
       window.ws.send(arrayToSend);
     }
 
-    #sendSetOldClientGuidCommand() {}
+    #sendSetOldClientGuidCommand() {
+      window.ws.send(this.clientId);
+    }
 
     #removeListener() {
       window.ws.removeEventHandler(
@@ -110,6 +112,27 @@
           this.clientIdHexString.splice(-2, '-');
         }
       }
+    }
+
+    #getClientIdFromHexString(clientIdHexString) {
+      let inputString = clientIdHexString.replaceAll('-', '');
+      let outputArrayBuffer = new ArrayBuffer(16);
+      for (let i = 0; i < 16; i++) {
+        const firstIndex = i + i;
+        const secondIndex = firstIndex + 2;
+        outputArrayBuffer[i] = this.#hexToByte(
+          inputString.slice(firstIndex, secondIndex)
+        );
+      }
+      this.clientId = outputArrayBuffer;
+    }
+
+    #hexToByte(hexString) {
+      const byteValue = parseInt(hexString, 16);
+      if (isNaN(byteValue) || byteValue < 0 || byteValue > 255) {
+        throw new Error(`Invalid hexadecimal conversion at input ${hexString}`);
+      }
+      return byteValue;
     }
   }
 })();
