@@ -103,6 +103,10 @@
         this.#initClientIdToHexString();
         console.log(`CLIEND ID ::: ${this.clientIdHexString}`);
         this.#removeListener();
+        window.localStorage.setItem(
+          ClientID.ClientIDKeyName,
+          this.clientIdHexString
+        );
       }
     }
 
