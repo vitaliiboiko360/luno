@@ -1,10 +1,19 @@
 (function () {
+  class Commands {
+    static ClientId = 3;
+    static GetNewClientGuid = 3;
+    static SetOldClientGuid = 4;
+  }
+
   class WsService {
     static wsUrl = 'wss://uno-game.ddns.com:7192/ws';
     ws;
-    constructor() {
+    constructor(onOpenCallback) {
       this.ws = new WebSocket(WsService.wsUrl);
       this.ws.binaryType = 'arraybuffer';
+      if (onOpenCallback) {
+        this.ws.onopen = onOpenCallback;
+      }
     }
 
     reconenctIfClosed() {
@@ -37,10 +46,65 @@
     }
   }
 
-  window.ws = new WsService();
+  window.clientId;
+
+  window.ws = new WsService(() => {
+    window.clientId = new ClientID();
+  });
   window.ws.setOnMessage((message) => {
     if (globalThis.wsOnMessage) {
       globalThis.wsOnMessage(message.data);
     }
   });
+
+  class ClientID {
+    static ClientIDKeyName = 'ClientID';
+    clientId;
+    clientIdHexString = '';
+    constructor() {
+      let key = window.localStorage.getItem(ClientIDKeyName);
+      if (key != null) {
+        console.log(`FOUND KEY ::: ${key}`);
+        this.clientId = key;
+      } else {
+        this.#sendGetNewClientGuidCommand();
+      }
+    }
+
+    #sendGetNewClientGuidCommand() {
+      window.ws.addEventListener(
+        'message',
+        this.#onMessageClientIdEventHandler
+      );
+      let arrayToSend = new ArrayBuffer(8);
+      arrayToSend[0] = Commands.ClientId;
+      arrayToSend[1] = Commands.GetNewClientGuid;
+      window.ws.send(arrayToSend);
+    }
+
+    #removeListener() {
+      window.ws.removeEventHandler(
+        'message',
+        this.#onMessageClientIdEventHandler
+      );
+    }
+
+    #onMessageClientIdEventHandler(event) {
+      const message = event.data;
+      if (message[0] == Commands.ClientId) {
+        console.log(`RECIEVED CLIEND ID MESSAGE`);
+        this.clientId = message.slice(1);
+        this.#getClientIdHexToString();
+        console.log(`CLIEND ID ::: ${this.clientIdHexString}`);
+        this.#removeListener();
+      }
+    }
+
+    #getClientIdHexToString() {
+      this.clientIdHexString = '';
+      for (let i = 0; i < 16; i++) {
+        this.clientIdHexString += clientId[i].toString(16);
+      }
+    }
+  }
 })();
