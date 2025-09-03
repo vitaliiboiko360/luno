@@ -64,8 +64,8 @@
     constructor() {
       let key = window.localStorage.getItem(ClientIDKeyName);
       if (key != null) {
-        this.#getClientIdFromHexString(key);
-        this.#getClientIdToHexString();
+        this.#initClientIdFromHexString(key);
+        this.#initClientIdToHexString();
         console.log(`FOUND KEY ::: ${this.clientIdHexString}`);
         this.#sendSetOldClientGuidCommand();
       } else {
@@ -100,13 +100,13 @@
       if (message[0] == Commands.ClientId) {
         console.log(`RECIEVED CLIEND ID MESSAGE`);
         this.clientId = message.slice(1);
-        this.#getClientIdToHexString();
+        this.#initClientIdToHexString();
         console.log(`CLIEND ID ::: ${this.clientIdHexString}`);
         this.#removeListener();
       }
     }
 
-    #getClientIdToHexString() {
+    #initClientIdToHexString() {
       this.clientIdHexString = '';
       for (let i = 0; i < 16; i++) {
         this.clientIdHexString += clientId[i].toString(16);
@@ -116,7 +116,7 @@
       }
     }
 
-    #getClientIdFromHexString(clientIdHexString) {
+    #initClientIdFromHexString(clientIdHexString) {
       let inputString = clientIdHexString.replaceAll('-', '');
       let outputArrayBuffer = new ArrayBuffer(16);
       for (let i = 0; i < 16; i++) {
