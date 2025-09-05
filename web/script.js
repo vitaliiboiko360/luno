@@ -16,6 +16,10 @@
       }
     }
 
+    get webSocket() {
+      return this.ws;
+    }
+
     reconenctIfClosed() {
       if (this.ws.CLOSED || this.ws.CLOSING) {
         console.log(`TRYING TO RECONECT = ${this.ws.readyState}`);
@@ -33,8 +37,8 @@
 
     send(arrayBuffer) {
       // this.reconenctIfClosed();
-      if (this.isValid()) {
-        console.log(`readyState = ${this.ws.readyState}`);
+      if (!this.isValid()) {
+        console.log(`INVALID CONNECTION readyState = ${this.ws.readyState}`);
       }
       this.ws.send(arrayBuffer);
     }
@@ -57,15 +61,43 @@
     }
   });
 
+  const onMessageClientIdEventHandler = (event) => {
+    const message = new Uint8Array(event.data);
+    if (message[0] == Commands.ClientId) {
+      console.log(`RECIEVED CLIEND ID MESSAGE`);
+      window.clientId.clientId = new Uint8Array(message.slice(1));
+      window.clientId.initClientIdToHexString();
+      console.log(`CLIEND ID ::: ${window.clientId.clientIdHexString}`);
+      window.clientId.removeListener();
+      window.localStorage.setItem(
+        ClientID.ClientIDKeyName,
+        window.clientId.clientIdHexString
+      );
+    }
+  };
+
   class ClientID {
     static ClientIDKeyName = 'ClientID';
     clientId;
     clientIdHexString = '';
+
+    get clientIdHexString() {
+      return this.clientIdHexString;
+    }
+
+    get clientId() {
+      return this.clientId;
+    }
+
+    set clientId(arrayBuffer) {
+      this.clientId = arrayBuffer;
+    }
+
     constructor() {
-      let key = window.localStorage.getItem(ClientIDKeyName);
+      let key = window.localStorage.getItem(ClientID.ClientIDKeyName);
       if (key != null) {
-        this.#initClientIdFromHexString(key);
-        this.#initClientIdToHexString();
+        this.#setClientIdFromHexString(key);
+        this.initClientIdToHexString();
         console.log(`FOUND KEY ::: ${this.clientIdHexString}`);
         this.#sendSetOldClientGuidCommand();
       } else {
@@ -74,55 +106,51 @@
     }
 
     #sendGetNewClientGuidCommand() {
-      window.ws.addEventListener(
+      window.ws.webSocket.addEventListener(
         'message',
-        this.#onMessageClientIdEventHandler
+        onMessageClientIdEventHandler
       );
-      let arrayToSend = new ArrayBuffer(8);
+      let arrayToSend = new Uint8Array(8);
       arrayToSend[0] = Commands.ClientId;
       arrayToSend[1] = Commands.GetNewClientGuid;
+      console.log(
+        `SENDING GET NEW KEY MSG ${arrayToSend
+          .map((e) => parseInt(e))
+          .join(' ')}`
+      );
       window.ws.send(arrayToSend);
     }
 
     #sendSetOldClientGuidCommand() {
-      window.ws.send(this.clientId);
+      let arrayToSend = new Uint8Array(18);
+      arrayToSend[0] = Commands.ClientId;
+      arrayToSend[1] = Commands.SetOldClientGuid;
+      arrayToSend.set(this.clientId, 2);
+      window.ws.send(arrayToSend);
     }
 
-    #removeListener() {
-      window.ws.removeEventHandler(
+    removeListener() {
+      window.ws.webSocket.removeEventListener(
         'message',
-        this.#onMessageClientIdEventHandler
+        onMessageClientIdEventHandler
       );
     }
 
-    #onMessageClientIdEventHandler(event) {
-      const message = event.data;
-      if (message[0] == Commands.ClientId) {
-        console.log(`RECIEVED CLIEND ID MESSAGE`);
-        this.clientId = message.slice(1);
-        this.#initClientIdToHexString();
-        console.log(`CLIEND ID ::: ${this.clientIdHexString}`);
-        this.#removeListener();
-        window.localStorage.setItem(
-          ClientID.ClientIDKeyName,
-          this.clientIdHexString
-        );
-      }
-    }
-
-    #initClientIdToHexString() {
+    initClientIdToHexString() {
       this.clientIdHexString = '';
       for (let i = 0; i < 16; i++) {
-        this.clientIdHexString += clientId[i].toString(16);
-        if (i == 4 || i == 6 || i == 8 || i == 10) {
-          this.clientIdHexString.splice(-2, '-');
+        this.clientIdHexString += this.clientId[i]
+          .toString(16)
+          .padStart(2, '0');
+        if (i == 3 || i == 5 || i == 7 || i == 9) {
+          this.clientIdHexString += '-';
         }
       }
     }
 
-    #initClientIdFromHexString(clientIdHexString) {
+    #setClientIdFromHexString(clientIdHexString) {
       let inputString = clientIdHexString.replaceAll('-', '');
-      let outputArrayBuffer = new ArrayBuffer(16);
+      let outputArrayBuffer = new Uint8Array(16);
       for (let i = 0; i < 16; i++) {
         const firstIndex = i + i;
         const secondIndex = firstIndex + 2;
