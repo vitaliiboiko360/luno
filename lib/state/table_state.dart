@@ -8,6 +8,8 @@ class TableState {
   TableGameManager tgm;
 
   PlayerSeat _seat = PlayerSeat.unassigned;
+  PlayerSeat get seat => _seat;
+  bool isSeat(PlayerSeat seat) => _seat == seat;
 
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
@@ -19,6 +21,7 @@ class TableState {
         messageByteArray[seatGrantedOffset++],
         messageByteArray[seatGrantedOffset],
       );
+      _seat = seatInfo.seat;
       tgm.update('seat', seatInfo);
     }
     if (action == AllTableState) {
@@ -31,10 +34,6 @@ class TableState {
         tgm.update('seatAll', seatInfo);
       }
     }
-  }
-
-  void takeSeat(PlayerSeat seat) {
-    _seat = seat;
   }
 }
 
@@ -66,5 +65,33 @@ enum PlayerSeat {
       return right;
     }
     return unassigned;
+  }
+
+  PlayerSeat mapSeat(PlayerSeat seat, PlayerSeat mainSeat) {
+    if (mainSeat == PlayerSeat.left) {
+      return switch (seat) {
+        PlayerSeat.top => PlayerSeat.left,
+        PlayerSeat.right => PlayerSeat.top,
+        PlayerSeat.bottom => PlayerSeat.right,
+        _ => seat,
+      };
+    }
+    if (mainSeat == PlayerSeat.top) {
+      return switch (seat) {
+        PlayerSeat.left => PlayerSeat.right,
+        PlayerSeat.right => PlayerSeat.left,
+        PlayerSeat.bottom => PlayerSeat.top,
+        _ => seat,
+      };
+    }
+    if (mainSeat == PlayerSeat.right) {
+      return switch (seat) {
+        PlayerSeat.left => PlayerSeat.top,
+        PlayerSeat.top => PlayerSeat.right,
+        PlayerSeat.bottom => PlayerSeat.left,
+        _ => seat,
+      };
+    }
+    return seat;
   }
 }
