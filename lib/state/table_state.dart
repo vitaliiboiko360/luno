@@ -16,8 +16,9 @@ class TableState {
     if (action == SeatGranted) {
       var seatGrantedOffset = 2;
       var seatNumber = messageByteArray[seatGrantedOffset++];
+      _seat = PlayerSeat.fromInt(seatNumber);
       SeatInfo seatInfo = SeatInfo(
-        PlayerSeat.fromInt(seatNumber),
+        PlayerSeat.bottom,
         messageByteArray[seatGrantedOffset++],
         messageByteArray[seatGrantedOffset],
       );
@@ -26,8 +27,12 @@ class TableState {
     }
     if (action == AllTableState) {
       for (int index = 2; index < 14;) {
-        SeatInfo seatInfo = SeatInfo(
+        PlayerSeat seat = PlayerSeat.mapSeat(
           PlayerSeat.fromInt(messageByteArray[index++]),
+          _seat,
+        );
+        SeatInfo seatInfo = SeatInfo(
+          seat,
           messageByteArray[index++],
           messageByteArray[index++],
         );
@@ -67,7 +72,7 @@ enum PlayerSeat {
     return unassigned;
   }
 
-  PlayerSeat mapSeat(PlayerSeat seat, PlayerSeat mainSeat) {
+  static PlayerSeat mapSeat(PlayerSeat seat, PlayerSeat mainSeat) {
     if (mainSeat == PlayerSeat.left) {
       return switch (seat) {
         PlayerSeat.top => PlayerSeat.left,
