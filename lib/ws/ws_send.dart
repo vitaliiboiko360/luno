@@ -1,6 +1,7 @@
 import 'dart:js_interop';
 import 'dart:typed_data';
 
+import 'package:luno/state/commands.dart';
 import 'package:luno/ws/ws.dart';
 
 void wsSendMessage() {
@@ -23,5 +24,12 @@ void requestSeat(int seat) {
   arrayToSend[0] = 1;
   arrayToSend[1] = 1;
   arrayToSend[2] = seat;
+  wsSend(arrayToSend.buffer.toJS);
+}
+
+void checkPlayerSeat() {
+  Uint8List arrayToSend = Uint8List(8);
+  arrayToSend[0] = TableCommand;
+  arrayToSend[1] = CheckPlayerSeat;
   wsSend(arrayToSend.buffer.toJS);
 }
