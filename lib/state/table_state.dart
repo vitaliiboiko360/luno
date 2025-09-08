@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:luno/state/event_names.dart';
+import 'package:luno/state/commands.dart';
 import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
 
@@ -18,11 +18,10 @@ class TableState {
       var seatNumber = messageByteArray[seatGrantedOffset++];
       _seat = PlayerSeat.fromInt(seatNumber);
       SeatInfo seatInfo = SeatInfo(
-        PlayerSeat.bottom,
+        PlayerSeat.fromInt(seatNumber),
         messageByteArray[seatGrantedOffset++],
         messageByteArray[seatGrantedOffset],
       );
-      _seat = seatInfo.seat;
       tgm.update('seat', seatInfo);
     }
     if (action == AllTableState) {
@@ -73,12 +72,13 @@ enum PlayerSeat {
   }
 
   static PlayerSeat mapSeat(PlayerSeat seat, PlayerSeat mainSeat) {
+    PlayerSeat seatBottom = PlayerSeat.bottom;
     if (mainSeat == PlayerSeat.left) {
       return switch (seat) {
         PlayerSeat.top => PlayerSeat.left,
         PlayerSeat.right => PlayerSeat.top,
         PlayerSeat.bottom => PlayerSeat.right,
-        _ => seat,
+        _ => seatBottom,
       };
     }
     if (mainSeat == PlayerSeat.top) {
@@ -86,7 +86,7 @@ enum PlayerSeat {
         PlayerSeat.left => PlayerSeat.right,
         PlayerSeat.right => PlayerSeat.left,
         PlayerSeat.bottom => PlayerSeat.top,
-        _ => seat,
+        _ => seatBottom,
       };
     }
     if (mainSeat == PlayerSeat.right) {
@@ -94,7 +94,7 @@ enum PlayerSeat {
         PlayerSeat.left => PlayerSeat.top,
         PlayerSeat.top => PlayerSeat.right,
         PlayerSeat.bottom => PlayerSeat.left,
-        _ => seat,
+        _ => seatBottom,
       };
     }
     return seat;
