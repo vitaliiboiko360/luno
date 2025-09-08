@@ -56,6 +56,7 @@ class PlayerBoxNew extends CustomPainterComponent
     if (seatInfo.seat == playerSeat) {
       if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
         add(button);
+        _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
         return;
       }
       // print('processAllSeatMessage');
@@ -93,6 +94,9 @@ class PlayerBoxNew extends CustomPainterComponent
         remove(c);
       }
     });
+    if (avatarIndex == 0 && colorIndex == 0) {
+      return;
+    }
     var imgUrl = 'players/${avatars[avatarIndex % avatars.length]}';
     var image = await Flame.images.load(imgUrl);
     (painter as PlayerCustomPainter).changeColor(colorIndex);
