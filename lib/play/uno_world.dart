@@ -32,7 +32,7 @@ class UnoWorld extends World {
     // add(MainPlayerBox());
     add(DeckCardsPositioned());
 
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(seconds: 3), () {
       checkPlayerSeat();
     });
   }
