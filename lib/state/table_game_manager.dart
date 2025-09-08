@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:luno/state/event_names.dart';
+import 'package:luno/state/commands.dart';
 import 'package:luno/state/table_state.dart';
 
 const actionByteIndex = 1;
