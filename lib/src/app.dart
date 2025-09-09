@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:luno/app_lifecycle/app_lifecycle.dart';
 import 'package:luno/play/game.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/style/color_palette.dart';
@@ -14,14 +13,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppLifecycleObserver(
-      child: MultiProvider(
-        providers: [Provider(create: (context) => Palette())],
-        builder: (context, child) {
-          return MediaQuery.withNoTextScaling(child: child!);
-        },
-        child: Game(tgm),
-      ),
+    return MultiProvider(
+      providers: [Provider(create: (context) => Palette())],
+      builder: (context, child) {
+        return MediaQuery.withNoTextScaling(child: child!);
+      },
+      child: Game(tgm),
     );
   }
 }
