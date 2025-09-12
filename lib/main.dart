@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:luno/bg/bg.dart';
 import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
 import 'package:luno/state/table_game_manager.dart';
@@ -19,7 +22,7 @@ void main() {
     );
   });
   debugPaintSizeEnabled = true;
-
+  var bgImage = images[Random().nextInt(images.length - 1)];
   TableGameManager tgm = TableGameManager();
 
   wsOnMessageHandler(JSArrayBuffer arrayBuffer) {
@@ -28,5 +31,5 @@ void main() {
 
   wsOnMessage = wsOnMessageHandler.toJS;
 
-  runApp(App(tgm));
+  runApp(App(tgm, bgImage));
 }
