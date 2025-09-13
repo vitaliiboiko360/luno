@@ -21,15 +21,16 @@ void main() {
       name: record.loggerName,
     );
   });
-  debugPaintSizeEnabled = true;
-  var bgImage = images[Random().nextInt(images.length - 1)];
-  TableGameManager tgm = TableGameManager();
 
+  debugPaintSizeEnabled = true;
+
+  TableGameManager tgm = TableGameManager();
   wsOnMessageHandler(JSArrayBuffer arrayBuffer) {
     tgm.processMessage(Uint8List.view(arrayBuffer.toDart));
   }
 
   wsOnMessage = wsOnMessageHandler.toJS;
 
+  var bgImage = images[Random().nextInt(images.length - 1)];
   runApp(App(tgm, bgImage));
 }
