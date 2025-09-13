@@ -41,6 +41,8 @@ dependencies:
   flutter_svg: ^2.2.0
   flame_svg: ^1.11.14
   web_socket_channel: ^3.0.3
+  get_it: ^8.2.0
+  flutter_background_service_platform_interface: ^5.1.2
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,7 @@ flutter:
     - assets/cards/
     - assets/players/
     - assets/images/players/
+    - assets/images/bg/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
