@@ -4,22 +4,19 @@ import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/style/color_palette.dart';
 import 'package:luno/ws/ws.dart';
 import 'package:provider/provider.dart';
-import 'package:luno/router.dart';
 
 class App extends StatelessWidget {
-  App(this.tgm, {super.key});
+  App(this.tgm, this.imagePath, {super.key});
 
   TableGameManager tgm;
+  String imagePath;
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [Provider(create: (context) => Palette())],
-      builder: (context, child) {
-        return MediaQuery.withNoTextScaling(child: child!);
-      },
-      child: Game(tgm),
-    );
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenWidth = screenSize.width;
+    final double screenHeight = screenSize.height;
+    return Game(tgm, screenWidth, screenHeight, imagePath);
   }
 }
 
