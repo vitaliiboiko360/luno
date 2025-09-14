@@ -18,14 +18,14 @@ class PlayerBoxNew extends CustomPainterComponent
     : super(position: getPlayerPosition(playerSeat), anchor: Anchor.center);
 
   PlayerSeat playerSeat;
-  var button;
+  var buttonTakeSeat;
   var image;
   var seat;
   @override
   Future<void> onLoad() async {
     painter = PlayerCustomPainter();
     size = Vector2(102, 102);
-    button = TakeSeatButton(
+    buttonTakeSeat = TakeSeatButton(
       world.tgm,
       anchor: Anchor.center,
       position: (size / 2),
@@ -42,28 +42,29 @@ class PlayerBoxNew extends CustomPainterComponent
   }
 
   void processSeatMessage(SeatInfo seatInfo) {
-    if (playerSeat == seatInfo.seat) {
+    if (seatInfo.seat == playerSeat) {
       // print('processSeatMessage');
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     }
-    if (contains(button)) {
-      remove(button);
+    if (contains(buttonTakeSeat)) {
+      remove(buttonTakeSeat);
     }
   }
 
   void processAllSeatMessage(SeatInfo seatInfo) {
     // print('seatInfo .seat == ${seatInfo.seat}');
     if (seatInfo.seat == playerSeat) {
-      if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
-        add(button);
-        _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
-        return;
-      }
-      // print('processAllSeatMessage');
+      return;
+    }
+    if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
+      add(buttonTakeSeat);
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
-      if (contains(button)) {
-        remove(button);
-      }
+      return;
+    }
+    // print('processAllSeatMessage');
+    _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
+    if (contains(buttonTakeSeat)) {
+      remove(buttonTakeSeat);
     }
   }
 
