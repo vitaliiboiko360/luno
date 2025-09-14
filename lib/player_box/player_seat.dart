@@ -100,7 +100,6 @@ class PlayerBoxNew extends CustomPainterComponent
     var imgUrl = 'players/${avatars[avatarIndex % avatars.length]}';
     var image = await Flame.images.load(imgUrl);
     (painter as PlayerCustomPainter).changeColor(colorIndex);
-    print(imgUrl);
     add(PlayerImage(image));
   }
 }
