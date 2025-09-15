@@ -13,6 +13,6 @@ class App extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
-    return Game(tgm, screenWidth, screenHeight, imagePath);
+    return UnoGame(tgm, screenWidth, screenHeight, imagePath);
   }
 }
