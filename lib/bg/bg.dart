@@ -76,7 +76,7 @@ getWidth(width, height) {
   if (width > height) {
     return (height * 2 / 5).truncate();
   } else {
-    return (width * 8 / 10).truncate();
+    return (height * 2 / 5).truncate();
   }
 }
 
