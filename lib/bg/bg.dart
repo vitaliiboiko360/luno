@@ -29,10 +29,57 @@ WidgetBuilder buildBackground(imagePath, screenWidth, screenHeight) {
       ),
       Center(
         child: Container(
-          decoration: BoxDecoration(color: Colors.green),
-          child: SizedBox(width: screenWidth / 2, height: screenHeight / 2),
+          // decoration: BoxDecoration(color: Colors.green),
+          // child: SizedBox(width: screenWidth / 2, height: screenHeight / 2),
+          child: CustomPaint(
+            size: Size(
+              getWidth(screenWidth, screenHeight),
+              getHeight(screenHeight),
+            ),
+            painter: EllipsePainter(
+              getWidth(screenWidth, screenHeight),
+              getHeight(screenHeight),
+            ),
+          ),
         ),
       ),
     ],
   );
+}
+
+class EllipsePainter extends CustomPainter {
+  double width;
+  double height;
+  EllipsePainter(this.width, this.height);
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.green
+      ..style = PaintingStyle.fill;
+    final paintStroke = Paint()
+      ..color = const Color.fromARGB(255, 8, 97, 11)
+      ..style = PaintingStyle.stroke;
+
+    final rect = Rect.fromLTWH(0, 0, width, height);
+
+    canvas.drawOval(rect, paint);
+    canvas.drawOval(rect, paintStroke);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false; // Only repaint if necessary (e.g., if properties change)
+  }
+}
+
+getWidth(width, height) {
+  if (width > height) {
+    return (height * 2 / 5).truncate();
+  } else {
+    return (width * 8 / 10).truncate();
+  }
+}
+
+getHeight(height) {
+  return (height * 6 / 10).truncate();
 }
