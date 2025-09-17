@@ -22,7 +22,7 @@ void main() {
     );
   });
 
-  debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = false;
 
   TableGameManager tgm = TableGameManager();
   wsOnMessageHandler(JSArrayBuffer arrayBuffer) {
