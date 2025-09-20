@@ -26,7 +26,7 @@ class UnoWorld extends World {
 
     Future.delayed(Duration(seconds: 1), () {
       checkPlayerSeat();
-      (findGame() as Game).showPreGameOverlay();
+      // (findGame() as Game).showPreGameOverlay();
     });
   }
 }
