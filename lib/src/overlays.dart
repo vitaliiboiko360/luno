@@ -1,3 +1,4 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,19 +12,29 @@ class ReadyTable extends StatefulWidget {
 class _ReadyTableState extends State<ReadyTable> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
-        color: Colors.white,
-        border: BoxBorder.all(
-          color: Colors.blue,
-          width: 2,
-          style: BorderStyle.solid,
+    return Center(
+      child: Container(
+        width: 300,
+        height: 400,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
+          color: Colors.white,
+          border: BoxBorder.all(
+            color: Colors.blue,
+            width: 2,
+            style: BorderStyle.solid,
+          ),
         ),
+        child: Column(children: []),
       ),
-      child: Column(children: []),
     );
   }
+}
+
+Widget readyTable(BuildContext context, FlameGame game) {
+  return Center(
+    child: Column(
+      children: [Text('Game Will Start When All Players Are Ready')],
+    ),
+  );
 }
