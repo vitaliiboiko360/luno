@@ -18,14 +18,32 @@ class _ReadyTableState extends State<ReadyTable> {
         height: 400,
         decoration: BoxDecoration(
           borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
-          color: Colors.white,
+          color: const Color.fromARGB(255, 238, 236, 236),
           border: BoxBorder.all(
             color: Colors.blue,
             width: 2,
             style: BorderStyle.solid,
           ),
         ),
-        child: Column(children: []),
+        child: Column(children: [Column(children: [
+
+        ],)]),
+      ),
+    );
+  }
+}
+
+class UserBlock extends StatelessWidget {
+  UserBlock({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        border: BoxBorder.all(color: Colors.indigoAccent),
       ),
     );
   }
