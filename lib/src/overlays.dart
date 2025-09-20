@@ -17,18 +17,22 @@ class _ReadyTableState extends State<ReadyTable> {
       child: Container(
         width: 300,
         height: 400,
-        decoration: BoxDecoration(
+        clipBehavior: Clip.hardEdge,
+        foregroundDecoration: BoxDecoration(
           borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
-          color: const Color.fromARGB(255, 238, 236, 236),
           border: BoxBorder.all(
             color: Colors.blue,
             width: 2,
             style: BorderStyle.solid,
           ),
         ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
+          color: const Color.fromARGB(255, 238, 236, 236),
+        ),
         child: Column(
           children: [
-            Column(children: [SizedBox(height: 60), Users()]),
+            Column(children: [SizedBox(height: 50), Users()]),
           ],
         ),
       ),
@@ -41,7 +45,7 @@ class Users extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 10,
+      spacing: 2,
       children: [UserBlock(), UserBlock(), UserBlock(), UserBlock()],
     );
   }
@@ -51,14 +55,29 @@ class UserBlock extends StatelessWidget {
   UserBlock({super.key});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.directional(start: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-
-        children: [
-          Column(spacing: 5, children: [UserImageFrame(), UserText()]),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 211, 224, 226),
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(255, 173, 198, 243),
+            offset: Offset(0, 1),
+            blurRadius: 2,
+          ),
         ],
+      ),
+      child: Padding(
+        padding: EdgeInsetsGeometry.directional(start: 20, top: 8, bottom: 6),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 5,
+              children: [UserImageFrame(), UserText()],
+            ),
+          ],
+        ),
       ),
     );
   }
