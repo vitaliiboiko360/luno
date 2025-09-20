@@ -29,6 +29,7 @@ class UnoGame extends StatelessWidget {
       overlayBuilderMap: {
         'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
       },
+      initialActiveOverlays: ['ReadyTable'],
     );
   }
 }
