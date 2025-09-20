@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:logging/logging.dart';
 
 class ReadyTable extends StatefulWidget {
   ReadyTable({super.key});
@@ -25,10 +26,23 @@ class _ReadyTableState extends State<ReadyTable> {
             style: BorderStyle.solid,
           ),
         ),
-        child: Column(children: [Column(children: [
-
-        ],)]),
+        child: Column(
+          children: [
+            Column(children: [Users()]),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class Users extends StatelessWidget {
+  Users({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      spacing: 10,
+      children: [UserBlock(), UserBlock(), UserBlock(), UserBlock()],
     );
   }
 }
@@ -37,9 +51,31 @@ class UserBlock extends StatelessWidget {
   UserBlock({super.key});
   @override
   Widget build(BuildContext context) {
+    return Column(spacing: 5, children: [UserImageFrame(), UserText()]);
+  }
+}
+
+class UserText extends StatelessWidget {
+  static int id = 0;
+  String text = "Player Name #${UserText.id++}";
+  UserText({String? textInput, super.key}) {
+    if (textInput != null) {
+      text = textInput;
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Text(text);
+  }
+}
+
+class UserImageFrame extends StatelessWidget {
+  UserImageFrame({super.key});
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(15)),
