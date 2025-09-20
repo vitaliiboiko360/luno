@@ -28,7 +28,7 @@ class _ReadyTableState extends State<ReadyTable> {
         ),
         child: Column(
           children: [
-            Column(children: [Users()]),
+            Column(children: [SizedBox(height: 60), Users()]),
           ],
         ),
       ),
@@ -51,7 +51,16 @@ class UserBlock extends StatelessWidget {
   UserBlock({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(spacing: 5, children: [UserImageFrame(), UserText()]);
+    return Padding(
+      padding: EdgeInsetsGeometry.directional(start: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+
+        children: [
+          Column(spacing: 5, children: [UserImageFrame(), UserText()]),
+        ],
+      ),
+    );
   }
 }
 
