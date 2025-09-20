@@ -23,30 +23,21 @@ class UnoGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget(
+    return GameWidget<Game>(
       game: Game(world: UnoWorld(tgm)),
       backgroundBuilder: buildBackground(imagePath, screenWidth, screenHeight),
       overlayBuilderMap: {
-        'ReadyTable': (BuildContext context, FlameGame game) => ReadyTable(),
+        'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
       },
     );
   }
 }
 
-Widget readyTable(BuildContext context, FlameGame game) {
-  return Center(
-    child: Column(
-      children: [Text('Game Will Start When All Players Are Ready')],
-    ),
-  );
-}
-
 class Game extends FlameGame {
-  Game({super.world}) {
-    showPreGameOverlay();
-  }
+  Game({super.world});
 
   void showPreGameOverlay() {
+    print('overlay is added');
     overlays.add('ReadyTable');
   }
 
