@@ -30,10 +30,11 @@ class UnoGame extends StatelessWidget {
         'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
         'Anouncement': (BuildContext context, Game game) => Anouncement(),
       },
-      initialActiveOverlays: ['Anouncement', 'ReadyTable'],
+      initialActiveOverlays: ['ReadyTable', 'Anouncement'],
     );
   }
 }
+//, 'ReadyTable'
 
 class Game extends FlameGame {
   Game({super.world});
