@@ -134,12 +134,15 @@ class OuterContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: 475,
       height: 175,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(206, 193, 199, 162),
+        color: const Color.fromARGB(162, 193, 199, 162),
         borderRadius: BorderRadius.all(Radius.circular(15)),
-        border: BoxBorder.all(color: const Color.fromARGB(255, 194, 184, 139)),
+        border: BoxBorder.all(
+          color: const Color.fromARGB(204, 194, 184, 139),
+          width: 3,
+        ),
       ),
       child: TextMessage(),
     );
@@ -150,14 +153,30 @@ class TextMessage extends StatelessWidget {
   TextMessage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.directional(
-        top: 30,
-        start: 30,
-        end: 30,
-        bottom: 30,
+    return Center(
+      child: Padding(
+        padding: EdgeInsetsGeometry.directional(
+          top: 30,
+          start: 30,
+          end: 30,
+          bottom: 30,
+        ),
+        child: Text(
+          messageText,
+          style: TextStyle(
+            color: const Color.fromARGB(255, 61, 51, 6),
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                color: Color.fromARGB(255, 223, 224, 217),
+                offset: Offset(2, 2),
+                blurRadius: 2,
+              ),
+            ],
+          ),
+        ),
       ),
-      child: Text(messageText),
     );
   }
 }
