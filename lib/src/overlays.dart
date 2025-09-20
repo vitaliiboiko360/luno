@@ -106,7 +106,7 @@ class UserImageFrame extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
         border: BoxBorder.all(color: Colors.indigoAccent),
       ),
     );
@@ -120,3 +120,47 @@ Widget readyTable(BuildContext context, FlameGame game) {
     ),
   );
 }
+
+class Anouncement extends StatelessWidget {
+  Anouncement({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: OuterContainer());
+  }
+}
+
+class OuterContainer extends StatelessWidget {
+  OuterContainer({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      height: 175,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(206, 193, 199, 162),
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        border: BoxBorder.all(color: const Color.fromARGB(255, 194, 184, 139)),
+      ),
+      child: TextMessage(),
+    );
+  }
+}
+
+class TextMessage extends StatelessWidget {
+  TextMessage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsGeometry.directional(
+        top: 30,
+        start: 30,
+        end: 30,
+        bottom: 30,
+      ),
+      child: Text(messageText),
+    );
+  }
+}
+
+const messageText =
+    "The application is under active development. Please check out later for any updates.";
