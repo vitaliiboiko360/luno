@@ -36,18 +36,20 @@
     <link rel="manifest" href="manifest.json" />
     <style>
       body {
-        -webkit-transform: scale(1) !important;
-      }
-      #pixi-container > canvas {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+        background-repeat: no-repeat;
+        background-image: url('path/to/your/image.jpg'); /* Replace with your image path */
+        background-size: cover; /* Scales the image to cover the entire container */
+        background-position: center center; /* Centers the image horizontally and vertically */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-attachment: fixed; /* Fixes the background image during scrolling */
+        min-height: 100vh; /* Ensures the body takes up at least the full viewport height */
+        margin: 0; /* Removes default body margin */
       }
     </style>
   </head>
   <body style="touch-action: none">
     <script src="flutter_bootstrap.js" async></script>
     <script defer type="module" crossorigin src="script.js"></script>
+    <script defer type="module" crossorigin src="script-bg.js"></script>
   </body>
 </html>
