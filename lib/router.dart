@@ -8,11 +8,11 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const Game(key: Key('main menu')),
+      builder: (context, state) => Game(key: Key('main menu')),
       routes: [
         GoRoute(
           path: 'play',
-          builder: (context, state) => const Game(key: Key('play')),
+          builder: (context, state) => Game(key: Key('play')),
         ),
       ],
     ),

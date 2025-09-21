@@ -27,6 +27,7 @@ class UnoWorld extends World {
 
   double deltaTime = 0;
   bool added = false;
+  int playerIndex = 0;
 
   static const playerPositions = [
     PlayerSeat.left,
@@ -41,13 +42,10 @@ class UnoWorld extends World {
       if (deltaTime > 4) {
         added = false;
         deltaTime = 0;
-        add(
-          MakeMove(
-            getPlayerPosition(
-              playerPositions[Random().nextInt(playerPositions.length)],
-            ),
-          ),
-        );
+        add(MakeMove(getPlayerPosition(playerPositions[playerIndex++])));
+        if (playerIndex > 2) {
+          playerIndex = 0;
+        }
       }
     }
     super.update(dt);

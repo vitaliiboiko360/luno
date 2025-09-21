@@ -15,6 +15,6 @@ void main() {
       name: record.loggerName,
     );
   });
-  debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = false;
   runApp(const App());
 }

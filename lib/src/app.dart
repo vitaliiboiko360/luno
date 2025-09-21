@@ -23,6 +23,7 @@ class App extends StatelessWidget {
           builder: (context) {
             final palette = context.watch<Palette>();
             return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
               title: 'Uno Game',
               theme:
                   ThemeData.from(
