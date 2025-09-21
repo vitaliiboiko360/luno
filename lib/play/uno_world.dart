@@ -3,6 +3,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:luno/play/deck_cards.dart';
 import 'package:luno/player_box/player_seat.dart';
+import 'package:luno/players_table/players_table.dart';
 import 'package:luno/src/game.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
@@ -16,6 +17,7 @@ class UnoWorld extends World {
   @override
   FutureOr<void> onLoad() async {
     // add(UnoCard(position: Vector2(0, 0)));
+    add(PlayersTable());
     add(PlayerBoxNew(PlayerSeat.left));
     add(PlayerBoxNew(PlayerSeat.top));
     add(PlayerBoxNew(PlayerSeat.right));
