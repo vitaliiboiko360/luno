@@ -16,7 +16,7 @@ class _ReadyTableState extends State<ReadyTable> {
     return Center(
       child: Container(
         width: 300,
-        height: 400,
+        height: 460,
         clipBehavior: Clip.hardEdge,
         foregroundDecoration: BoxDecoration(
           borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
@@ -28,11 +28,24 @@ class _ReadyTableState extends State<ReadyTable> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
-          color: const Color.fromARGB(255, 238, 236, 236),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomRight,
+            colors: [
+              const Color.fromARGB(255, 171, 205, 233),
+              const Color.fromARGB(255, 161, 189, 240),
+            ],
+          ),
+          // color: const Color.fromARGB(255, 238, 236, 236),
         ),
         child: Column(
           children: [
-            Column(children: [SizedBox(height: 50), Users()]),
+            Column(
+              children: [
+                SizedBox(height: 90, child: TitleBlock()),
+                Users(),
+              ],
+            ),
           ],
         ),
       ),
@@ -57,10 +70,18 @@ class UserBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 211, 224, 226),
+        // color: const Color.fromARGB(157, 211, 226, 225),
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color.fromARGB(157, 211, 226, 225),
+            const Color.fromARGB(6, 255, 255, 255),
+          ],
+        ),
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 173, 198, 243),
+            color: const Color.fromARGB(123, 173, 198, 243),
             offset: Offset(0, 1),
             blurRadius: 2,
           ),
@@ -102,16 +123,70 @@ class UserImageFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
-      height: 50,
+      width: 55,
+      height: 55,
       decoration: BoxDecoration(
-        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(197, 146, 172, 194),
+            offset: Offset(2, 2),
+            blurRadius: 3,
+          ),
+        ],
+        color: const Color.fromARGB(255, 223, 232, 250),
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        border: BoxBorder.all(color: Colors.indigoAccent),
+        border: BoxBorder.all(color: const Color.fromARGB(255, 110, 129, 235)),
       ),
     );
   }
 }
+
+class TitleBlock extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color.fromARGB(157, 130, 195, 221),
+            const Color.fromARGB(120, 224, 227, 235),
+          ],
+        ),
+      ),
+      child: Row(children: [TitleText()]),
+    );
+  }
+}
+
+class TitleText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsetsGeometry.all(10),
+        child: Flexible(
+          fit: FlexFit.tight,
+          child: Text(
+            titleText,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: const Color.fromARGB(255, 18, 22, 27),
+              fontSize: 20,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+const titleText = "Game will start when all players are ready";
+
+//
+// Anouncement
 
 Widget readyTable(BuildContext context, FlameGame game) {
   return Center(
