@@ -16,11 +16,11 @@ class UnoGame extends StatelessWidget {
   Widget build(BuildContext context) {
     return GameWidget<Game>(
       game: Game(world: UnoWorld(tgm)),
-      // overlayBuilderMap: {
-      //   'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
-      //   'Anouncement': (BuildContext context, Game game) => Anouncement(),
-      // },
-      // initialActiveOverlays: ['ReadyTable', 'Anouncement'],
+      overlayBuilderMap: {
+        'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
+        'Anouncement': (BuildContext context, Game game) => Anouncement(),
+      },
+      initialActiveOverlays: ['ReadyTable'],
     );
   }
 }
