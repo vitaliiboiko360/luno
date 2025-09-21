@@ -13,3 +13,7 @@ Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   }
   return Vector2(75, 300);
 }
+
+Vector2 getTableDimentions() {
+  return Vector2(350, 500);
+}
