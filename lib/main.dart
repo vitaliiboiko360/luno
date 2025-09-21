@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:luno/bg/bg.dart';
 import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
 import 'package:luno/state/table_game_manager.dart';
@@ -31,6 +28,5 @@ void main() {
 
   wsOnMessage = wsOnMessageHandler.toJS;
 
-  var bgImage = images[Random().nextInt(images.length - 1)];
-  runApp(App(tgm, bgImage));
+  runApp(App(tgm));
 }
