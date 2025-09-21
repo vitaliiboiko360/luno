@@ -8,29 +8,19 @@ import 'package:luno/src/overlays.dart';
 import 'package:luno/state/table_game_manager.dart';
 
 class UnoGame extends StatelessWidget {
-  UnoGame(
-    this.tgm,
-    this.screenWidth,
-    this.screenHeight,
-    this.imagePath, {
-    super.key,
-  });
+  UnoGame(this.tgm, {super.key});
 
-  double screenWidth;
-  double screenHeight;
-  String imagePath;
   TableGameManager tgm;
 
   @override
   Widget build(BuildContext context) {
     return GameWidget<Game>(
       game: Game(world: UnoWorld(tgm)),
-      backgroundBuilder: buildBackground(imagePath, screenWidth, screenHeight),
-      overlayBuilderMap: {
-        'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
-        'Anouncement': (BuildContext context, Game game) => Anouncement(),
-      },
-      initialActiveOverlays: ['ReadyTable', 'Anouncement'],
+      // overlayBuilderMap: {
+      //   'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
+      //   'Anouncement': (BuildContext context, Game game) => Anouncement(),
+      // },
+      // initialActiveOverlays: ['ReadyTable', 'Anouncement'],
     );
   }
 }
@@ -38,6 +28,9 @@ class UnoGame extends StatelessWidget {
 
 class Game extends FlameGame {
   Game({super.world});
+
+  @override
+  Color backgroundColor() => const Color.fromARGB(0, 0, 0, 0);
 
   void showPreGameOverlay() {
     print('overlay is added');
