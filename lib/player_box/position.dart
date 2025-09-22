@@ -17,3 +17,7 @@ Vector2 getPlayerPosition(PlayerSeat playerSeat) {
 Vector2 getTableDimentions() {
   return Vector2(350, 500);
 }
+
+Vector2 getReadyButtonPosition() {
+  return getPlayerPosition(PlayerSeat.mainSeat) - Vector2(225, 50);
+}
