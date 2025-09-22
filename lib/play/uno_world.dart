@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:luno/play/deck_cards.dart';
+import 'package:luno/player_box/button_ready.dart';
 import 'package:luno/player_box/player_seat.dart';
 import 'package:luno/players_table/players_table.dart';
 import 'package:luno/src/game.dart';
@@ -25,7 +26,7 @@ class UnoWorld extends World {
     // add(ActiveHand());
     // add(MainPlayerBox());
     add(DeckCardsPositioned());
-
+    add(ButtonReady());
     Future.delayed(Duration(seconds: 1), () {
       checkPlayerSeat();
       // (findGame() as Game).showPreGameOverlay();
