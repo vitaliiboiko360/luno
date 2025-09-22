@@ -1,0 +1,55 @@
+import 'dart:async';
+
+import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+import 'package:luno/player_box/position.dart';
+
+class ButtonReady extends AdvancedButtonComponent {
+  ButtonReady()
+    : super(
+        defaultSkin: DefaultButtonReady(),
+        downSkin: DownButtonReady(),
+        hoverSkin: HoverButtonReady(),
+        anchor: Anchor.center,
+      );
+
+  @override
+  Future<void> onLoad() {
+    position = getReadyButtonPosition();
+    return super.onLoad();
+  }
+}
+
+class DefaultButtonReady extends CustomPainterComponent {
+  DefaultButtonReady();
+
+  @override
+  FutureOr<void> onLoad() {
+    painter = PainterButtonReady();
+    return super.onLoad();
+  }
+}
+
+class DownButtonReady extends PositionComponent {}
+
+class HoverButtonReady extends PositionComponent {}
+
+class PainterButtonReady extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var strokePaint = Paint()
+      ..color = Colors.lime
+      ..style = PaintingStyle.stroke;
+    var roundedRect = RRect.fromLTRBR(0, 0, 150, 100, Radius.circular(50));
+    canvas.drawRRect(roundedRect, strokePaint);
+    var fillPaint = Paint()
+      ..color = Colors.lightGreen
+      ..style = PaintingStyle.fill;
+    canvas.drawRRect(roundedRect, fillPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
