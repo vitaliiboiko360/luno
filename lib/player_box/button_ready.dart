@@ -51,6 +51,17 @@ class PainterButtonReady extends CustomPainter {
       ..color = Colors.lightGreen
       ..style = PaintingStyle.fill;
     canvas.drawRRect(roundedRect, fillPaint);
+    var textSpan = TextSpan(
+      text: 'Ready',
+      style: TextStyle(fontSize: 26, color: Colors.white),
+    );
+    var textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    );
+    textPainter.layout(minWidth: 0, maxWidth: 150);
+    textPainter.paint(canvas, Offset(42, 35));
   }
 
   @override
