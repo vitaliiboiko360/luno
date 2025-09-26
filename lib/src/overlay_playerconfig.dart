@@ -15,7 +15,7 @@ class _PlayerConfigState extends State<PlayerConfig> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 300,
+        width: 328,
         height: 460,
         clipBehavior: Clip.hardEdge,
         foregroundDecoration: BoxDecoration(
@@ -38,11 +38,7 @@ class _PlayerConfigState extends State<PlayerConfig> {
           ),
           // color: const Color.fromARGB(255, 238, 236, 236),
         ),
-        child: Column(
-          children: [
-            Column(children: [ColorSet()]),
-          ],
-        ),
+        child: Column(children: [ColorSet(), AvatarsGrid()]),
       ),
     );
   }
@@ -51,7 +47,10 @@ class _PlayerConfigState extends State<PlayerConfig> {
 class ColorSet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(spacing: 2, children: [ColorSquare()]);
+    return Row(
+      spacing: 2,
+      children: [ColorSquare(), ColorSquare(), ColorSquare(), ColorSquare()],
+    );
   }
 }
 
@@ -82,10 +81,55 @@ class ColorSquare extends StatelessWidget {
         ),
         // color: const Color.fromARGB(255, 238, 236, 236),
       ),
-      child: Column(children: [Column(children: [
-                
-              ],
-            )]),
+      child: Column(children: [Column(children: [])]),
     );
+  }
+}
+
+class AvatarsGrid extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(3),
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
+        crossAxisCount: 3,
+        children: List.filled(21, avatarBox()),
+      ),
+    );
+  }
+}
+
+//
+var avatarBox = () =>
+    CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter());
+
+class AvatarBoxPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final stroke = Paint()
+      ..color = Colors.blueGrey
+      ..strokeWidth = 2
+      ..filterQuality = FilterQuality.high
+      ..style = PaintingStyle.stroke;
+
+    var fill = Paint()
+      ..color = const Color.fromARGB(255, 204, 204, 204)
+      ..filterQuality = FilterQuality.high
+      ..style = PaintingStyle.fill;
+
+    var rrect = RRect.fromRectAndRadius(
+      Rect.fromLTRB(0, 0, 102, 102),
+      Radius.circular(10),
+    );
+    canvas.drawRRect(rrect, fill);
+    canvas.drawRRect(rrect, stroke);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
