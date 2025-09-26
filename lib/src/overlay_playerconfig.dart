@@ -43,13 +43,18 @@ class _PlayerConfigState extends State<PlayerConfig> {
     );
   }
 }
+//ColorSet(),
 
 class ColorSet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 2,
-      children: [ColorSquare(), ColorSquare(), ColorSquare(), ColorSquare()],
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: 40),
+      child: CarouselView(
+        scrollDirection: Axis.horizontal,
+        itemExtent: 40,
+        children: List.filled(12, ColorSquare()),
+      ),
     );
   }
 }
