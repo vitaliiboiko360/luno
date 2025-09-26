@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/bg/bg.dart';
 import 'package:luno/play/uno_world.dart';
+import 'package:luno/src/overlay_playerconfig.dart';
 import 'package:luno/src/overlays.dart';
 import 'package:luno/state/table_game_manager.dart';
 
@@ -19,8 +20,9 @@ class UnoGame extends StatelessWidget {
       overlayBuilderMap: {
         'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
         'Anouncement': (BuildContext context, Game game) => Anouncement(),
+        'PlayerConfig': (BuildContext context, Game game) => PlayerConfig(),
       },
-      initialActiveOverlays: ['ReadyTable'],
+      initialActiveOverlays: ['ReadyTable', 'PlayerConfig'],
     );
   }
 }
