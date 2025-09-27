@@ -8,6 +8,7 @@ import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/play/player_box.dart';
 import 'package:luno/play/uno_world.dart';
+import 'package:luno/player_box/button_change_avatar.dart';
 import 'package:luno/player_box/button_take_seat.dart';
 import 'package:luno/state/table_state.dart';
 import 'package:luno/ws/ws_send.dart';
@@ -19,6 +20,7 @@ class PlayerBoxNew extends CustomPainterComponent
 
   PlayerSeat playerSeat;
   var buttonTakeSeat;
+  var buttonChangeAvatar;
   var image;
   var seat;
   @override
@@ -33,6 +35,13 @@ class PlayerBoxNew extends CustomPainterComponent
         requestSeat(playerSeat.index);
       },
     );
+
+    if (playerSeat == PlayerSeat.bottom) {
+      buttonChangeAvatar = ButtonChangeAvatar();
+      print('add button');
+      // add(buttonChangeAvatar);
+    }
+
     world.tgm.registerCallback('seat', (dynamic data) {
       processSeatMessage(data);
     });
