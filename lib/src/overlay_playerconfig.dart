@@ -18,10 +18,10 @@ class _PlayerConfigState extends State<PlayerConfig> {
     return Center(
       child: Container(
         width: 328,
-        height: 460,
+        height: 468,
         clipBehavior: Clip.hardEdge,
         foregroundDecoration: BoxDecoration(
-          borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
+          borderRadius: BorderRadiusGeometry.all(Radius.circular(16)),
           border: BoxBorder.all(
             color: Colors.blue,
             width: 2,
@@ -29,7 +29,7 @@ class _PlayerConfigState extends State<PlayerConfig> {
           ),
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadiusGeometry.all(Radius.circular(20)),
+          borderRadius: BorderRadiusGeometry.all(Radius.circular(16)),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomRight,
@@ -45,7 +45,6 @@ class _PlayerConfigState extends State<PlayerConfig> {
     );
   }
 }
-//ColorSet(),
 
 class ColorSet extends StatelessWidget {
   @override
@@ -55,13 +54,15 @@ class ColorSet extends StatelessWidget {
       child: CarouselView(
         scrollDirection: Axis.horizontal,
         itemExtent: 40,
-        children: List.generate(20, (int i) => ColorSquare()),
+        children: List.generate(20, (int i) => ColorSquare(i + 1)),
       ),
     );
   }
 }
 
 class ColorSquare extends StatelessWidget {
+  int index;
+  ColorSquare(this.index, {super.key});
   var colors1 = List<int>.generate(3, (int) => Random().nextInt(256));
   var colors2 = List<int>.generate(3, (int) => Random().nextInt(256));
   @override
@@ -89,7 +90,12 @@ class ColorSquare extends StatelessWidget {
           ],
         ),
       ),
-      child: Column(children: [Column(children: [])]),
+      child: Center(
+        child: Text(
+          '$index',
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+      ),
     );
   }
 }
@@ -114,10 +120,12 @@ class AvatarsGrid extends StatelessWidget {
 }
 
 //
-var avatarBox = (int) =>
-    CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter());
+var avatarBox = (int i) =>
+    CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1));
 
 class AvatarBoxPainter extends CustomPainter {
+  int index;
+  AvatarBoxPainter(this.index);
   @override
   void paint(Canvas canvas, Size size) {
     final stroke = Paint()
@@ -137,6 +145,22 @@ class AvatarBoxPainter extends CustomPainter {
     );
     canvas.drawRRect(rrect, fill);
     canvas.drawRRect(rrect, stroke);
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: '$index',
+        style: TextStyle(color: Colors.black, fontSize: 20),
+      ),
+      textDirection: TextDirection.ltr, // Adjust as needed
+    );
+
+    textPainter.layout(minWidth: 0, maxWidth: size.width);
+
+    final xOffset = (size.width - textPainter.width) / 2;
+    final yOffset = (size.height - textPainter.height) / 2;
+    final textOffset = Offset(xOffset, yOffset);
+
+    textPainter.paint(canvas, textOffset);
   }
 
   @override
