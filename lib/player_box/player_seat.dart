@@ -68,15 +68,6 @@ class PlayerBoxNew extends CustomPainterComponent
     }
   }
 
-  @override
-  void onTapUp(TapUpEvent info) {
-    // (painter as PlayerCustomPainter).changeColor(
-    //   Random().nextInt(colors.length),
-    // );
-    // _changeImageRandom();
-    // wsSendMessage();
-  }
-
   void _changeImageRandom() async {
     children.forEach((c) {
       if (c is PlayerImage) {
