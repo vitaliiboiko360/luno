@@ -155,19 +155,19 @@ class TitleBlock extends StatelessWidget {
           ],
         ),
       ),
-      child: Row(children: [TitleText()]),
+      child: Row(children: []),
     );
   }
 }
 
+//TitleText()
 class TitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: EdgeInsetsGeometry.all(10),
-        child: Flexible(
-          fit: FlexFit.tight,
+        child: Expanded(
           child: Text(
             titleText,
             textAlign: TextAlign.center,
