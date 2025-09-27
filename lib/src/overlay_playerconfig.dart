@@ -55,19 +55,15 @@ class ColorSet extends StatelessWidget {
       child: CarouselView(
         scrollDirection: Axis.horizontal,
         itemExtent: 40,
-        children: List.filled(
-          20,
-          ColorSquare(List.filled(3, Random().nextInt(512))),
-        ),
+        children: List.generate(20, (int i) => ColorSquare()),
       ),
     );
   }
 }
 
 class ColorSquare extends StatelessWidget {
-  var colors1;
-  var colors2;
-  ColorSquare(this.colors1);
+  var colors1 = List<int>.generate(3, (int) => Random().nextInt(256));
+  var colors2 = List<int>.generate(3, (int) => Random().nextInt(256));
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,15 +80,14 @@ class ColorSquare extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadiusGeometry.all(Radius.circular(2)),
-        // gradient: LinearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomRight,
-        //   colors: [
-        //     Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
-        //     Color.fromARGB(255, colors2[0], colors2[1], colors2[2]),
-        //   ],
-        // ),
-        color: Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
+          colors: [
+            Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
+            Color.fromARGB(255, colors2[0], colors2[1], colors2[2]),
+          ],
+        ),
       ),
       child: Column(children: [Column(children: [])]),
     );
@@ -109,14 +104,14 @@ class AvatarsGrid extends StatelessWidget {
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
         crossAxisCount: 3,
-        children: List.filled(21, avatarBox()),
+        children: List.generate(21, avatarBox),
       ),
     );
   }
 }
 
 //
-var avatarBox = () =>
+var avatarBox = (int) =>
     CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter());
 
 class AvatarBoxPainter extends CustomPainter {
