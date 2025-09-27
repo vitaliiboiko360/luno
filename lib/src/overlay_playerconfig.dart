@@ -98,13 +98,16 @@ class AvatarsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: GridView.count(
-        primary: false,
-        padding: const EdgeInsets.all(3),
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 2,
-        crossAxisCount: 3,
-        children: List.generate(21, avatarBox),
+      child: Padding(
+        padding: EdgeInsetsGeometry.directional(start: 3),
+        child: GridView.count(
+          primary: false,
+          padding: const EdgeInsets.all(3),
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+          crossAxisCount: 3,
+          children: List.generate(21, avatarBox),
+        ),
       ),
     );
   }
