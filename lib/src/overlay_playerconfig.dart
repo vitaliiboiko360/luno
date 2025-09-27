@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -53,13 +55,19 @@ class ColorSet extends StatelessWidget {
       child: CarouselView(
         scrollDirection: Axis.horizontal,
         itemExtent: 40,
-        children: List.filled(12, ColorSquare()),
+        children: List.filled(
+          20,
+          ColorSquare(List.filled(3, Random().nextInt(512))),
+        ),
       ),
     );
   }
 }
 
 class ColorSquare extends StatelessWidget {
+  var colors1;
+  var colors2;
+  ColorSquare(this.colors1);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +75,7 @@ class ColorSquare extends StatelessWidget {
       height: 30,
       clipBehavior: Clip.hardEdge,
       foregroundDecoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.all(Radius.circular(3)),
+        borderRadius: BorderRadiusGeometry.all(Radius.circular(2)),
         border: BoxBorder.all(
           color: Colors.blue,
           width: 1,
@@ -75,16 +83,16 @@ class ColorSquare extends StatelessWidget {
         ),
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.all(Radius.circular(3)),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomRight,
-          colors: [
-            const Color.fromARGB(255, 171, 205, 233),
-            const Color.fromARGB(255, 161, 189, 240),
-          ],
-        ),
-        // color: const Color.fromARGB(255, 238, 236, 236),
+        borderRadius: BorderRadiusGeometry.all(Radius.circular(2)),
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomRight,
+        //   colors: [
+        //     Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
+        //     Color.fromARGB(255, colors2[0], colors2[1], colors2[2]),
+        //   ],
+        // ),
+        color: Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
       ),
       child: Column(children: [Column(children: [])]),
     );
