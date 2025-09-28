@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:luno/state/commands.dart';
 import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
 
+final avatarProvider = Provider((_) => AvatarInfo());
+
 class TableState {
-  TableState(this.tgm);
+  TableState(this.tgm) {}
   TableGameManager tgm;
 
   PlayerSeat _seat = PlayerSeat.unassigned;
@@ -99,4 +102,9 @@ enum PlayerSeat {
     }
     return seat;
   }
+}
+
+class AvatarInfo {
+  int avatarId = 0;
+  int colorId = 0;
 }
