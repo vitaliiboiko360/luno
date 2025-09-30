@@ -7,6 +7,7 @@ import 'package:luno/play/uno_world.dart';
 import 'package:luno/src/overlay_playerconfig.dart';
 import 'package:luno/src/overlays.dart';
 import 'package:luno/state/table_game_manager.dart';
+import 'package:riverpod/riverpod.dart';
 
 class UnoGame extends StatelessWidget {
   UnoGame(this.tgm, {super.key});
@@ -20,7 +21,12 @@ class UnoGame extends StatelessWidget {
       overlayBuilderMap: {
         'ReadyTable': (BuildContext context, Game game) => ReadyTable(),
         'Anouncement': (BuildContext context, Game game) => Anouncement(),
-        'PlayerConfig': (BuildContext context, Game game) => PlayerConfig(),
+        // 'PlayerConfig': (BuildContext context, Game game) =>
+        //     UncontrolledProviderScope(
+        //       container: tgm.providerContainer,
+        //       child: PlayerConfig(tgm),
+        //     ),
+        'PlayerConfig': (BuildContext context, Game game) => PlayerConfig(tgm),
       },
       initialActiveOverlays: ['ReadyTable', 'PlayerConfig'],
     );
