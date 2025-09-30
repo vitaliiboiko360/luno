@@ -6,19 +6,17 @@ import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
 
 final avatarProvider = NotifierProvider<AvatarInfoNotifier, AvatarInfo>(
-  () => AvatarInfoNotifier(),
+  AvatarInfoNotifier.new,
 );
 
 class TableState {
   TableState(this.tgm) {
-    print('table state ctor');
-
     sub = tgm.providerContainer.listen(avatarProvider, (
       previousValue,
       newValue,
     ) {
       tgm.update(Event.avatar.name, newValue);
-      print('newValue = ${newValue.avatarId}');
+      print('TableState newValue = ${newValue.avatarId}');
     }, fireImmediately: true);
   }
   TableGameManager tgm;
@@ -126,12 +124,12 @@ class AvatarInfo {
 class AvatarInfoNotifier extends Notifier<AvatarInfo> {
   @override
   AvatarInfo build() {
-    listenSelf((_, value) => print('FROM BUILD = ${value.avatarId}'));
     return AvatarInfo();
   }
 
   void setAvatarId(int avatarId) {
     state.avatarId = avatarId;
+    ref.notifyListeners();
   }
 
   int getAvatarId() => state.avatarId;
