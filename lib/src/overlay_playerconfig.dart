@@ -2,17 +2,24 @@ import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
+import 'package:luno/state/table_game_manager.dart';
+import 'package:luno/state/table_state.dart';
+import 'package:provider/provider.dart';
+import 'package:riverpod/riverpod.dart';
 
 class PlayerConfig extends StatefulWidget {
-  PlayerConfig({super.key});
+  PlayerConfig(this.tgm, {super.key});
+
+  TableGameManager tgm;
 
   @override
-  State<PlayerConfig> createState() => _PlayerConfigState();
+  State<PlayerConfig> createState() => _PlayerConfigState(tgm);
 }
 
 class _PlayerConfigState extends State<PlayerConfig> {
+  _PlayerConfigState(this.tgm);
+  TableGameManager tgm;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -40,7 +47,7 @@ class _PlayerConfigState extends State<PlayerConfig> {
           ),
           // color: const Color.fromARGB(255, 238, 236, 236),
         ),
-        child: Column(children: [ColorSet(), AvatarsGrid()]),
+        child: Column(children: [ColorSet(), AvatarsGrid(tgm)]),
       ),
     );
   }
@@ -101,6 +108,8 @@ class ColorSquare extends StatelessWidget {
 }
 
 class AvatarsGrid extends StatelessWidget {
+  AvatarsGrid(this.tgm);
+  TableGameManager tgm;
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -112,7 +121,7 @@ class AvatarsGrid extends StatelessWidget {
           crossAxisSpacing: 2,
           mainAxisSpacing: 2,
           crossAxisCount: 3,
-          children: List.generate(21, avatarBox),
+          children: List.generate(21, (int i) => avatarBox(i, tgm)),
         ),
       ),
     );
@@ -120,8 +129,20 @@ class AvatarsGrid extends StatelessWidget {
 }
 
 //
-var avatarBox = (int i) =>
-    CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1));
+var avatarBox = (int i, TableGameManager tgm) => GestureDetector(
+  onTap: () {
+    // ref.read(avatarProvider).avatarId = 1;
+    print('click on $i');
+    print(
+      'BEFORE check provider ${tgm.providerContainer.read(avatarProvider).avatarId}',
+    );
+    tgm.providerContainer.read(avatarProvider.notifier).setAvatarId(i);
+    print(
+      'AFTER check provider ${tgm.providerContainer.read(avatarProvider).avatarId}',
+    );
+  },
+  child: CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1)),
+);
 
 class AvatarBoxPainter extends CustomPainter {
   int index;
