@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
@@ -47,7 +48,7 @@ class _PlayerConfigState extends State<PlayerConfig> {
           ),
           // color: const Color.fromARGB(255, 238, 236, 236),
         ),
-        child: Column(children: [ColorSet(), AvatarsGrid(tgm)]),
+        child: Column(children: [ColorSet(), AvatarsGrid()]),
       ),
     );
   }
@@ -107,11 +108,9 @@ class ColorSquare extends StatelessWidget {
   }
 }
 
-class AvatarsGrid extends StatelessWidget {
-  AvatarsGrid(this.tgm);
-  TableGameManager tgm;
+class AvatarsGrid extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Flexible(
       child: Padding(
         padding: EdgeInsetsGeometry.directional(start: 3),
@@ -121,7 +120,7 @@ class AvatarsGrid extends StatelessWidget {
           crossAxisSpacing: 2,
           mainAxisSpacing: 2,
           crossAxisCount: 3,
-          children: List.generate(21, (int i) => avatarBox(i, tgm)),
+          children: List.generate(21, (int i) => avatarBox(i, ref)),
         ),
       ),
     );
@@ -129,17 +128,11 @@ class AvatarsGrid extends StatelessWidget {
 }
 
 //
-var avatarBox = (int i, TableGameManager tgm) => GestureDetector(
+var avatarBox = (int i, WidgetRef ref) => GestureDetector(
   onTap: () {
-    // ref.read(avatarProvider).avatarId = 1;
+    ref.read(avatarProvider.notifier).setAvatarId(1);
     print('click on $i');
-    print(
-      'BEFORE check provider ${tgm.providerContainer.read(avatarProvider).avatarId}',
-    );
-    tgm.providerContainer.read(avatarProvider.notifier).setAvatarId(i);
-    print(
-      'AFTER check provider ${tgm.providerContainer.read(avatarProvider).avatarId}',
-    );
+    // tgm.providerContainer.read(avatarProvider.notifier).setAvatarId(i);
   },
   child: CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1)),
 );
