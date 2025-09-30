@@ -1,11 +1,15 @@
 import 'dart:typed_data';
-
+import 'package:riverpod/riverpod.dart';
 import 'package:luno/state/table_state.dart';
 
 const actionByteIndex = 1;
 
 class TableGameManager {
-  late TableState tableState = TableState(this);
+  ProviderContainer providerContainer;
+  TableGameManager(this.providerContainer) {
+    tableState = TableState(this);
+  }
+  late TableState tableState;
 
   void processMessage(Uint8List messageByteArray) {
     print(

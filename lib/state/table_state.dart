@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:luno/state/commands.dart';
+import 'package:luno/state/events.dart';
 import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
 
-final avatarProvider = Provider((_) => AvatarInfo());
+final avatarProvider = NotifierProvider<AvatarInfoNotifier, AvatarInfo>(
+  () => AvatarInfoNotifier(),
+);
 
 class TableState {
-  TableState(this.tgm) {}
+  TableState(this.tgm) {
+    print('table state ctor');
+
+    sub = tgm.providerContainer.listen(avatarProvider, (
+      previousValue,
+      newValue,
+    ) {
+      tgm.update(Event.avatar.name, newValue);
+      print('newValue = ${newValue.avatarId}');
+    }, fireImmediately: true);
+  }
   TableGameManager tgm;
+  late ProviderSubscription sub;
 
   PlayerSeat _seat = PlayerSeat.unassigned;
   PlayerSeat get seat => _seat;
@@ -107,4 +121,18 @@ enum PlayerSeat {
 class AvatarInfo {
   int avatarId = 0;
   int colorId = 0;
+}
+
+class AvatarInfoNotifier extends Notifier<AvatarInfo> {
+  @override
+  AvatarInfo build() {
+    listenSelf((_, value) => print('FROM BUILD = ${value.avatarId}'));
+    return AvatarInfo();
+  }
+
+  void setAvatarId(int avatarId) {
+    state.avatarId = avatarId;
+  }
+
+  int getAvatarId() => state.avatarId;
 }
