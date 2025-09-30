@@ -10,6 +10,7 @@ import 'package:luno/play/player_box.dart';
 import 'package:luno/play/uno_world.dart';
 import 'package:luno/player_box/button_change_avatar.dart';
 import 'package:luno/player_box/button_take_seat.dart';
+import 'package:luno/state/events.dart';
 import 'package:luno/state/table_state.dart';
 import 'package:luno/ws/ws_send.dart';
 
@@ -48,6 +49,13 @@ class PlayerBoxNew extends CustomPainterComponent
     world.tgm.registerCallback('seatAll', (dynamic data) {
       processAllSeatMessage(data);
     });
+    world.tgm.registerCallback(Event.avatar.name, onAvatar);
+  }
+
+  void onAvatar(AvatarInfo avatarInfo) {
+    if (playerSeat != PlayerSeat.bottom) return;
+
+    _changeImage(avatarInfo.avatarId, avatarInfo.colorId);
   }
 
   void processSeatMessage(SeatInfo seatInfo) {
