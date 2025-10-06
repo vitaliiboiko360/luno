@@ -2,12 +2,16 @@ import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:luno/bg/bg.dart';
+import 'package:luno/play/player_box.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
 import 'package:provider/provider.dart';
 import 'package:riverpod/riverpod.dart';
+import 'dart:ui' as ui;
 
 class PlayerConfig extends StatefulWidget {
   const PlayerConfig({super.key});
@@ -117,24 +121,58 @@ class AvatarsGrid extends ConsumerWidget {
           crossAxisSpacing: 2,
           mainAxisSpacing: 2,
           crossAxisCount: 3,
-          children: List.generate(21, (int i) => avatarBox(i, ref)),
+          children: List.generate(21, (int i) => AvatarBox(i, ref)),
         ),
       ),
     );
   }
 }
 
-//
-var avatarBox = (int i, WidgetRef ref) => GestureDetector(
-  onTap: () {
-    ref.read(avatarProvider.notifier).setAvatarId(i + 1);
-  },
-  child: CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1)),
-);
+class AvatarBox extends StatefulWidget {
+  AvatarBox(this.index, this.ref, {super.key});
+  int index;
+  WidgetRef ref;
+  @override
+  State<StatefulWidget> createState() => _AvatarBoxState();
+}
+
+class _AvatarBoxState extends State<AvatarBox> {
+  ui.Image? image;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImageAsset();
+  }
+
+  Future<void> _loadImageAsset() async {
+    final imgUrl = 'images/players/${avatars[(widget.index) % avatars.length]}';
+
+    final ByteData data = await rootBundle.load(imgUrl);
+    final Uint8List bytes = data.buffer.asUint8List();
+    image = await decodeImageFromList(bytes);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        widget.ref.read(avatarProvider.notifier).setAvatarId(widget.index + 1);
+      },
+      child: CustomPaint(
+        size: Size(102, 102),
+        painter: AvatarBoxPainter(widget.index + 1, image),
+      ),
+    );
+  }
+}
 
 class AvatarBoxPainter extends CustomPainter {
+  AvatarBoxPainter(this.index, this.image);
   int index;
-  AvatarBoxPainter(this.index);
+  ui.Image? image;
+
   @override
   void paint(Canvas canvas, Size size) {
     final stroke = Paint()
@@ -148,32 +186,43 @@ class AvatarBoxPainter extends CustomPainter {
       ..filterQuality = FilterQuality.high
       ..style = PaintingStyle.fill;
 
-    var rrect = RRect.fromRectAndRadius(
-      Rect.fromLTRB(0, 0, 102, 102),
-      Radius.circular(10),
-    );
+    final rect = Rect.fromLTRB(0, 0, 102, 102);
+
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(10));
     canvas.drawRRect(rrect, fill);
     canvas.drawRRect(rrect, stroke);
 
-    final textPainter = TextPainter(
-      text: TextSpan(
-        text: '$index',
-        style: TextStyle(color: Colors.black, fontSize: 20),
-      ),
-      textDirection: TextDirection.ltr, // Adjust as needed
+    if (image == null) return;
+
+    final imageRect = Rect.fromLTWH(
+      0,
+      0,
+      image!.width.toDouble(),
+      image!.height.toDouble(),
     );
 
-    textPainter.layout(minWidth: 0, maxWidth: size.width);
+    canvas.drawImageRect(image!, imageRect, rect, Paint());
 
-    final xOffset = (size.width - textPainter.width) / 2;
-    final yOffset = (size.height - textPainter.height) / 2;
-    final textOffset = Offset(xOffset, yOffset);
+    if (false) {
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: '$index',
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+        textDirection: TextDirection.ltr, // Adjust as needed
+      );
 
-    textPainter.paint(canvas, textOffset);
+      textPainter.layout(minWidth: 0, maxWidth: size.width);
+
+      final xOffset = (size.width - textPainter.width) / 2;
+      final yOffset = (size.height - textPainter.height) / 2;
+      final textOffset = Offset(xOffset, yOffset);
+
+      textPainter.paint(canvas, textOffset);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(covariant AvatarBoxPainter oldDelegate) =>
+      image != oldDelegate.image;
 }
