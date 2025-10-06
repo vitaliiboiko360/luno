@@ -25,9 +25,8 @@ class UnoGame extends StatelessWidget {
         'PlayerConfig': (BuildContext context, Game game) =>
             UncontrolledProviderScope(
               container: tgm.providerContainer,
-              child: PlayerConfig(tgm),
+              child: PlayerConfig(),
             ),
-        // 'PlayerConfig': (BuildContext context, Game game) => PlayerConfig(tgm),
       },
       initialActiveOverlays: ['ReadyTable', 'PlayerConfig'],
     );
@@ -42,7 +41,6 @@ class Game extends FlameGame {
   Color backgroundColor() => const Color.fromARGB(0, 0, 0, 0);
 
   void showPreGameOverlay() {
-    print('overlay is added');
     overlays.add('ReadyTable');
   }
 
