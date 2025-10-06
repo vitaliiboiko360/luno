@@ -10,17 +10,14 @@ import 'package:provider/provider.dart';
 import 'package:riverpod/riverpod.dart';
 
 class PlayerConfig extends StatefulWidget {
-  PlayerConfig(this.tgm, {super.key});
-
-  TableGameManager tgm;
+  const PlayerConfig({super.key});
 
   @override
-  State<PlayerConfig> createState() => _PlayerConfigState(tgm);
+  State<PlayerConfig> createState() => _PlayerConfigState();
 }
 
 class _PlayerConfigState extends State<PlayerConfig> {
-  _PlayerConfigState(this.tgm);
-  TableGameManager tgm;
+  _PlayerConfigState();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -130,9 +127,8 @@ class AvatarsGrid extends ConsumerWidget {
 //
 var avatarBox = (int i, WidgetRef ref) => GestureDetector(
   onTap: () {
-    ref.read(avatarProvider.notifier).setAvatarId(1);
+    ref.read(avatarProvider.notifier).setAvatarId(i);
     print('click on $i');
-    // tgm.providerContainer.read(avatarProvider.notifier).setAvatarId(i);
   },
   child: CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1)),
 );
