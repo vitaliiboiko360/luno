@@ -28,12 +28,9 @@ void main() {
     overrides: [avatarProvider.overrideWith(() => AvatarInfoNotifier())],
   );
 
-  print('MAIN seting listener');
   var sub = providerContainer.listen(avatarProvider, (p, n) {
     print('MAIN: new value = ${n.avatarId}');
   }, fireImmediately: true);
-
-  print('MAIN is paused ${sub.isPaused}');
 
   TableGameManager tgm = TableGameManager(providerContainer);
   wsOnMessageHandler(JSArrayBuffer arrayBuffer) {
@@ -43,5 +40,4 @@ void main() {
   wsOnMessage = wsOnMessageHandler.toJS;
 
   runApp(App(tgm));
-  print('MAIN is paused ${sub.isPaused}');
 }
