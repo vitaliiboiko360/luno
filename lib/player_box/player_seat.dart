@@ -105,8 +105,8 @@ class PlayerBoxNew extends CustomPainterComponent
     if (avatarIndex == 0 && colorIndex == 0) {
       return;
     }
-    var imgUrl = 'players/${avatars[(avatarIndex - 1) % avatars.length]}';
-    var image = await Flame.images.load(imgUrl);
+    final imgUrl = 'players/${avatars[(avatarIndex - 1) % avatars.length]}';
+    final image = await Flame.images.load(imgUrl);
     (painter as PlayerCustomPainter).changeColor(colorIndex);
     add(PlayerImage(image));
   }
@@ -153,7 +153,5 @@ class PlayerCustomPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
