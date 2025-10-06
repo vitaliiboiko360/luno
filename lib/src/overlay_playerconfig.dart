@@ -1,16 +1,10 @@
 import 'dart:math';
 
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
-import 'package:luno/bg/bg.dart';
 import 'package:luno/play/player_box.dart';
-import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
-import 'package:provider/provider.dart';
-import 'package:riverpod/riverpod.dart';
 import 'dart:ui' as ui;
 
 class PlayerConfig extends StatefulWidget {
