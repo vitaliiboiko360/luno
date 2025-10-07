@@ -131,5 +131,10 @@ class AvatarInfoNotifier extends Notifier<AvatarInfo> {
     ref.notifyListeners();
   }
 
+  void setColorId(int colorId) {
+    state.colorId = colorId;
+    ref.notifyListeners();
+  }
+
   int getAvatarId() => state.avatarId;
 }
