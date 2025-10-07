@@ -54,7 +54,6 @@ class PlayerBoxNew extends CustomPainterComponent
 
   void onAvatar(AvatarInfo avatarInfo) {
     if (playerSeat != PlayerSeat.bottom) return;
-
     _changeImage(avatarInfo.avatarId, avatarInfo.colorId);
   }
 
@@ -106,7 +105,7 @@ class PlayerBoxNew extends CustomPainterComponent
     if (avatarIndex == 0 && colorIndex == 0) {
       return;
     }
-    var imgUrl = 'players/${avatars[avatarIndex % avatars.length]}';
+    var imgUrl = 'players/${avatars[(avatarIndex - 1) % avatars.length]}';
     var image = await Flame.images.load(imgUrl);
     (painter as PlayerCustomPainter).changeColor(colorIndex);
     add(PlayerImage(image));
