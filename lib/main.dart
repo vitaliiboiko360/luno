@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:luno/src/app.dart';
 import 'package:logging/logging.dart';
-import 'package:luno/src/overlay_playerconfig.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
 import 'dart:developer' as dev;
@@ -25,12 +24,12 @@ void main() {
   debugPaintSizeEnabled = false;
 
   final providerContainer = ProviderContainer(
-    overrides: [avatarProvider.overrideWith(() => AvatarInfoNotifier())],
+    // overrides: [avatarProvider.overrideWith(() => AvatarInfoNotifier())],
   );
 
-  var sub = providerContainer.listen(avatarProvider, (p, n) {
+  providerContainer.listen(avatarProvider, (p, n) {
     print('MAIN: new value = ${n.avatarId}');
-  }, fireImmediately: true);
+  });
 
   TableGameManager tgm = TableGameManager(providerContainer);
   wsOnMessageHandler(JSArrayBuffer arrayBuffer) {
