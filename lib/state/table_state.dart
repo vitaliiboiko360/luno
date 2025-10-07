@@ -16,7 +16,6 @@ class TableState {
       newValue,
     ) {
       tgm.update(Event.avatar.name, newValue);
-      print('TableState newValue = ${newValue.avatarId}');
     });
   }
   TableGameManager tgm;
@@ -117,8 +116,8 @@ enum PlayerSeat {
 }
 
 class AvatarInfo {
-  int avatarId = -1;
-  int colorId = -1;
+  int avatarId = 0;
+  int colorId = 0;
 }
 
 class AvatarInfoNotifier extends Notifier<AvatarInfo> {
