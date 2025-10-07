@@ -127,8 +127,7 @@ class AvatarsGrid extends ConsumerWidget {
 //
 var avatarBox = (int i, WidgetRef ref) => GestureDetector(
   onTap: () {
-    ref.read(avatarProvider.notifier).setAvatarId(i);
-    print('click on $i');
+    ref.read(avatarProvider.notifier).setAvatarId(i + 1);
   },
   child: CustomPaint(size: Size(102, 102), painter: AvatarBoxPainter(i + 1)),
 );
