@@ -153,9 +153,9 @@ class PlayerCustomPainter extends CustomPainter {
       ..color = colors[colorIndex % colors.length]
       ..filterQuality = FilterQuality.high
       ..style = PaintingStyle.fill;
-    print('check changed color $colorIndex');
   }
 
   @override
-  bool shouldRepaint(covariant PlayerCustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant PlayerCustomPainter oldDelegate) =>
+      backGround != oldDelegate.backGround;
 }
