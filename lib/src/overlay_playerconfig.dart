@@ -50,6 +50,7 @@ class _PlayerConfigState extends State<PlayerConfig> {
 }
 
 class ColorSet extends StatelessWidget {
+  const ColorSet({super.key});
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -57,7 +58,7 @@ class ColorSet extends StatelessWidget {
       child: CarouselView(
         scrollDirection: Axis.horizontal,
         itemExtent: 40,
-        children: List.generate(20, (int i) => ColorSquare(i + 1)),
+        children: List.generate(20, (int i) => ColorSquare(i)),
       ),
     );
   }
@@ -77,7 +78,7 @@ class ColorSquare extends StatelessWidget {
       foregroundDecoration: BoxDecoration(
         borderRadius: BorderRadiusGeometry.all(Radius.circular(2)),
         border: BoxBorder.all(
-          color: Colors.blue,
+          color: colors[index % colors.length],
           width: 1,
           style: BorderStyle.solid,
         ),
@@ -88,16 +89,18 @@ class ColorSquare extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
           colors: [
-            Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
-            Color.fromARGB(255, colors2[0], colors2[1], colors2[2]),
+            // Color.fromARGB(255, colors1[0], colors1[1], colors1[2]),
+            // Color.fromARGB(255, colors2[0], colors2[1], colors2[2]),
+            colors[index % colors.length],
+            colors[index % colors.length],
           ],
         ),
       ),
       child: Center(
-        child: Text(
-          '$index',
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
+        // child: Text(
+        //   '$index',
+        //   style: TextStyle(color: Colors.black, fontSize: 20),
+        // ),
       ),
     );
   }
