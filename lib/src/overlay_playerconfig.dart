@@ -49,20 +49,30 @@ class _PlayerConfigState extends State<PlayerConfig> {
   }
 }
 
-class ColorSet extends StatelessWidget {
+class ColorSet extends ConsumerWidget {
   const ColorSet({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: 40),
       child: CarouselView(
         scrollDirection: Axis.horizontal,
         itemExtent: 40,
+        onTap: (int i) {
+          ref.read(avatarProvider.notifier).setColorId(i + 1);
+        },
         children: List.generate(20, (int i) => ColorSquare(i)),
       ),
     );
   }
 }
+
+var colorSquareButton = (int i, WidgetRef ref) => GestureDetector(
+  onTap: () {
+    ref.read(avatarProvider.notifier).setColorId(i + 1);
+  },
+  child: ColorSquare(i),
+);
 
 class ColorSquare extends StatelessWidget {
   int index;
