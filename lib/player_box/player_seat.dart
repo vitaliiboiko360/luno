@@ -107,8 +107,11 @@ class PlayerBoxNew extends CustomPainterComponent
     }
     final imgUrl = 'players/${avatars[(avatarIndex - 1) % avatars.length]}';
     final image = await Flame.images.load(imgUrl);
-    (painter as PlayerCustomPainter).changeColor(colorIndex);
     add(PlayerImage(image));
+
+    if (colorIndex == 0) return;
+    (painter as PlayerCustomPainter).changeColor(colorIndex - 1);
+    print('_changeImage a= $avatarIndex c=$colorIndex');
   }
 }
 
@@ -147,11 +150,12 @@ class PlayerCustomPainter extends CustomPainter {
 
   void changeColor(int colorIndex) {
     backGround = Paint()
-      ..color = colors[colorIndex]
+      ..color = colors[colorIndex % colors.length]
       ..filterQuality = FilterQuality.high
       ..style = PaintingStyle.fill;
+    print('check changed color $colorIndex');
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant PlayerCustomPainter oldDelegate) => true;
 }
