@@ -1,5 +1,5 @@
 import 'package:flame/game.dart';
-import 'package:luno/player_box/seat.dart';
+import 'package:luno/state/table_state.dart';
 
 Vector2 getPlayerPosition(PlayerSeat playerSeat) {
   if (playerSeat == PlayerSeat.left) {
@@ -19,9 +19,9 @@ Vector2 getTableDimentions() {
 }
 
 Vector2 getReadyButtonPosition() {
-  return getPlayerPosition(PlayerSeat.mainSeat) - Vector2(225, 50);
+  return getPlayerPosition(PlayerSeat.bottom) - Vector2(225, 50);
 }
 
 Vector2 getChangeAvatarButtonPosition() {
-  return getPlayerPosition(PlayerSeat.mainSeat) + Vector2(50, 50);
+  return getPlayerPosition(PlayerSeat.bottom) + Vector2(50, 50);
 }
