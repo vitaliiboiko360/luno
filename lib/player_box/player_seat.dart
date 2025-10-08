@@ -68,9 +68,10 @@ class PlayerBoxNew extends CustomPainterComponent
     if (seatInfo.seat != playerSeat) {
       return;
     }
-    if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
+    if ((seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) &&
+        world.tgm.tableState.seat == PlayerSeat.unassigned) {
       add(buttonTakeSeat);
-      _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
+      // _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
       return;
     }
     // print('processAllSeatMessage');
