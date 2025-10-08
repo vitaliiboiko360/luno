@@ -47,7 +47,7 @@ class PainterButtonChangeAvatar extends CustomPainter {
       ..color = const ui.Color.fromARGB(255, 47, 95, 117)
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
-    var roundedRect = RRect.fromLTRBR(0, 0, 20, 20, Radius.circular(2));
+    var roundedRect = RRect.fromLTRBR(0, 0, 25, 25, Radius.circular(2));
     canvas.drawRRect(roundedRect, strokePaint);
     var fillPaint = Paint()
       ..shader = ui.Gradient.radial(Offset(10, 0), 100, [
@@ -60,16 +60,20 @@ class PainterButtonChangeAvatar extends CustomPainter {
 
     final textPainter = TextPainter(
       text: TextSpan(
-        text: Icons.edit.toString(),
-        style: TextStyle(color: Colors.black, fontSize: 20),
+        text: String.fromCharCode(Icons.edit.codePoint),
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontFamily: Icons.edit.fontFamily,
+        ),
       ),
       textDirection: TextDirection.ltr, // Adjust as needed
     );
 
     textPainter.layout(minWidth: 0, maxWidth: size.width);
 
-    final xOffset = (size.width - textPainter.width) / 2;
-    final yOffset = (size.height - textPainter.height) / 2;
+    final xOffset = (size.width) / 2 + 2;
+    final yOffset = (size.height) / 2 + 2;
     final textOffset = Offset(xOffset, yOffset);
 
     textPainter.paint(canvas, textOffset);
