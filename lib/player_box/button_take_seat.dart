@@ -73,9 +73,7 @@ class ButtonLabelPainter_Connecting extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
 class ButtonLabelPainter extends CustomPainter {
