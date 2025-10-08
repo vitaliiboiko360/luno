@@ -56,7 +56,6 @@ class PlayerBoxNew extends CustomPainterComponent
   void processSeatMessage(SeatInfo seatInfo) {
     if (seatInfo.seat == playerSeat) {
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
-      add(ButtonChangeAvatar());
     }
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
@@ -78,6 +77,10 @@ class PlayerBoxNew extends CustomPainterComponent
     _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
+    }
+    if (seatInfo.seat == PlayerSeat.bottom &&
+        world.tgm.tableState.seat != PlayerSeat.unassigned) {
+      add(ButtonChangeAvatar());
     }
   }
 
