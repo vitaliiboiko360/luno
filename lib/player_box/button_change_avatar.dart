@@ -52,20 +52,22 @@ class PainterButtonChangeAvatar extends CustomPainter {
       ..color = const ui.Color.fromARGB(255, 184, 208, 221)
       ..style = PaintingStyle.fill;
     canvas.drawRRect(roundedRect, fillPaint);
-    // var textSpan = TextSpan(
-    //   text: String.fromCharCode(Icons.edit.codePoint),
-    //   style: TextStyle(
-    //     fontSize: 26,
-    //     color: ui.Color.fromARGB(255, 47, 95, 117),
-    //   ),
-    // );
-    // var textPainter = TextPainter(
-    //   text: textSpan,
-    //   textDirection: TextDirection.ltr,
-    //   textAlign: TextAlign.center,
-    // );
-    // textPainter.layout(minWidth: 0, maxWidth: 20);
-    // textPainter.paint(canvas, Offset(2, 2));
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: Icons.edit.toString(),
+        style: TextStyle(color: Colors.black, fontSize: 20),
+      ),
+      textDirection: TextDirection.ltr, // Adjust as needed
+    );
+
+    textPainter.layout(minWidth: 0, maxWidth: size.width);
+
+    final xOffset = (size.width - textPainter.width) / 2;
+    final yOffset = (size.height - textPainter.height) / 2;
+    final textOffset = Offset(xOffset, yOffset);
+
+    textPainter.paint(canvas, textOffset);
   }
 
   @override
