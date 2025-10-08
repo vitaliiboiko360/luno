@@ -111,7 +111,6 @@ class PlayerBoxNew extends CustomPainterComponent
 
     if (colorIndex == 0) return;
     (painter as PlayerCustomPainter).changeColor(colorIndex - 1);
-    print('_changeImage a= $avatarIndex c=$colorIndex');
   }
 }
 
