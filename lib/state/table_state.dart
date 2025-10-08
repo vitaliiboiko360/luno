@@ -28,9 +28,11 @@ class TableState {
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
     if (action == SeatGranted) {
+      print('process seat granted');
       var seatGrantedOffset = 2;
       var seatNumber = messageByteArray[seatGrantedOffset++];
       _seat = PlayerSeat.fromInt(seatNumber);
+      print('seat is $_seat');
       SeatInfo seatInfo = SeatInfo(
         PlayerSeat.fromInt(seatNumber),
         messageByteArray[seatGrantedOffset++],
@@ -49,7 +51,7 @@ class TableState {
           messageByteArray[index++],
           messageByteArray[index++],
         );
-        tgm.update('seatAll', seatInfo);
+        tgm.update(Event.seatAll.name, seatInfo);
       }
     }
   }
