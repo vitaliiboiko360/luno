@@ -59,7 +59,6 @@ class PlayerBoxNew extends CustomPainterComponent
 
   void processSeatMessage(SeatInfo seatInfo) {
     if (seatInfo.seat == playerSeat) {
-      // print('processSeatMessage');
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     }
     if (contains(buttonTakeSeat)) {
