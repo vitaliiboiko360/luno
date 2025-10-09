@@ -3,8 +3,10 @@ import 'dart:ui' as ui;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/player_box/position.dart';
+import 'package:luno/src/game.dart';
 
-class ButtonChangeAvatar extends AdvancedButtonComponent {
+class ButtonChangeAvatar extends AdvancedButtonComponent
+    with HasGameReference<Game> {
   ButtonChangeAvatar()
     : super(
         defaultSkin: DefaultButtonChangeAvatar(),
@@ -16,7 +18,10 @@ class ButtonChangeAvatar extends AdvancedButtonComponent {
 
   @override
   Future<void> onLoad() {
-    position = getReadyButtonPosition();
+    position = getChangeAvatarButtonPosition();
+    onPressed = () {
+      game.showPlayerConfigOverlay();
+    };
     return super.onLoad();
   }
 }
