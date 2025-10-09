@@ -65,7 +65,7 @@ class PlayerBoxNew extends CustomPainterComponent
 
   void processAllSeatMessage(SeatInfo seatInfo) {
     // print('seatInfo .seat == ${seatInfo.seat}');
-    if (seatInfo.seat == playerSeat) {
+    if (seatInfo.seat != playerSeat) {
       return;
     }
     if (seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) {
