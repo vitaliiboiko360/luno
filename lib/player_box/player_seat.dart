@@ -43,12 +43,8 @@ class PlayerBoxNew extends CustomPainterComponent
       // add(buttonChangeAvatar);
     }
 
-    world.tgm.registerCallback('seat', (dynamic data) {
-      processSeatMessage(data);
-    });
-    world.tgm.registerCallback('seatAll', (dynamic data) {
-      processAllSeatMessage(data);
-    });
+    world.tgm.registerCallback('seat', processSeatMessage);
+    world.tgm.registerCallback('seatAll', processAllSeatMessage);
     world.tgm.registerCallback(Event.avatar.name, onAvatar);
   }
 
@@ -60,6 +56,7 @@ class PlayerBoxNew extends CustomPainterComponent
   void processSeatMessage(SeatInfo seatInfo) {
     if (seatInfo.seat == playerSeat) {
       _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
+      add(ButtonChangeAvatar());
     }
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
