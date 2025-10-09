@@ -28,7 +28,8 @@ class UnoGame extends StatelessWidget {
               child: PlayerConfig(),
             ),
       },
-      initialActiveOverlays: ['ReadyTable', 'PlayerConfig'],
+      initialActiveOverlays: [],
+      // initialActiveOverlays: ['ReadyTable', 'PlayerConfig'],
     );
   }
 }
@@ -46,5 +47,13 @@ class Game extends FlameGame {
 
   void hidePreGameOverlay() {
     overlays.remove('ReadyTable');
+  }
+
+  void showPlayerConfigOverlay() {
+    overlays.add('PlayerConfig');
+  }
+
+  void hidePlayerConfigOverlay() {
+    overlays.remove('PlayerConfig');
   }
 }
