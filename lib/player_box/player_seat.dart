@@ -24,6 +24,8 @@ class PlayerBoxNew extends CustomPainterComponent
   var buttonChangeAvatar;
   var image;
   var seat;
+
+  bool isButtonChangeAvatarNotAdded = true;
   @override
   Future<void> onLoad() async {
     painter = PlayerCustomPainter();
@@ -33,6 +35,7 @@ class PlayerBoxNew extends CustomPainterComponent
       anchor: Anchor.center,
       position: (size / 2),
       onPressed: () {
+        print('S: ${playerSeat.index}');
         requestSeat(playerSeat.index);
       },
     );
@@ -68,7 +71,7 @@ class PlayerBoxNew extends CustomPainterComponent
       return;
     }
     if ((seatInfo.avatarIndex == 0 && seatInfo.colorIndex == 0) &&
-        world.tgm.tableState.seat == PlayerSeat.unassigned) {
+        !world.tgm.tableState.isPlayer()) {
       add(buttonTakeSeat);
       // _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
       return;
@@ -78,9 +81,12 @@ class PlayerBoxNew extends CustomPainterComponent
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
     }
-    if (seatInfo.seat == PlayerSeat.bottom &&
-        world.tgm.tableState.seat != PlayerSeat.unassigned) {
-      add(ButtonChangeAvatar());
+    if (isButtonChangeAvatarNotAdded &&
+        seatInfo.seat == PlayerSeat.bottom &&
+        world.tgm.tableState.isPlayer()) {
+      print("ADDING CHANGE AVATAR BUTTON");
+      isButtonChangeAvatarNotAdded = false;
+      add(buttonChangeAvatar);
     }
   }
 
