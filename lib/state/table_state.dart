@@ -24,6 +24,7 @@ class TableState {
   PlayerSeat _seat = PlayerSeat.unassigned;
   PlayerSeat get seat => _seat;
   bool isSeat(PlayerSeat seat) => _seat == seat;
+  bool isPlayer() => _seat != PlayerSeat.unassigned;
 
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
