@@ -46,8 +46,8 @@ class PlayerBoxNew extends CustomPainterComponent
       // add(buttonChangeAvatar);
     }
 
-    world.tgm.registerCallback('seat', processSeatMessage);
-    world.tgm.registerCallback('seatAll', processAllSeatMessage);
+    world.tgm.registerCallback(Event.seat.name, processSeatMessage);
+    world.tgm.registerCallback(Event.seatAll.name, processAllSeatMessage);
     world.tgm.registerCallback(Event.avatar.name, onAvatar);
   }
 
@@ -62,6 +62,11 @@ class PlayerBoxNew extends CustomPainterComponent
     }
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
+    }
+    if (isButtonChangeAvatarNotAdded) {
+      print("ADDING CHANGE AVATAR BUTTON");
+      isButtonChangeAvatarNotAdded = false;
+      add(buttonChangeAvatar);
     }
   }
 
@@ -80,13 +85,6 @@ class PlayerBoxNew extends CustomPainterComponent
     _changeImage(seatInfo.avatarIndex, seatInfo.colorIndex);
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
-    }
-    if (isButtonChangeAvatarNotAdded &&
-        seatInfo.seat == PlayerSeat.bottom &&
-        world.tgm.tableState.isPlayer()) {
-      print("ADDING CHANGE AVATAR BUTTON");
-      isButtonChangeAvatarNotAdded = false;
-      add(buttonChangeAvatar);
     }
   }
 
