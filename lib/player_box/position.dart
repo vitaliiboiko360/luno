@@ -23,5 +23,6 @@ Vector2 getReadyButtonPosition() {
 }
 
 Vector2 getChangeAvatarButtonPosition() {
-  return getPlayerPosition(PlayerSeat.bottom) + Vector2(50, 50);
+  // return getPlayerPosition(PlayerSeat.bottom) + Vector2(50, 0);
+  return Vector2(103, 72);
 }
