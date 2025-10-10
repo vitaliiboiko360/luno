@@ -36,7 +36,10 @@ class TableState {
       var seatGrantedOffset = 2;
       var seatNumber = messageByteArray[seatGrantedOffset++];
       _seat = PlayerSeat.fromInt(seatNumber);
-      _updateAllTableState(messageByteArray);
+
+      if (allTableStateCachedMessage != null) {
+        _updateAllTableState(allTableStateCachedMessage!);
+      }
 
       print('seat is $_seat');
       SeatInfo seatInfo = SeatInfo(
