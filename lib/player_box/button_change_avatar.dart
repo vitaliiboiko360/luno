@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flame/components.dart';
+import 'package:flame/src/events/messages/tap_down_event.dart';
 import 'package:flutter/material.dart';
 import 'package:luno/player_box/position.dart';
 import 'package:luno/src/game.dart';
@@ -10,16 +11,17 @@ class ButtonChangeAvatar extends AdvancedButtonComponent
   ButtonChangeAvatar()
     : super(
         defaultSkin: DefaultButtonChangeAvatar(),
-        downSkin: DownButtonChangeAvatar(),
-        hoverSkin: HoverButtonChangeAvatar(),
-        anchor: Anchor.center,
-        position: Vector2(50, 50),
+        // downSkin: DownButtonChangeAvatar(),
+        // hoverSkin: HoverButtonChangeAvatar(),
+        anchor: Anchor.topLeft,
+        position: getChangeAvatarButtonPosition(),
+        size: Vector2(25, 25),
       );
 
   @override
   Future<void> onLoad() {
-    position = getChangeAvatarButtonPosition();
     onPressed = () {
+      print("on pressed from onload");
       game.showPlayerConfigOverlay();
     };
     return super.onLoad();
@@ -72,8 +74,10 @@ class PainterButtonChangeAvatar extends CustomPainter {
 
     textPainter.layout(minWidth: 0, maxWidth: size.width);
 
-    final xOffset = (size.width) / 2 + 2;
-    final yOffset = (size.height) / 2 + 2;
+    double xOffset = 2;
+    // (size.width) / 2;
+    double yOffset = 2;
+    //(size.height) / 2;
     final textOffset = Offset(xOffset, yOffset);
 
     textPainter.paint(canvas, textOffset);
