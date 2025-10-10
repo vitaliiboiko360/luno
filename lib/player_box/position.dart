@@ -21,3 +21,7 @@ Vector2 getTableDimentions() {
 Vector2 getReadyButtonPosition() {
   return getPlayerPosition(PlayerSeat.mainSeat) - Vector2(225, 50);
 }
+
+Vector2 getChangeAvatarButtonPosition() {
+  return getPlayerPosition(PlayerSeat.mainSeat) + Vector2(50, 50);
+}
