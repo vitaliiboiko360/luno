@@ -63,7 +63,7 @@ class PlayerBoxNew extends CustomPainterComponent
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
     }
-    if (isButtonChangeAvatarNotAdded) {
+    if (playerSeat == PlayerSeat.bottom && isButtonChangeAvatarNotAdded) {
       print("ADDING CHANGE AVATAR BUTTON");
       isButtonChangeAvatarNotAdded = false;
       add(buttonChangeAvatar);
