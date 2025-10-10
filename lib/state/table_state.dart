@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:luno/state/commands.dart';
 import 'package:luno/state/events.dart';
@@ -26,34 +26,46 @@ class TableState {
   bool isSeat(PlayerSeat seat) => _seat == seat;
   bool isPlayer() => _seat != PlayerSeat.unassigned;
 
+  Uint8List? allTableStateCachedMessage;
+
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
     if (action == SeatGranted) {
       print('process seat granted');
+
       var seatGrantedOffset = 2;
       var seatNumber = messageByteArray[seatGrantedOffset++];
       _seat = PlayerSeat.fromInt(seatNumber);
+      _updateAllTableState(messageByteArray);
+
       print('seat is $_seat');
       SeatInfo seatInfo = SeatInfo(
         PlayerSeat.fromInt(seatNumber),
         messageByteArray[seatGrantedOffset++],
         messageByteArray[seatGrantedOffset],
       );
-      tgm.update('seat', seatInfo);
+      tgm.update(Event.seat.name, seatInfo);
     }
     if (action == AllTableState) {
-      for (int index = 2; index < 14;) {
-        PlayerSeat seat = PlayerSeat.mapSeat(
-          PlayerSeat.fromInt(messageByteArray[index++]),
-          _seat,
-        );
-        SeatInfo seatInfo = SeatInfo(
-          seat,
-          messageByteArray[index++],
-          messageByteArray[index++],
-        );
-        tgm.update(Event.seatAll.name, seatInfo);
-      }
+      _updateAllTableState(messageByteArray);
+    }
+  }
+
+  _updateAllTableState(Uint8List messageByteArray) {
+    for (int index = 2; index < 14;) {
+      PlayerSeat seat = PlayerSeat.mapSeat(
+        PlayerSeat.fromInt(messageByteArray[index++]),
+        _seat,
+      );
+      SeatInfo seatInfo = SeatInfo(
+        seat,
+        messageByteArray[index++],
+        messageByteArray[index++],
+      );
+      tgm.update(Event.seatAll.name, seatInfo);
+    }
+    if (!listEquals(allTableStateCachedMessage, messageByteArray)) {
+      allTableStateCachedMessage = messageByteArray;
     }
   }
 }
