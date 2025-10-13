@@ -8,7 +8,6 @@ import 'package:luno/players_table/players_table.dart';
 import 'package:luno/src/game.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
-import 'package:luno/ws/ws_send.dart';
 
 class UnoWorld extends World {
   UnoWorld(this.tgm, {super.key});
@@ -28,7 +27,7 @@ class UnoWorld extends World {
     add(DeckCardsPositioned());
     add(ButtonReady());
     Future.delayed(Duration(seconds: 1), () {
-      checkPlayerSeat();
+      tgm.tableState.checkIfClientIsPlayer();
       // (findGame() as Game).showPreGameOverlay();
     });
   }
