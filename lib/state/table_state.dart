@@ -59,6 +59,10 @@ class TableState {
   }
 
   _updateAllTableState(Uint8List messageByteArray) {
+    if (!listEquals(allTableStateCachedMessage, messageByteArray)) {
+      allTableStateCachedMessage = messageByteArray;
+    }
+    if (!isCheckedClientIsPlayer) return;
     for (int index = 2; index < 14;) {
       PlayerSeat seat = PlayerSeat.mapSeat(
         PlayerSeat.fromInt(messageByteArray[index++]),
@@ -70,9 +74,6 @@ class TableState {
         messageByteArray[index++],
       );
       tgm.update(Event.seatAll.name, seatInfo);
-    }
-    if (!listEquals(allTableStateCachedMessage, messageByteArray)) {
-      allTableStateCachedMessage = messageByteArray;
     }
   }
 
