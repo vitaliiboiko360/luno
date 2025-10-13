@@ -27,7 +27,7 @@ void requestSeat(int seat) {
   wsSend(arrayToSend.buffer.toJS);
 }
 
-void checkPlayerSeat() {
+void sebdCheckPlayerSeat() {
   Uint8List arrayToSend = Uint8List(8);
   arrayToSend[0] = TableCommand;
   arrayToSend[1] = CheckPlayerSeat;
