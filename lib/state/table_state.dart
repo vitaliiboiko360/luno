@@ -4,6 +4,7 @@ import 'package:luno/state/commands.dart';
 import 'package:luno/state/events.dart';
 import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
+import 'package:luno/ws/ws_send.dart';
 
 final avatarProvider = NotifierProvider<AvatarInfoNotifier, AvatarInfo>(
   AvatarInfoNotifier.new,
@@ -25,21 +26,24 @@ class TableState {
   PlayerSeat get seat => _seat;
   bool isSeat(PlayerSeat seat) => _seat == seat;
   bool isPlayer() => _seat != PlayerSeat.unassigned;
+  bool isCheckedClientIsPlayer = false;
 
   Uint8List? allTableStateCachedMessage;
 
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
     if (action == SeatGranted) {
+      isCheckedClientIsPlayer = true;
       print('process seat granted');
 
       var seatGrantedOffset = 2;
       var seatNumber = messageByteArray[seatGrantedOffset++];
-      _seat = PlayerSeat.fromInt(seatNumber);
 
+      _seat = PlayerSeat.fromInt(seatNumber);
       if (allTableStateCachedMessage != null) {
         _updateAllTableState(allTableStateCachedMessage!);
       }
+      if (_seat == PlayerSeat.unassigned) return;
 
       print('seat is $_seat');
       SeatInfo seatInfo = SeatInfo(
@@ -69,6 +73,15 @@ class TableState {
     }
     if (!listEquals(allTableStateCachedMessage, messageByteArray)) {
       allTableStateCachedMessage = messageByteArray;
+    }
+  }
+
+  void checkIfClientIsPlayer() {
+    print('function MUST BE CALLED always at the startup once');
+    while (!isCheckedClientIsPlayer) {
+      sebdCheckPlayerSeat();
+      print('function MUST BE CALLED always at the startup once');
+      Future.delayed(Duration(seconds: 3));
     }
   }
 }
