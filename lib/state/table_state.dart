@@ -76,12 +76,13 @@ class TableState {
     }
   }
 
-  void checkIfClientIsPlayer() {
+  void checkIfClientIsPlayer() async {
     print('function MUST BE CALLED always at the startup once');
+    int i = 0;
     while (!isCheckedClientIsPlayer) {
-      sebdCheckPlayerSeat();
-      print('function MUST BE CALLED always at the startup once');
-      Future.delayed(Duration(seconds: 3));
+      sendCheckPlayerSeat();
+      print('iteration after sending check if player message ${i++}');
+      await Future.delayed(Duration(seconds: 3));
     }
   }
 }
