@@ -25,7 +25,6 @@ class PlayerBoxNew extends CustomPainterComponent
   var image;
   var seat;
 
-  bool isButtonChangeAvatarNotAdded = true;
   @override
   Future<void> onLoad() async {
     painter = PlayerCustomPainter();
@@ -49,6 +48,13 @@ class PlayerBoxNew extends CustomPainterComponent
     world.tgm.registerCallback(Event.seat.name, processSeatMessage);
     world.tgm.registerCallback(Event.seatAll.name, processAllSeatMessage);
     world.tgm.registerCallback(Event.avatar.name, onAvatar);
+    if (playerSeat == PlayerSeat.bottom) {
+      world.tgm.registerCallback(Event.addChangeButton.name, onAddChangeButton);
+      world.tgm.registerCallback(
+        Event.removeChangeButton.name,
+        onRemoveChangeButton,
+      );
+    }
   }
 
   void onAvatar(AvatarInfo avatarInfo) {
@@ -62,11 +68,6 @@ class PlayerBoxNew extends CustomPainterComponent
     }
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
-    }
-    if (playerSeat == PlayerSeat.bottom && isButtonChangeAvatarNotAdded) {
-      print("ADDING CHANGE AVATAR BUTTON");
-      isButtonChangeAvatarNotAdded = false;
-      add(buttonChangeAvatar);
     }
   }
 
@@ -86,6 +87,23 @@ class PlayerBoxNew extends CustomPainterComponent
     if (contains(buttonTakeSeat)) {
       remove(buttonTakeSeat);
     }
+  }
+
+  void onAddChangeButton() {
+    print("ADDING CHANGE AVATAR BUTTON");
+    bool isAlreadyAdded = false;
+    children.forEach((c) {
+      if (c is ButtonChangeAvatar) {
+        isAlreadyAdded = true;
+      }
+    });
+    if (isAlreadyAdded) return;
+    add(buttonChangeAvatar);
+  }
+
+  void onRemoveChangeButton() {
+    print("REMOVE CHANGE AVATAR BUTTON");
+    remove(buttonChangeAvatar);
   }
 
   void _changeImageRandom() async {
