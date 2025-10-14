@@ -32,8 +32,9 @@ class TableState {
 
   void processMessage(Uint8List messageByteArray) {
     var action = messageByteArray[actionByteIndex];
+
+    /** SEAT GRANTED */
     if (action == SeatGranted) {
-      isCheckedClientIsPlayer = true;
       print('process seat granted');
 
       var seatGrantedOffset = 2;
@@ -43,16 +44,20 @@ class TableState {
       if (allTableStateCachedMessage != null) {
         _updateAllTableState(allTableStateCachedMessage!);
       }
+      isCheckedClientIsPlayer = true;
       if (_seat == PlayerSeat.unassigned) return;
 
       print('seat is $_seat');
       SeatInfo seatInfo = SeatInfo(
-        PlayerSeat.fromInt(seatNumber),
+        PlayerSeat.mapSeat(PlayerSeat.fromInt(seatNumber), _seat),
         messageByteArray[seatGrantedOffset++],
         messageByteArray[seatGrantedOffset],
       );
       tgm.update(Event.seat.name, seatInfo);
+      tgm.update(Event.addChangeButton.name, null);
     }
+
+    /** ALL TABLE STATE */
     if (action == AllTableState) {
       _updateAllTableState(messageByteArray);
     }
