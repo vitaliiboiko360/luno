@@ -24,7 +24,11 @@ class TableGameManager {
     var cbs = callbacks[eventName];
     if (cbs == null) return;
     for (var i = 0; i < cbs.length; i++) {
-      cbs[i](data);
+      if (data != null) {
+        cbs[i](data);
+      } else {
+        cbs[i]();
+      }
     }
   }
 
