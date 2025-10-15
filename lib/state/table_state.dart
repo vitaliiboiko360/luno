@@ -104,6 +104,9 @@ class TableState {
       );
       tgm.update(Event.seatAll.name, seatInfo);
     }
+    if (isPlayer()) {
+      tgm.update(Event.addChangeButton.name, null);
+    }
   }
 
   void checkIfClientIsPlayer() async {
