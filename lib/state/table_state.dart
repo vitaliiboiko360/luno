@@ -84,7 +84,26 @@ class TableState {
   }
 
   _processRequestInitTable(Uint8List messageByteArray) {
+    if (isRequestedInitTable) return;
     isRequestedInitTable = true;
+    const int seatPlaceIndex = 2;
+    PlayerSeat seat = PlayerSeat.fromInt(messageByteArray[seatPlaceIndex]);
+    if (seat != PlayerSeat.unassigned) {
+      _seat = seat;
+    }
+
+    for (int index = 3; index < 14;) {
+      PlayerSeat seat = PlayerSeat.mapSeat(
+        PlayerSeat.fromInt(messageByteArray[index++]),
+        _seat,
+      );
+      SeatInfo seatInfo = SeatInfo(
+        seat,
+        messageByteArray[index++],
+        messageByteArray[index++],
+      );
+      tgm.update(Event.seatAll.name, seatInfo);
+    }
   }
 
   void checkIfClientIsPlayer() async {
