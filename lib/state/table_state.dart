@@ -26,6 +26,7 @@ class TableState {
   bool isSeat(PlayerSeat seat) => _seat == seat;
   bool isPlayer() => _seat != PlayerSeat.unassigned;
   bool isCheckedClientIsPlayer = false;
+  bool isRequestedInitTable = false;
 
   Uint8List? allTableStateCachedMessage;
 
@@ -60,6 +61,11 @@ class TableState {
     if (action == AllTableState) {
       _updateAllTableState(messageByteArray);
     }
+
+    /** REQUEST INIT TABLE */
+    if (action == RequestInitTable) {
+      _processRequestInitTable(messageByteArray);
+    }
   }
 
   _updateAllTableState(Uint8List messageByteArray) {
@@ -81,6 +87,10 @@ class TableState {
     }
   }
 
+  _processRequestInitTable(Uint8List messageByteArray) {
+    isRequestedInitTable = true;
+  }
+
   void checkIfClientIsPlayer() async {
     print('function MUST BE CALLED always at the startup once');
     int i = 0;
@@ -88,6 +98,16 @@ class TableState {
       sendCheckPlayerSeat();
       print('iteration after sending check if player message ${i++}');
       await Future.delayed(Duration(seconds: 3));
+    }
+  }
+
+  void requestInitTable() async {
+    print('requestInitTable Called ONCE at Startup');
+    int i = 0;
+    while (!isRequestedInitTable) {
+      sendCheckPlayerSeat();
+      print('requestInitTable Attempt # ${i++}');
+      await Future.delayed(Duration(seconds: 2));
     }
   }
 }
