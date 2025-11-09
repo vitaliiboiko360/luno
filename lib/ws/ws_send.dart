@@ -33,3 +33,10 @@ void sendCheckPlayerSeat() {
   arrayToSend[1] = CheckPlayerSeat;
   wsSend(arrayToSend.buffer.toJS);
 }
+
+void sendRequestInitTable() {
+  Uint8List arrayToSend = Uint8List(8);
+  arrayToSend[0] = TableCommand;
+  arrayToSend[1] = CheckPlayerSeat;
+  wsSend(arrayToSend.buffer.toJS);
+}
