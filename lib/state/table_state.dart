@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:luno/state/commands.dart';
 import 'package:luno/state/events.dart';
-import 'dart:typed_data';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/ws/ws_send.dart';
 
