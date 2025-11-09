@@ -5,7 +5,6 @@ import 'package:luno/play/deck_cards.dart';
 import 'package:luno/player_box/button_ready.dart';
 import 'package:luno/player_box/player_seat.dart';
 import 'package:luno/players_table/players_table.dart';
-import 'package:luno/src/game.dart';
 import 'package:luno/state/table_game_manager.dart';
 import 'package:luno/state/table_state.dart';
 
@@ -26,8 +25,9 @@ class UnoWorld extends World {
     // add(MainPlayerBox());
     add(DeckCardsPositioned());
     add(ButtonReady());
-    Future.delayed(Duration(seconds: 1), () {
-      tgm.tableState.checkIfClientIsPlayer();
+    await Future.delayed(Duration(seconds: 1), () {
+      // tgm.tableState.checkIfClientIsPlayer();
+      tgm.tableState.requestInitTable();
       // (findGame() as Game).showPreGameOverlay();
     });
   }
