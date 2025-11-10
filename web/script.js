@@ -8,7 +8,8 @@
   class WsService {
     static wsUrlOld = 'wss://uno-game.ddns.com:7192/ws';
     static wsUrlOld2 = 'ws://192.168.0.101:7192/ws';
-    static wsUrl = 'ws://192.168.0.144:7192/ws';
+    static wsUrlOld3 = 'ws://192.168.0.144:7192/ws';
+    static wsUrl = 'ws://192.168.56.103:7192/ws';
     ws;
     constructor(onOpenCallback) {
       this.ws = new WebSocket(WsService.wsUrl);
