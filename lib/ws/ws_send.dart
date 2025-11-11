@@ -37,6 +37,6 @@ void sendCheckPlayerSeat() {
 void sendRequestInitTable() {
   Uint8List arrayToSend = Uint8List(8);
   arrayToSend[0] = TableCommand;
-  arrayToSend[1] = CheckPlayerSeat;
+  arrayToSend[1] = RequestInitTable;
   wsSend(arrayToSend.buffer.toJS);
 }
