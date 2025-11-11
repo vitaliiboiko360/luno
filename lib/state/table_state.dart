@@ -11,15 +11,11 @@ final avatarProvider = NotifierProvider<AvatarInfoNotifier, AvatarInfo>(
 
 class TableState {
   TableState(this.tgm) {
-    sub = tgm.providerContainer.listen(avatarProvider, (
-      previousValue,
-      newValue,
-    ) {
+    tgm.providerContainer.listen(avatarProvider, (previousValue, newValue) {
       tgm.update(Event.avatar.name, newValue);
     });
   }
   TableGameManager tgm;
-  late ProviderSubscription sub;
 
   PlayerSeat _seat = PlayerSeat.unassigned;
   PlayerSeat get seat => _seat;
