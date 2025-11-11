@@ -101,7 +101,7 @@ class TableState {
     print('requestInitTable Called ONCE at Startup');
     int i = 0;
     while (!isRequestedInitTable) {
-      sendCheckPlayerSeat();
+      sendRequestInitTable();
       print('requestInitTable Attempt # ${i++}');
       await Future.delayed(Duration(seconds: 2));
     }
